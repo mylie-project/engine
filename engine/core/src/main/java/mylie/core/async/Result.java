@@ -20,8 +20,8 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		return new Fixed<>(hash, version);
 	}
 
+	@Getter
 	static final class Fixed<R> extends Result<R> {
-		@Getter
 		@Setter(AccessLevel.PACKAGE)
 		private R result;
 
@@ -38,7 +38,6 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
 	static final class Completable<R> extends Result<R> {
-
 		private final CompletableFuture<R> future;
 		private final Supplier<R> function;
 		private final Async.Target target;
