@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class AsyncTest {
 	static Stream<Scheduler> schedulerProvider() {
 		return Stream.of(Schedulers.singleThreaded(), Schedulers.virtualThreads(), Schedulers.forkJoin(),
-				Schedulers.threadPool(1));
+				Schedulers.threadPool(1), Schedulers.workStealing(1));
 	}
 
 	@ParameterizedTest

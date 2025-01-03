@@ -35,10 +35,14 @@ public class Schedulers {
 			@Override
 			<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
 					Supplier<R> function) {
-				Result.Completable<R> result = new Result.Completable<>(hash, version, new CompletableFuture<>(),
-						function, target);
+				Result.Completable<R> result = Result.completable(hash, version, new CompletableFuture<>(), function,
+						target);
 				cache.result(result);
-				executorService.execute(result::result);
+				executorService.execute(() -> {
+					if (result.running().compareAndSet(false, true)) {
+						result.future().complete(function.get());
+					}
+				});
 				return result;
 			}
 		};
@@ -47,7 +51,6 @@ public class Schedulers {
 			this.executorService = executorService;
 			target(Async.Target.Any, backgroundTaskExecutor);
 		}
-
 	}
 
 	static non-sealed abstract class MultiThreadedScheduler extends Scheduler {
@@ -67,8 +70,8 @@ public class Schedulers {
 			@Override
 			<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
 					Supplier<R> function) {
-				Result.Completable<R> result = new Result.Completable<>(hash, version, new CompletableFuture<>(),
-						function, target);
+				Result.Completable<R> result = Result.completable(hash, version, new CompletableFuture<>(), function,
+						target);
 				cache.result(result);
 				drain.accept(result::result);
 				return result;

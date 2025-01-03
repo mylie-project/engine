@@ -20,6 +20,11 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		return new Fixed<>(hash, version);
 	}
 
+	static <T> Completable<T> completable(Async.Hash hash, long version, CompletableFuture<T> future,
+			Supplier<T> function, Async.Target target) {
+		return new Completable<>(hash, version, future, function, target);
+	}
+
 	@Getter
 	static final class Fixed<R> extends Result<R> {
 		@Setter(AccessLevel.PACKAGE)
