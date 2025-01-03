@@ -4,34 +4,39 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class SingleThreadedScheduler extends Scheduler implements Scheduler.TaskExecutor {
+public class SingleThreadedScheduler extends Scheduler {
 	public SingleThreadedScheduler() {
 		super(new MapCache());
+		target(Async.Target.Any, taskExecutor);
 	}
+
+	private static final TaskExecutor taskExecutor=new TaskExecutor() {
+		@Override
+		<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
+									  Supplier<R> function) {
+			Result.Fixed<R> result = Result.fixed(hash, version);
+			cache.result(result);
+			result.result(function.get());
+			return result;
+		}
+	};
 
 	@Override
 	protected void target(Async.Target target, Consumer<Runnable> drain) {
-		target(target, this);
+		target(target, taskExecutor);
 	}
 
-	@Override
-	public <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, int hash,
-			Supplier<R> function) {
-		Result.Fixed<R> result = Result.fixed(hash, version);
-		cache.result(result);
-		result.result(function.get());
-		return result;
-	}
+
 
 	protected static class MapCache extends Cache {
-		private final Map<Integer, Result<?>> store = new java.util.concurrent.ConcurrentHashMap<>();
+		private final Map<Async.Hash, Result<?>> store = new java.util.concurrent.ConcurrentHashMap<>();
 		public MapCache() {
 			super("MapCache", null);
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			return (Result<R>) store.get(hash);
 		}
 
@@ -46,7 +51,7 @@ public class SingleThreadedScheduler extends Scheduler implements Scheduler.Task
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 			store.remove(hash);
 		}
 	}

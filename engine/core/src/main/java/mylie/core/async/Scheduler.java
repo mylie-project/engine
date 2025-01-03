@@ -24,13 +24,13 @@ public abstract class Scheduler {
 		cache(Cache.InvalidateDifferent);
 	}
 
-	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, int hash, Supplier<R> function) {
+	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash, Supplier<R> function) {
 		TaskExecutor taskExecutor = taskExecutors.get(target);
 		assert taskExecutor != null;
 		return taskExecutor.executeFunction(target, cache, version, hash, function);
 	}
 
-	protected void target(Async.Target target, TaskExecutor taskExecutor) {
+	void target(Async.Target target, TaskExecutor taskExecutor) {
 		log.trace("Target<{}> registered", target.id());
 		taskExecutors.put(target, taskExecutor);
 	}
@@ -43,7 +43,7 @@ public abstract class Scheduler {
 		cache.parent(globalCache);
 	}
 
-	protected interface TaskExecutor {
-		<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, int hash, Supplier<R> function);
+	abstract static class TaskExecutor {
+		abstract <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash, Supplier<R> function);
 	}
 }

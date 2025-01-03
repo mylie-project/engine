@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 public abstract sealed class Result<R> permits Result.Fixed, Result.Completable {
-	final int hash;
+	final Async.Hash hash;
 	final long version;
 	abstract R result();
 	abstract boolean complete();
 
-	static <T> Fixed<T> fixed(int hash, long version) {
+	static <T> Fixed<T> fixed(Async.Hash hash, long version) {
 		return new Fixed<>(hash, version);
 	}
 
@@ -25,7 +25,7 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		@Setter(AccessLevel.PACKAGE)
 		private R result;
 
-		public Fixed(int hash, long version) {
+		public Fixed(Async.Hash hash, long version) {
 			super(hash, version);
 		}
 
@@ -43,8 +43,8 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		private final Async.Target target;
 		private final AtomicBoolean running = new AtomicBoolean(false);
 
-		public Completable(int hash, long version, CompletableFuture<R> future, Supplier<R> function,
-				Async.Target target) {
+		public Completable(Async.Hash hash, long version, CompletableFuture<R> future, Supplier<R> function,
+						   Async.Target target) {
 			super(hash, version);
 			this.future = future;
 			this.function = function;

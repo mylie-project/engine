@@ -85,7 +85,7 @@ public abstract class Cache {
 	/// @param version the version used to validate the freshness of the result
 	/// @return a `Result` instance if present; otherwise null if no matching or
 	/// valid result is found
-	abstract <R> Result<R> result(int hash, long version);
+	abstract <R> Result<R> result(Async.Hash hash, long version);
 
 	/// Associates the specified `Result` object with the cache.
 	///
@@ -106,7 +106,7 @@ public abstract class Cache {
 	/// Removes a cache entry identified by the specified hash.
 	///
 	/// @param hash the unique identifier of the cache entry to be removed
-	abstract void remove(int hash);
+	abstract void remove(Async.Hash hash);
 
 	/// `NoOpCache` is a concrete implementation of the abstract `Cache` class
 	/// that effectively performs no caching operations. Instances of `NoOpCache`
@@ -123,7 +123,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			return null;
 		}
 
@@ -136,7 +136,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 
 		}
 	}
@@ -148,14 +148,14 @@ public abstract class Cache {
 	/// This class is suitable for use cases where complete invalidation of cached
 	/// entries is required to maintain data consistency or enforce a fresh state.
 	private static final class InvalidateAll extends Cache {
-		private final Map<Integer, Result<?>> store = new ConcurrentHashMap<>();
+		private final Map<Async.Hash, Result<?>> store = new ConcurrentHashMap<>();
 		public InvalidateAll(String id) {
 			super(id, null);
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			Result<R> result = (Result<R>) store.get(hash);
 			if (result == null) {
 				result = parent().result(hash, version);
@@ -176,7 +176,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 
 		}
 	}
@@ -205,7 +205,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			Result<R> result = parent().result(hash, version);
 			if (result != null && result.version() < version) {
 				parent().remove(hash);
@@ -225,7 +225,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 
 		}
 	}
@@ -240,7 +240,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			Result<R> result = parent().result(hash, version);
 			if (result != null && result.version() != version) {
 				parent().remove(hash);
@@ -260,7 +260,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 
 		}
 	}
@@ -282,7 +282,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		<R> Result<R> result(int hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			return parent().result(hash, version);
 		}
 
@@ -297,7 +297,7 @@ public abstract class Cache {
 		}
 
 		@Override
-		void remove(int hash) {
+		void remove(Async.Hash hash) {
 
 		}
 	}
