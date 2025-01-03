@@ -1,6 +1,5 @@
 rootProject.name = "mylie.engine"
 
-
 dependencyResolutionManagement{
     versionCatalogs{
         create("libs"){
@@ -30,3 +29,6 @@ dependencyResolutionManagement{
         }
     }
 }
+
+include("core")
+project(":core").projectDir=file("engine/core")
