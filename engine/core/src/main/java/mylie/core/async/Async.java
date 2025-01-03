@@ -14,7 +14,7 @@ public class Async {
 	static Scheduler SCHEDULER;
 	@Synchronized
 	public static <R> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
-                                      Function.F0<R> function) {
+			Function.F0<R> function) {
 		int hash = hash(function);
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function);
@@ -46,8 +46,8 @@ public class Async {
 	}
 
 	@Synchronized
-	public static <R, A, B, C> Result<R> async(ExecutionMode executionMode, Target target, Cache cache,
-			long version, Function.F3<A, B, C, R> function, A a, B b, C c) {
+	public static <R, A, B, C> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
+			Function.F3<A, B, C, R> function, A a, B b, C c) {
 		int hash = hash(function, a, b, c);
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function, a, b, c);

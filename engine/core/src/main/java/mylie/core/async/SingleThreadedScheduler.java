@@ -30,7 +30,7 @@ public class SingleThreadedScheduler extends Scheduler implements Scheduler.Task
 		}
 
 		@SuppressWarnings("unchecked")
-        @Override
+		@Override
 		<R> Result<R> result(int hash, long version) {
 			return (Result<R>) store.get(hash);
 		}
