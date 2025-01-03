@@ -297,14 +297,10 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Create threads to execute on the same cache
-		Thread t1 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-					atomicInteger));
-		});
-		Thread t2 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-					atomicInteger));
-		});
+		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+				atomicIntegerIncrease, atomicInteger)));
+		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+				atomicIntegerIncrease, atomicInteger)));
 
 		t1.start();
 		t2.start();
@@ -391,7 +387,7 @@ class AsyncTest {
 		Cache cache = Cache.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Thread invalidationThread = new Thread(() -> cache.invalidate());
+		Thread invalidationThread = new Thread(cache::invalidate);
 
 		// Start invalidation while async is running
 		invalidationThread.start();
@@ -451,10 +447,8 @@ class AsyncTest {
 		// High concurrency with Cache.No
 		Thread[] threads = new Thread[100];
 		for (int i = 0; i < 100; i++) {
-			threads[i] = new Thread(() -> {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-						atomicInteger));
-			});
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
 
@@ -567,15 +561,11 @@ class AsyncTest {
 		Cache cache = Cache.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Thread t1 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-					atomicInteger));
-		});
+		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+				atomicIntegerIncrease, atomicInteger)));
 
-		Thread t2 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-					atomicInteger));
-		});
+		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+				atomicIntegerIncrease, atomicInteger)));
 
 		t1.start();
 		t2.start();
@@ -601,10 +591,8 @@ class AsyncTest {
 		Thread[] threads = new Thread[threadCount];
 
 		for (int i = 0; i < threadCount; i++) {
-			threads[i] = new Thread(() -> {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-						atomicInteger));
-			});
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
 
@@ -667,15 +655,11 @@ class AsyncTest {
 		AtomicInteger atomicInteger1 = new AtomicInteger(0);
 		AtomicInteger atomicInteger2 = new AtomicInteger(0);
 
-		Thread thread1 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache1, 0, atomicIntegerIncrease,
-					atomicInteger1));
-		});
+		Thread thread1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache1, 0,
+				atomicIntegerIncrease, atomicInteger1)));
 
-		Thread thread2 = new Thread(() -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache2, 0, atomicIntegerIncrease,
-					atomicInteger2));
-		});
+		Thread thread2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache2, 0,
+				atomicIntegerIncrease, atomicInteger2)));
 
 		thread1.start();
 		thread2.start();
@@ -703,10 +687,8 @@ class AsyncTest {
 		Thread[] threads = new Thread[threadCount];
 
 		for (int i = 0; i < threadCount; i++) {
-			threads[i] = new Thread(() -> {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-						atomicInteger));
-			});
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
 
@@ -741,10 +723,8 @@ class AsyncTest {
 
 		Thread[] threads = new Thread[10];
 		for (int i = 0; i < 10; i++) {
-			threads[i] = new Thread(() -> {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, nestedFunction,
-						atomicInteger));
-			});
+			threads[i] = new Thread(() -> Wait.wait(
+					Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, nestedFunction, atomicInteger)));
 			threads[i].start();
 		}
 
