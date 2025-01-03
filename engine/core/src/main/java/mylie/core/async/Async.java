@@ -80,12 +80,11 @@ public class Async {
 		return CURRENT_THREAD_TARGET.get() == target;
 	}
 
-	private static int hash(Function.F<?> function, Object... args) {
+	private static int hash(Function.F function, Object... args) {
 		return Objects.hash(function, Arrays.hashCode(args));
 	}
 
-	private static void logAsyncCall(Target target, int hash, Result<?> result, Function.F<?> function,
-			Object... args) {
+	private static void logAsyncCall(Target target, int hash, Result<?> result, Function.F function, Object... args) {
 		log.trace("Function.F{}<{}>Target:{} Hash:{} Cached:{} Args:{}", args.length, function.id(), target, hash,
 				result != null, Arrays.toString(args));
 	}
