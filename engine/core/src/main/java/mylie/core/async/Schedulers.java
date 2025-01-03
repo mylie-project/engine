@@ -57,12 +57,11 @@ public class Schedulers {
 
 		@Override
 		protected void target(Async.Target target, Consumer<Runnable> drain) {
-
+            target(target, new MultiThreadedTaskExecutor(drain));
 		}
 
 		@AllArgsConstructor
 		private static class MultiThreadedTaskExecutor extends TaskExecutor {
-			private final Async.Target target;
 			private final Consumer<Runnable> drain;
 
 			@Override
