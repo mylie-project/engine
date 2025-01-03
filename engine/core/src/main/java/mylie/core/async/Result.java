@@ -44,7 +44,7 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		private final AtomicBoolean running = new AtomicBoolean(false);
 
 		public Completable(Async.Hash hash, long version, CompletableFuture<R> future, Supplier<R> function,
-						   Async.Target target) {
+				Async.Target target) {
 			super(hash, version);
 			this.future = future;
 			this.function = function;

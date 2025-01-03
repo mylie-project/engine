@@ -10,7 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class AsyncTest {
 	static Stream<Scheduler> schedulerProvider() {
-		return Stream.of(new SingleThreadedScheduler());
+		return Stream.of(Schedulers.singleThreaded(), Schedulers.virtualThreads(), Schedulers.forkJoin(),
+				Schedulers.threadPool(1));
 	}
 
 	@ParameterizedTest
@@ -132,39 +133,39 @@ class AsyncTest {
 		Async.SCHEDULER(scheduler);
 		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-	
+
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
-	
+
 		// Using the same version hash should bypass re-execution
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Cached result should be used
-	
+
 		// Changing version hash should execute again
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 67890L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
-	
+
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidateOlderCacheBehavior(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
 		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-	
+
 		// Initial execution with version 1
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
-	
+
 		// Attempt to execute with a newer version; should increment
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
-	
+
 		// Re-attempt with an older version; should not re-execute
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
@@ -178,16 +179,13 @@ class AsyncTest {
 		Cache cache = Cache.InvalidateDifferent;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
-
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
-
 
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
@@ -197,7 +195,6 @@ class AsyncTest {
 				atomicInteger));
 		assertEquals(3, atomicInteger.get());
 	}
-
 
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
@@ -791,8 +788,6 @@ class AsyncTest {
 		// could vary slightly
 		assertEquals(1, atomicInteger.get());
 	}
-	
-	
 
 	private static final F1<AtomicInteger, Boolean> atomicIntegerIncrease = new F1<>("AtomicIntegerIncrease") {
 		@Override

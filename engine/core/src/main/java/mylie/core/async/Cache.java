@@ -72,7 +72,8 @@ public abstract class Cache {
 	/// This cache policy is useful in scenarios where versioning plays a critical
 	/// role in determining the validity of cached data and where maintaining
 	/// version-specific consistency is essential. It prevents the use of incorrect
-	/// or outdated cached results while allowing version-compliant entries to remain valid.
+	/// or outdated cached results while allowing version-compliant entries to
+	/// remain valid.
 	public static final Cache InvalidateDifferent = new InvalidateDifferent("InvalidateDifferent");
 
 	final String id;
@@ -230,9 +231,12 @@ public abstract class Cache {
 		}
 	}
 
-	/// A specialized implementation of the Cache class that introduces functionality
-	/// to invalidate cache entries that have different versions than the specified one.
-	/// This class ensures consistency by removing entries when a version mismatch is detected.
+	/// A specialized implementation of the Cache class that introduces
+	/// functionality
+	/// to invalidate cache entries that have different versions than the specified
+	/// one.
+	/// This class ensures consistency by removing entries when a version mismatch
+	/// is detected.
 	private static final class InvalidateDifferent extends Cache {
 
 		public InvalidateDifferent(String id) {

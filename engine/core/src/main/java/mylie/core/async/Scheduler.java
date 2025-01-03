@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Setter
-public abstract class Scheduler {
+public abstract sealed class Scheduler permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
 	private final Cache globalCache;
 	private final Set<Cache> caches = new HashSet<>();
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
@@ -24,7 +24,8 @@ public abstract class Scheduler {
 		cache(Cache.InvalidateDifferent);
 	}
 
-	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash, Supplier<R> function) {
+	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
+			Supplier<R> function) {
 		TaskExecutor taskExecutor = taskExecutors.get(target);
 		assert taskExecutor != null;
 		return taskExecutor.executeFunction(target, cache, version, hash, function);
@@ -44,6 +45,35 @@ public abstract class Scheduler {
 	}
 
 	abstract static class TaskExecutor {
-		abstract <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash, Supplier<R> function);
+		abstract <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
+				Supplier<R> function);
+	}
+
+	protected static class MapCache extends Cache {
+		private final Map<Async.Hash, Result<?>> store = new java.util.concurrent.ConcurrentHashMap<>();
+		public MapCache() {
+			super("MapCache", null);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		<R> Result<R> result(Async.Hash hash, long version) {
+			return (Result<R>) store.get(hash);
+		}
+
+		@Override
+		<R> void result(Result<R> result) {
+			store.put(result.hash(), result);
+		}
+
+		@Override
+		void invalidate() {
+
+		}
+
+		@Override
+		void remove(Async.Hash hash) {
+			store.remove(hash);
+		}
 	}
 }

@@ -3,7 +3,6 @@ package mylie.core.async;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Supplier;
-
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -135,7 +134,7 @@ public class Async {
 	}
 
 	private static <R> Result<R> executeFunction(ExecutionMode executionMode, Target target, Cache cache, long version,
-												 Hash hash, Supplier<R> function) {
+			Hash hash, Supplier<R> function) {
 		if (executeDirect(executionMode, target)) {
 			Result.Fixed<R> result = Result.fixed(hash, version);
 			cache.result(result);
@@ -163,8 +162,8 @@ public class Async {
 	}
 
 	private static void logAsyncCall(Target target, Hash hash, Result<?> result, Function.F function, Object... args) {
-		log.trace("Function.F{}<{}>Target:{} Hash:{} Cached:{} Args:{}", args.length, function.id(), target, hash.hash(),
-				result != null, Arrays.toString(args));
+		log.trace("Function.F{}<{}>Target:{} Hash:{} Cached:{} Args:{}", args.length, function.id(), target,
+				hash.hash(), result != null, Arrays.toString(args));
 	}
 
 	public record Target(String id) {
@@ -172,27 +171,27 @@ public class Async {
 	}
 
 	@EqualsAndHashCode
-	static class Hash{
+	static class Hash {
 		final Function.F function;
 		final Object[] args;
 		@Getter
 		final int hash;
-		public Hash(Function.F function,Object... args) {
-			this.function=function;
-			this.args=args;
-			int hash=function.hashCode();
+		public Hash(Function.F function, Object... args) {
+			this.function = function;
+			this.args = args;
+			int hash = function.hashCode();
 			for (Object arg : this.args) {
-				hash*=31;
-				if(arg instanceof Custom custom){
-					hash+=custom.hash();
-				}else{
-					hash+=Objects.hashCode(arg);
+				hash *= 31;
+				if (arg instanceof Custom custom) {
+					hash += custom.hash();
+				} else {
+					hash += Objects.hashCode(arg);
 				}
 			}
-			this.hash=hash;
+			this.hash = hash;
 		}
 
-		interface Custom{
+		interface Custom {
 			int hash();
 		}
 	}
