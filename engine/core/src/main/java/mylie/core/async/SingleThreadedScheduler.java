@@ -29,7 +29,8 @@ public class SingleThreadedScheduler extends Scheduler implements Scheduler.Task
 			super("MapCache", null);
 		}
 
-		@Override
+		@SuppressWarnings("unchecked")
+        @Override
 		<R> Result<R> result(int hash, long version) {
 			return (Result<R>) store.get(hash);
 		}

@@ -13,8 +13,8 @@ public class Async {
 	@Setter(AccessLevel.PACKAGE)
 	static Scheduler SCHEDULER;
 	@Synchronized
-	public static final <R> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
-			Function.F0<R> function) {
+	public static <R> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
+                                      Function.F0<R> function) {
 		int hash = hash(function);
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function);
@@ -24,7 +24,7 @@ public class Async {
 	}
 
 	@Synchronized
-	public static final <R, A> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
+	public static <R, A> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F1<A, R> function, A a) {
 		int hash = hash(function, a);
 		Result<R> result = cache.result(hash, version);
@@ -35,7 +35,7 @@ public class Async {
 	}
 
 	@Synchronized
-	public static final <R, A, B> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
+	public static <R, A, B> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F2<A, B, R> function, A a, B b) {
 		int hash = hash(function, a, b);
 		Result<R> result = cache.result(hash, version);
@@ -46,7 +46,7 @@ public class Async {
 	}
 
 	@Synchronized
-	public static final <R, A, B, C> Result<R> async(ExecutionMode executionMode, Target target, Cache cache,
+	public static <R, A, B, C> Result<R> async(ExecutionMode executionMode, Target target, Cache cache,
 			long version, Function.F3<A, B, C, R> function, A a, B b, C c) {
 		int hash = hash(function, a, b, c);
 		Result<R> result = cache.result(hash, version);

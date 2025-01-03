@@ -85,10 +85,8 @@ class AsyncTest {
 	void testThrowException(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		assertThrows(RuntimeException.class, () -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Cache.No, 0, throwException,
-					atomicInteger));
-		});
+		assertThrows(RuntimeException.class, () -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Cache.No, 0, throwException,
+                atomicInteger)));
 	}
 
 	@ParameterizedTest
@@ -272,10 +270,8 @@ class AsyncTest {
 		Cache cache = Cache.Versioned;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		assertThrows(RuntimeException.class, () -> {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 3001L, throwException,
-					atomicInteger));
-		});
+		assertThrows(RuntimeException.class, () -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 3001L, throwException,
+                atomicInteger)));
 	}
 
 	@ParameterizedTest
