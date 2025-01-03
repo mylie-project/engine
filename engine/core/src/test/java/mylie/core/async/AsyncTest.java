@@ -130,23 +130,74 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testVersionedCache(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-
+	
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
-
+	
 		// Using the same version hash should bypass re-execution
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Cached result should be used
-
+	
 		// Changing version hash should execute again
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 67890L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
+	
+	@ParameterizedTest
+	@MethodSource("schedulerProvider")
+	void testInvalidateOlderCacheBehavior(Scheduler scheduler) {
+		Async.SCHEDULER(scheduler);
+		Cache cache = Cache.InvalidateOlder;
+		AtomicInteger atomicInteger = new AtomicInteger(0);
+	
+		// Initial execution with version 1
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(1, atomicInteger.get());
+	
+		// Attempt to execute with a newer version; should increment
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(2, atomicInteger.get());
+	
+		// Re-attempt with an older version; should not re-execute
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(2, atomicInteger.get()); // Value remains unchanged
+	}
+
+	@ParameterizedTest
+	@MethodSource("schedulerProvider")
+	void testInvalidateDifferentCacheBehavior(Scheduler scheduler) {
+		Async.SCHEDULER(scheduler);
+		Cache cache = Cache.InvalidateDifferent;
+		AtomicInteger atomicInteger = new AtomicInteger(0);
+
+
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(1, atomicInteger.get());
+
+
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(2, atomicInteger.get());
+
+
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(3, atomicInteger.get());
+
+		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+				atomicInteger));
+		assertEquals(3, atomicInteger.get());
+	}
+
 
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
@@ -221,7 +272,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithMultipleHashes(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
@@ -236,7 +287,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithSameHash(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
@@ -251,7 +302,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testInvalidateSpecificHash(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2001L, atomicIntegerIncrease,
@@ -267,7 +318,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testCacheInteractionWithException(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		assertThrows(RuntimeException.class, () -> Wait.wait(
@@ -467,7 +518,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithRapidHashChanges(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Rapidly change hashes and observe cache behavior
@@ -540,7 +591,7 @@ class AsyncTest {
 	@MethodSource("schedulerProvider")
 	void testInvalidHashInVersionedCache(Scheduler scheduler) {
 		Async.SCHEDULER(scheduler);
-		Cache cache = Cache.Versioned;
+		Cache cache = Cache.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Use an invalid hash (-1)
@@ -740,6 +791,8 @@ class AsyncTest {
 		// could vary slightly
 		assertEquals(1, atomicInteger.get());
 	}
+	
+	
 
 	private static final F1<AtomicInteger, Boolean> atomicIntegerIncrease = new F1<>("AtomicIntegerIncrease") {
 		@Override

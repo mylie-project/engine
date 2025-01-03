@@ -19,8 +19,9 @@ public abstract class Scheduler {
 		this.globalCache = globalCache;
 		cache(Cache.No);
 		cache(Cache.OneFrame);
-		cache(Cache.Versioned);
+		cache(Cache.InvalidateOlder);
 		cache(Cache.Forever);
+		cache(Cache.InvalidateDifferent);
 	}
 
 	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, int hash, Supplier<R> function) {

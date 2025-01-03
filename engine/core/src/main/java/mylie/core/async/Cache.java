@@ -41,7 +41,7 @@ public abstract class Cache {
 	public static final Cache OneFrame = new InvalidateAll("OneFrame");
 	/// A static, version-based invalidation cache used for managing the lifecycle
 	/// of cached results.
-	/// The `Versioned` cache instance uses [InvalidateHash] as its implementation,
+	/// The `Versioned` cache instance uses [InvalidateOlder] as its implementation,
 	/// ensuring
 	/// that only the most up-to-date results are retained within the cache. Any
 	/// cached entry with a version
@@ -51,7 +51,7 @@ public abstract class Cache {
 	/// versions of results is
 	/// critical, such as in scenarios where asynchronous computations or frequent
 	/// updates occur.
-	public static final Cache Versioned = new InvalidateHash("Versioned");
+	public static final Cache InvalidateOlder = new InvalidateOlder("Versioned");
 	/// A predefined, static instance of the [Cache] class that represents a cache
 	/// with entries that persist indefinitely. The cache is not subject to
 	/// invalidation or expiration.
@@ -65,6 +65,15 @@ public abstract class Cache {
 	/// caching operations to its parent and does not override any stored values or
 	/// actively invalidate entries.
 	public static final Cache Forever = new NoInvalidation("Forever");
+	/// Represents a specialized cache policy designed to invalidate cached entries
+	/// that have a different version than the specified or intended version.
+	/// The `InvalidateDifferent` implementation ensures consistency by removing
+	/// outdated or version-mismatched entries upon access or during evaluation.
+	/// This cache policy is useful in scenarios where versioning plays a critical
+	/// role in determining the validity of cached data and where maintaining
+	/// version-specific consistency is essential. It prevents the use of incorrect
+	/// or outdated cached results while allowing version-compliant entries to remain valid.
+	public static final Cache InvalidateDifferent = new InvalidateDifferent("InvalidateDifferent");
 
 	final String id;
 	@Setter(AccessLevel.PACKAGE)
@@ -189,9 +198,9 @@ public abstract class Cache {
 	/// storage. It relies on the parent for storing and manipulating data while
 	/// providing additional
 	/// version-based invalidation logic.
-	private static final class InvalidateHash extends Cache {
+	private static final class InvalidateOlder extends Cache {
 
-		public InvalidateHash(String id) {
+		public InvalidateOlder(String id) {
 			super(id, null);
 		}
 
@@ -199,6 +208,41 @@ public abstract class Cache {
 		<R> Result<R> result(int hash, long version) {
 			Result<R> result = parent().result(hash, version);
 			if (result != null && result.version() < version) {
+				parent().remove(hash);
+				return null;
+			}
+			return result;
+		}
+
+		@Override
+		<R> void result(Result<R> result) {
+			parent().result(result);
+		}
+
+		@Override
+		void invalidate() {
+
+		}
+
+		@Override
+		void remove(int hash) {
+
+		}
+	}
+
+	/// A specialized implementation of the Cache class that introduces functionality
+	/// to invalidate cache entries that have different versions than the specified one.
+	/// This class ensures consistency by removing entries when a version mismatch is detected.
+	private static final class InvalidateDifferent extends Cache {
+
+		public InvalidateDifferent(String id) {
+			super(id, null);
+		}
+
+		@Override
+		<R> Result<R> result(int hash, long version) {
+			Result<R> result = parent().result(hash, version);
+			if (result != null && result.version() != version) {
 				parent().remove(hash);
 				return null;
 			}
