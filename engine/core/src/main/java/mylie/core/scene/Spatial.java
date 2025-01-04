@@ -1,0 +1,121 @@
+package mylie.core.scene;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import mylie.core.util.Flags;
+import org.joml.Quaternionfc;
+import org.joml.Vector3fc;
+
+@Getter(AccessLevel.PACKAGE)
+public class Spatial {
+    private final static int WorldTransformChanged = 1 << 0;
+    private final static int WorldBoundsChanged = 1 << 1;
+    private final Transform localTransform=new Transform();
+    private final Transform worldTransform=new Transform();
+    private final Flags flags=new Flags();
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PACKAGE)
+    private Spatial parent;
+
+    protected void onLocalTransformChanged(){
+        flags.set(WorldTransformChanged);
+        Traverser.traverse(Traverser.ToLeaf, this,
+                s -> s.flags().set(WorldBoundsChanged|WorldTransformChanged));
+        onWorldBoundsChanged();
+    }
+
+    protected void onWorldBoundsChanged(){
+        Traverser.traverse(Traverser.ToRoot, this, s -> s.flags().set(WorldBoundsChanged));
+    }
+
+    protected Spatial getRoot() {
+        if (parent == null) {
+            return this;
+        } else {
+            return parent.getRoot();
+        }
+    }
+
+    public Transform worldTransform(){
+        if(flags().isSet(WorldTransformChanged)){
+            if(parent!=null){
+                this.worldTransform.combine(localTransform, parent().worldTransform());
+            }else{
+                worldTransform.set(localTransform);
+            }
+        }
+        return worldTransform;
+    }
+
+    public interface Translatable{
+        default void translation(Vector3fc newPosition){
+            if(this instanceof Spatial spatial){
+                spatial.localTransform().position(newPosition);
+                spatial.onLocalTransformChanged();
+            }
+        }
+
+        default void translate(Vector3fc offset){
+            translate(offset.x(),offset.y(),offset.z());
+        }
+
+        default void translate(float x, float y, float z){
+            if(this instanceof Spatial spatial){
+                translation(spatial.localTransform().position().add(x,y,z));
+            }
+        }
+    }
+
+    public interface Rotatable{
+        default void rotation(Quaternionfc newRotation){
+            if(this instanceof Spatial spatial){
+                spatial.localTransform().rotation().set(newRotation);
+                spatial.onLocalTransformChanged();
+            }
+        }
+
+        default void rotate(Quaternionfc rotation){
+            if(this instanceof Spatial spatial){
+                rotation(spatial.localTransform().rotation().mul(rotation));
+            }
+        }
+
+        default void rotateAxis( float angle,Vector3fc axis){
+            if(this instanceof Spatial spatial){
+                rotation(spatial.localTransform().rotation().rotateAxis(angle,axis));
+            }
+        }
+    }
+
+    public interface ScalableUniform{
+        default void scaling(float scaling){
+            if(this instanceof Spatial spatial){
+                spatial.localTransform().scale().set(scaling,scaling,scaling);
+                spatial.onLocalTransformChanged();
+            }
+        }
+
+        default void scale(float scale){
+            if(this instanceof Spatial spatial){
+                spatial.localTransform().scale().mul(scale);
+                spatial.onLocalTransformChanged();
+            }
+        }
+    }
+
+    public interface Scalable extends ScalableUniform{
+        default void scaleing(Vector3fc scaling){
+            if(this instanceof Spatial spatial){
+                spatial.localTransform().scale().set(scaling);
+                spatial.onLocalTransformChanged();
+            }
+        }
+
+        default void scale(Vector3fc scale){
+            if(this instanceof Spatial spatial){
+                scaleing(spatial.localTransform().scale().mul(scale));
+            }
+        }
+    }
+}
