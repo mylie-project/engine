@@ -9,7 +9,7 @@ import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
 public class Spatial {
-	private final static int WorldTransformChanged = 1 << 0;
+	private final static int WorldTransformChanged = 1;
 	private final static int WorldBoundsChanged = 1 << 1;
 	private final Transform localTransform = new Transform();
 	private final Transform worldTransform = new Transform();
@@ -104,7 +104,7 @@ public class Spatial {
 	}
 
 	public interface Scalable extends ScalableUniform {
-		default void scaleing(Vector3fc scaling) {
+		default void scaling(Vector3fc scaling) {
 			if (this instanceof Spatial spatial) {
 				spatial.localTransform().scale().set(scaling);
 				spatial.onLocalTransformChanged();
@@ -113,7 +113,7 @@ public class Spatial {
 
 		default void scale(Vector3fc scale) {
 			if (this instanceof Spatial spatial) {
-				scaleing(spatial.localTransform().scale().mul(scale));
+				scaling(spatial.localTransform().scale().mul(scale));
 			}
 		}
 	}

@@ -6,10 +6,10 @@ import org.joml.*;
 
 @Getter(AccessLevel.PACKAGE)
 public class Transform {
-	Vector3f position = new Vector3f(0f);
-	Quaternionf rotation = new Quaternionf();
-	Vector3f scale = new Vector3f(1.0f);
-	Matrix4f matrix = new Matrix4f();
+	final Vector3f position = new Vector3f(0f);
+	final Quaternionf rotation = new Quaternionf();
+	final Vector3f scale = new Vector3f(1.0f);
+	final Matrix4f matrix = new Matrix4f();
 	boolean dirty = true;
 	void combine(Transform localTransform, Transform parentWorldTransform) {
 		parentWorldTransform.rotation.mul(localTransform.rotation, this.rotation);

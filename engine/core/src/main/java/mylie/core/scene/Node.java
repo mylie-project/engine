@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter(AccessLevel.PACKAGE)
 public class Node extends Spatial implements Spatial.Translatable, Spatial.Rotatable, Spatial.ScalableUniform {
-	private Set<Spatial> children = new HashSet<>();
+	private final Set<Spatial> children = new HashSet<>();
 
 	public void child(Spatial... children) {
 		for (Spatial child : children) {

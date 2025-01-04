@@ -4,7 +4,7 @@ dependencyResolutionManagement{
     versionCatalogs{
         create("libs"){
             version("lombok","1.18.34")
-            version("logback","1.5.12")
+            version("logback","1.5.13")
             version("slf4j","2.0.16")
             version("joml","1.10.7")
             version("lwjgl3","3.3.5")
