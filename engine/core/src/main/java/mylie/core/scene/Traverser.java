@@ -2,6 +2,7 @@ package mylie.core.scene;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Traverser {
 	public static final Direction ToLeaf = (queue, spatial) -> {
@@ -19,8 +20,22 @@ public class Traverser {
 		queue.add(start);
 		while (!queue.isEmpty()) {
 			Spatial spatial = queue.poll();
-			visitor.visit(spatial);
-			direction.apply(queue, spatial);
+			if (visitor.visit(spatial)) {
+				direction.apply(queue, spatial);
+			}
+		}
+	}
+
+	public static void parallelTraverse(Direction direction, Spatial start, Visitor visitor) {
+		Queue<Spatial> queue = new LinkedList<>();
+		queue.add(start);
+		while (!queue.isEmpty()) {
+			Queue<Spatial> nextLevel = new ConcurrentLinkedQueue<>();
+			queue.parallelStream().forEach(spatial -> {
+				visitor.visit(spatial);
+				direction.apply(nextLevel, spatial);
+			});
+			queue = nextLevel;
 		}
 	}
 
@@ -29,6 +44,6 @@ public class Traverser {
 	}
 
 	public interface Visitor {
-		void visit(Spatial spatial);
+		boolean visit(Spatial spatial);
 	}
 }

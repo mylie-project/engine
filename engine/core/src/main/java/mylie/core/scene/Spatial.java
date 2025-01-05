@@ -3,12 +3,13 @@ package mylie.core.scene;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import mylie.core.util.Flags;
+import mylie.core.assets.Asset;
+import mylie.util.Flags;
 import org.joml.Quaternionfc;
 import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
-public class Spatial {
+public class Spatial implements Asset<SpatialId, Spatial> {
 	private final static int WorldTransformChanged = 1;
 	private final static int WorldBoundsChanged = 1 << 1;
 	private final Transform localTransform = new Transform();
@@ -17,15 +18,24 @@ public class Spatial {
 	@Getter(AccessLevel.PUBLIC)
 	@Setter(AccessLevel.PACKAGE)
 	private Spatial parent;
+	@Getter(AccessLevel.PUBLIC)
+	@Setter(AccessLevel.PUBLIC)
+	private SpatialId assetId;
 
 	protected void onLocalTransformChanged() {
 		flags.set(WorldTransformChanged);
-		Traverser.traverse(Traverser.ToLeaf, this, s -> s.flags().set(WorldBoundsChanged | WorldTransformChanged));
+		Traverser.traverse(Traverser.ToLeaf, this, spatial -> {
+			spatial.flags().set(WorldBoundsChanged | WorldTransformChanged);
+			return true;
+		});
 		onWorldBoundsChanged();
 	}
 
 	protected void onWorldBoundsChanged() {
-		Traverser.traverse(Traverser.ToRoot, this, s -> s.flags().set(WorldBoundsChanged));
+		Traverser.traverse(Traverser.ToRoot, this, spatial -> {
+			spatial.flags().set(WorldBoundsChanged);
+			return true;
+		});
 	}
 
 	protected Spatial getRoot() {
