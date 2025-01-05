@@ -1,8 +1,7 @@
-package mylie.core.util;
+package mylie.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import mylie.util.Versioned;
 import org.junit.jupiter.api.Test;
 
 class VersionedTest {

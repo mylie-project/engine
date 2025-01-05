@@ -1,9 +1,8 @@
-package mylie.core.util;
+package mylie.util;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import mylie.util.Flags;
 import org.junit.jupiter.api.Test;
 
 /**
