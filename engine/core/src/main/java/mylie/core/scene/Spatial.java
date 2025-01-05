@@ -6,7 +6,6 @@ import lombok.Setter;
 import mylie.core.assets.Asset;
 import mylie.util.Flags;
 import org.joml.Quaternionfc;
-import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)

@@ -17,11 +17,11 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 
 	public Scheduler(Cache globalCache) {
 		this.globalCache = globalCache;
-		cache(Cache.No);
-		cache(Cache.OneFrame);
-		cache(Cache.InvalidateOlder);
-		cache(Cache.Forever);
-		cache(Cache.InvalidateDifferent);
+		cache(Caches.No);
+		cache(Caches.OneFrame);
+		cache(Caches.InvalidateOlder);
+		cache(Caches.Forever);
+		cache(Caches.InvalidateDifferent);
 	}
 
 	<R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
@@ -57,7 +57,7 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 
 		@SuppressWarnings("unchecked")
 		@Override
-		<R> Result<R> result(Async.Hash hash, long version) {
+		protected <R> Result<R> result(Async.Hash hash, long version) {
 			return (Result<R>) store.get(hash);
 		}
 
