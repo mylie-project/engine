@@ -2,6 +2,7 @@ package mylie.core.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import mylie.util.Versioned;
 import org.junit.jupiter.api.Test;
 
 class VersionedTest {

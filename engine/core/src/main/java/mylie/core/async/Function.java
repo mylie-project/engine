@@ -42,7 +42,7 @@ public class Function {
 		public F0(String id) {
 			super(id);
 		}
-		abstract R apply();
+		protected abstract R apply();
 	}
 
 	/// Represents a function that takes one argument of type `A` and produces a
@@ -57,7 +57,7 @@ public class Function {
 		public F1(String id) {
 			super(id);
 		}
-		abstract R apply(A a);
+		protected abstract R apply(A a);
 	}
 
 	/// Represents a function that takes two arguments of types `A` and `B`,
@@ -72,7 +72,7 @@ public class Function {
 		public F2(String id) {
 			super(id);
 		}
-		abstract R apply(A a, B b);
+		protected abstract R apply(A a, B b);
 	}
 
 	/// Represents a function that takes three arguments of types `A`, `B`, and `C`
@@ -89,6 +89,6 @@ public class Function {
 		public F3(String id) {
 			super(id);
 		}
-		abstract R apply(A a, B b, C c);
+		protected abstract R apply(A a, B b, C c);
 	}
 }
