@@ -6,6 +6,7 @@ import lombok.Setter;
 import mylie.core.assets.Asset;
 import mylie.util.Flags;
 import org.joml.Quaternionfc;
+import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
@@ -79,7 +80,7 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	public interface Rotatable {
 		default void rotation(Quaternionfc newRotation) {
 			if (this instanceof Spatial spatial) {
-				spatial.localTransform().rotation().set(newRotation);
+				spatial.localTransform().rotation(newRotation);
 				spatial.onLocalTransformChanged();
 			}
 		}
@@ -100,14 +101,14 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	public interface ScalableUniform {
 		default void scaling(float scaling) {
 			if (this instanceof Spatial spatial) {
-				spatial.localTransform().scale().set(scaling, scaling, scaling);
+				spatial.localTransform().scale(spatial.localTransform().scale().set(scaling));
 				spatial.onLocalTransformChanged();
 			}
 		}
 
 		default void scale(float scale) {
 			if (this instanceof Spatial spatial) {
-				spatial.localTransform().scale().mul(scale);
+				spatial.localTransform().scale(spatial.localTransform().scale().mul(scale));
 				spatial.onLocalTransformChanged();
 			}
 		}
@@ -116,7 +117,7 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	public interface Scalable extends ScalableUniform {
 		default void scaling(Vector3fc scaling) {
 			if (this instanceof Spatial spatial) {
-				spatial.localTransform().scale().set(scaling);
+				spatial.localTransform().scale(scaling);
 				spatial.onLocalTransformChanged();
 			}
 		}
