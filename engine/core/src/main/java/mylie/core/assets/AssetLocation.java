@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 public abstract class AssetLocation {
 	public enum Operation {
-		Read, Write, Delete
+		Read, Write
 	}
 	abstract EnumSet<Operation> operations();
 
