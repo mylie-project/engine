@@ -1,4 +1,4 @@
-package mylie.core.util;
+package mylie.util;
 
 /// The Flags class provides a simple implementation for managing multiple flags
 /// using bitwise operations. Flags are stored as integers and can be set, checked,

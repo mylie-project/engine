@@ -1,4 +1,4 @@
-package mylie.core.util;
+package mylie.util;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
