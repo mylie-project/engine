@@ -10,26 +10,26 @@ import lombok.AllArgsConstructor;
 
 public class Schedulers {
 	public static Scheduler forkJoin() {
-		return new ExecutorBaseScheduler(ForkJoinPool.commonPool());
+		return new ExecutorScheduler(ForkJoinPool.commonPool());
 	}
 
 	public static Scheduler workStealing(int threads) {
-		return new ExecutorBaseScheduler(Executors.newWorkStealingPool(threads));
+		return new ExecutorScheduler(Executors.newWorkStealingPool(threads));
 	}
 
 	public static Scheduler threadPool(int threads) {
-		return new ExecutorBaseScheduler(Executors.newFixedThreadPool(threads));
+		return new ExecutorScheduler(Executors.newFixedThreadPool(threads));
 	}
 
 	public static Scheduler virtualThreads() {
-		return new ExecutorBaseScheduler(Executors.newVirtualThreadPerTaskExecutor());
+		return new ExecutorScheduler(Executors.newVirtualThreadPerTaskExecutor());
 	}
 
 	public static Scheduler singleThreaded() {
 		return new SingleThreadedScheduler();
 	}
 
-	static final class ExecutorBaseScheduler extends MultiThreadedScheduler {
+	static final class ExecutorScheduler extends MultiThreadedScheduler {
 		final ExecutorService executorService;
 		final TaskExecutor backgroundTaskExecutor = new TaskExecutor() {
 			@Override
@@ -47,9 +47,14 @@ public class Schedulers {
 			}
 		};
 
-		public ExecutorBaseScheduler(ExecutorService executorService) {
+		public ExecutorScheduler(ExecutorService executorService) {
 			this.executorService = executorService;
 			target(Async.Target.Any, backgroundTaskExecutor);
+		}
+
+		@Override
+		public void onShutdown() {
+			executorService.shutdown();
 		}
 	}
 
@@ -59,7 +64,7 @@ public class Schedulers {
 		}
 
 		@Override
-		protected void target(Async.Target target, Consumer<Runnable> drain) {
+		public void target(Async.Target target, Consumer<Runnable> drain) {
 			target(target, new MultiThreadedTaskExecutor(drain));
 		}
 
@@ -97,8 +102,13 @@ public class Schedulers {
 		};
 
 		@Override
-		protected void target(Async.Target target, Consumer<Runnable> drain) {
+		public void target(Async.Target target, Consumer<Runnable> drain) {
 			target(target, taskExecutor);
+		}
+
+		@Override
+		public void onShutdown() {
+
 		}
 	}
 }

@@ -32,3 +32,9 @@ dependencyResolutionManagement{
 
 include("core")
 project(":core").projectDir=file("engine/core")
+
+include("platform.desktop")
+project(":platform.desktop").projectDir=file("engine/platforms/desktop")
+
+include("examples.tests")
+project(":examples.tests").projectDir=file("examples/tests")

@@ -152,7 +152,7 @@ public class Async {
 		return targetIsCurrentThread(target);
 	}
 
-	static final ThreadLocal<Target> CURRENT_THREAD_TARGET = new ThreadLocal<>();
+	public static final ThreadLocal<Target> CURRENT_THREAD_TARGET = new ThreadLocal<>();
 	private static boolean targetIsCurrentThread(Target target) {
 		return CURRENT_THREAD_TARGET.get() == target;
 	}

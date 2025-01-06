@@ -8,9 +8,11 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.component.Components;
+
 @Slf4j
 @Setter
-public abstract sealed class Scheduler permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
+public abstract sealed class Scheduler implements Components.CoreComponent permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler{
 	private final Cache globalCache;
 	private final Set<Cache> caches = new HashSet<>();
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
@@ -36,13 +38,21 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 		taskExecutors.put(target, taskExecutor);
 	}
 
-	protected abstract void target(Async.Target target, Consumer<Runnable> drain);
+	public abstract void target(Async.Target target, Consumer<Runnable> drain);
 
 	void cache(Cache cache) {
 		log.trace("Cache<{}> registered", cache.id());
 		caches.add(cache);
 		cache.parent(globalCache);
 	}
+
+	public void update(long frameId) {
+		for (Cache cache : caches) {
+			cache.invalidate();
+		}
+	}
+
+	public abstract void onShutdown();
 
 	abstract static class TaskExecutor {
 		abstract <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
