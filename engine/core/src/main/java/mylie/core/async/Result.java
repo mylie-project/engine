@@ -13,7 +13,7 @@ import lombok.Setter;
 public abstract sealed class Result<R> permits Result.Fixed, Result.Completable {
 	final Async.Hash hash;
 	final long version;
-	abstract R result();
+	public abstract R result();
 	abstract boolean complete();
 
 	static <T> Fixed<T> fixed(Async.Hash hash, long version) {
@@ -57,7 +57,7 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		}
 
 		@Override
-		R result() {
+		public R result() {
 			if (!complete() && (target == Async.Target.Any || Async.CURRENT_THREAD_TARGET.get() == target)) {
 				if (running.compareAndSet(false, true)) {
 					future.complete(function.get());

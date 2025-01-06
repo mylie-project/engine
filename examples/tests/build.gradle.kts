@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation(project(":core"))
     implementation(project(":platform.desktop"))
+    implementation(libs.logging.runtime)
     runtimeOnly(libs.logging.runtime)
 }
 

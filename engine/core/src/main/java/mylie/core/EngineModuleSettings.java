@@ -7,9 +7,11 @@ import mylie.core.component.Component;
 ///
 /// @param <T> the type of module that the settings are associated with
 public interface EngineModuleSettings<T extends Component> {
-    /// Builds and returns an instance of the module configured by this settings instance.
-    ///
-    /// @return an instance of the module of type `T`, created based on the configuration
-    ///         defined within this settings instance.
-    T build();
+	/// Builds and returns an instance of the module configured by this settings
+	/// instance.
+	///
+	/// @return an instance of the module of type `T`, created based on the
+	/// configuration
+	/// defined within this settings instance.
+	T build();
 }

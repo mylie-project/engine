@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 /// (asynchronous), based on the specified execution mode.
 @Slf4j
 public class Async {
-	@Setter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.PUBLIC)
 	static Scheduler SCHEDULER;
 
 	/// Executes the provided function asynchronously or synchronously based on the

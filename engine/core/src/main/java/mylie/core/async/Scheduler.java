@@ -12,7 +12,8 @@ import mylie.core.component.Components;
 
 @Slf4j
 @Setter
-public abstract sealed class Scheduler implements Components.CoreComponent permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler{
+public abstract sealed class Scheduler implements Components.CoreComponent
+		permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
 	private final Cache globalCache;
 	private final Set<Cache> caches = new HashSet<>();
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
