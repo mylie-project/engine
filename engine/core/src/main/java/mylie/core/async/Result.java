@@ -67,7 +67,7 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 					}
 				}
 				return future.join();
-			}catch (Exception e) {
+			} catch (Exception e) {
 				future.completeExceptionally(e);
 				EngineManager.shutdown(Engine.ShutdownReason.error(e));
 			}

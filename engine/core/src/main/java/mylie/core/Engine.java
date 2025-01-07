@@ -84,8 +84,8 @@ public class Engine {
 			Thread.currentThread().setName("EnginePrimary");
 			updateLoop();
 		}
-		if(shutdownReason instanceof ShutdownReason.Error error){
-			log.error("Exception: {}",error.cause().getMessage(),error.cause());
+		if (shutdownReason instanceof ShutdownReason.Error error) {
+			log.error("Exception: {}", error.cause().getMessage(), error.cause());
 		}
 		return shutdownReason;
 	}
@@ -101,7 +101,7 @@ public class Engine {
 			componentManager.component(Scheduler.class).update(frameId);
 			try {
 				componentManager.onUpdate(time);
-			}catch (Exception e){
+			} catch (Exception e) {
 				shutdownReason = ShutdownReason.error(e);
 			}
 			counter++;
@@ -143,7 +143,7 @@ public class Engine {
 		}
 
 		@Getter
-		class Error implements ShutdownReason{
+		class Error implements ShutdownReason {
 			Throwable cause;
 
 			public Error(Throwable cause) {
