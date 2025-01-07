@@ -2,10 +2,12 @@ package mylie.core.component;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.application.Application;
 import mylie.core.async.*;
 
 public class Components {
@@ -43,7 +45,8 @@ public class Components {
 	@Getter(AccessLevel.PACKAGE)
 	static sealed class Base implements Component permits Core, App {
 		private ComponentManager componentManager;
-		private final List<Base> dependencies = new CopyOnWriteArrayList<>();
+		private final List<Supplier<Result<?>>> updateDependecies = new CopyOnWriteArrayList<>();
+		private final List<Supplier<Result<?>>> shutdownDependecies = new CopyOnWriteArrayList<>();
 		private Async.ExecutionMode executionMode = Async.ExecutionMode.Async;
 		private Cache cache = Caches.OneFrame;
 		private Async.Target target = Async.Target.Any;
@@ -79,12 +82,27 @@ public class Components {
 			return Async.async(executionMode, target, cache, -1, Shutdown, this);
 		}
 
+		public void componentDependecies(Component... dependecies) {
+			for (Component dependecy : dependecies) {
+				if (dependecy instanceof Base dependecyBase) {
+					updateDependency(dependecyBase::update);
+					shutdownDependency(dependecyBase::shutdown);
+				}
+			}
+		}
+
+		public void updateDependency(Supplier<Result<?>> dependency) {
+			updateDependecies.add(dependency);
+		}
+
+		public void shutdownDependency(Supplier<Result<?>> dependency) {
+			shutdownDependecies.add(dependency);
+		}
+
 		private static final Function.F1<Base, Boolean> Update = new Function.F1<>("Update") {
 			@Override
 			protected Boolean apply(Base base) {
-				for (Base dependency : base.dependencies()) {
-					dependency.update().result();
-				}
+				Wait.wait(Async.async(base.updateDependecies()));
 				if (!base.initialized) {
 					base.initialized = true;
 					if (base instanceof Initializable initializable) {
@@ -111,9 +129,7 @@ public class Components {
 		private static final Function.F1<Base, Boolean> Shutdown = new Function.F1<>("Shutdown") {
 			@Override
 			protected Boolean apply(Base base) {
-				for (Base dependency : base.dependencies()) {
-					dependency.shutdown().result();
-				}
+				Wait.wait(Async.async(base.shutdownDependecies));
 				base.initialized = false;
 				if (base instanceof Initializable initializable) {
 					initializable.onShutdown();
@@ -178,14 +194,22 @@ public class Components {
 	}
 
 	public static non-sealed abstract class AppSequential extends App {
+		public AppSequential() {
+			target(Application.TARGET);
+		}
 
+		@Override
+		void onAdd(ComponentManager componentManager) {
+			super.onAdd(componentManager);
+			updateDependency(Stages.PreUpdateLogic::execute);
+		}
 	}
 
 	public static non-sealed abstract class AppParallel extends App {
 		@Override
 		void onAdd(ComponentManager componentManager) {
 			super.onAdd(componentManager);
-			Stages.PostRender.addDependency(this::update);
+			Stages.PostRender.updateDependency(this::update);
 		}
 	}
 }

@@ -57,9 +57,10 @@ public class ComponentManager {
 
 	public void onUpdate(Timer.Time time) {
 		List<Result<?>> results = new LinkedList<>();
-		for (Stage stage : stages) {
-			results.add(stage.execute());
+		for (Components.AppParallel component : components(Components.AppParallel.class)) {
+			results.add(component.update());
 		}
+		results.add(Stages.PostRender.execute());
 		results.forEach(Result::result);
 	}
 

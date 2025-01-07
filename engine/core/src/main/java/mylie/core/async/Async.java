@@ -1,7 +1,6 @@
 package mylie.core.async;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
@@ -151,6 +150,18 @@ public class Async {
 			return result;
 		}
 		return executeFunction(executionMode, target, cache, version, hash, () -> function.apply(a, b, c));
+	}
+
+	public static Collection<Result<?>> async(List<Supplier<Result<?>>> asyncTasks) {
+		return async(asyncTasks, new ArrayList<>(asyncTasks.size()));
+	}
+
+	public static <T extends Collection<Result<?>>> Collection<Result<?>> async(List<Supplier<Result<?>>> asyncTasks,
+			T results) {
+		for (Supplier<Result<?>> asyncTask : asyncTasks) {
+			results.add(asyncTask.get());
+		}
+		return results;
 	}
 
 	private static <R> Result<R> executeFunction(ExecutionMode executionMode, Target target, Cache cache, long version,

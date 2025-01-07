@@ -3,6 +3,7 @@ package mylie.examples.tests;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.EngineConfiguration;
 import mylie.core.application.Application;
+import mylie.core.async.SchedulerSettings;
 import mylie.core.component.Components;
 import mylie.core.components.time.Timer;
 import mylie.core.components.time.TimerSettings;
@@ -14,29 +15,22 @@ public class HelloEngine extends Application {
 		EngineConfiguration engineConfiguration = desktop.initialize();
 		engineConfiguration.option(EngineConfiguration.Application, new HelloEngine());
 		engineConfiguration.option(EngineConfiguration.Timer, TimerSettings.dynamicInterval());
-		// engineConfiguration.option(EngineConfiguration.Scheduler,
-		// SchedulerSettings.singleThreaded());
+		engineConfiguration.option(EngineConfiguration.Scheduler, SchedulerSettings.virtualThreads());
 		engineConfiguration.startEngine();
 	}
 
 	@Override
 	protected void onInitialize() {
 		log.debug("onInitialize");
-		component(new Com1());
-		component(new Com2());
-		component(new Com3());
-		component(new Com4());
-		component(new Com5());
-
 	}
 	@Override
 	protected void onUpdate(Timer.Time time) {
 		log.debug("onUpdate");
-		/*
-		 * if (time.version() == 10) {
-		 * component(EngineManager.class).shutdown(Engine.ShutdownReason.
-		 * ok("User requested shutdown")); }
-		 */
+
+		// if (time.version() == 10) {
+		// component(EngineManager.class).shutdown(Engine.ShutdownReason.ok("User
+		// requested shutdown")); }
+
 	}
 
 	@Override
@@ -55,6 +49,9 @@ public class HelloEngine extends Application {
 
 	@Slf4j
 	private static class Com2 extends Components.AppSequential implements Components.Updateable {
+		public Com2() {
+
+		}
 
 		@Override
 		public void onUpdate() {
@@ -81,11 +78,21 @@ public class HelloEngine extends Application {
 	}
 
 	@Slf4j
-	private static class Com5 extends Components.AppParallel implements Components.Updateable {
+	private static class Com5 extends Components.AppParallel implements Components.Updateable, Components.AddRemove {
 
 		@Override
 		public void onUpdate() {
 			log.debug("Com5 update");
+		}
+
+		@Override
+		public void onAdded() {
+			componentDependecies(component(Com2.class));
+		}
+
+		@Override
+		public void onRemoved() {
+
 		}
 	}
 }

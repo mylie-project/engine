@@ -29,7 +29,7 @@ public class InputSystem extends Components.Core
 
 	@Override
 	public void onAdded() {
-		Stages.PreUpdateLogic.addDependency(this::update);
+		Stages.PreUpdateLogic.updateDependency(this::update);
 	}
 
 	@Override

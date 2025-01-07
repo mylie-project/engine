@@ -8,6 +8,7 @@ import mylie.core.component.Stages;
 import mylie.core.components.threads.EngineThread;
 import mylie.core.components.threads.ThreadManager;
 import mylie.core.components.time.Timer;
+import mylie.core.input.InputSystem;
 
 @Slf4j
 public class ApplicationSystem extends Components.Core
@@ -30,7 +31,8 @@ public class ApplicationSystem extends Components.Core
 		engineThread = component(ThreadManager.class).createEngineThread(Application.TARGET,
 				component(Scheduler.class));
 		engineThread.start();
-		Stages.UpdateLogic.addDependency(this::update);
+		Stages.UpdateLogic.updateDependency(this::update);
+		componentDependecies(component(InputSystem.class));
 		application.onInit(componentManager());
 	}
 
