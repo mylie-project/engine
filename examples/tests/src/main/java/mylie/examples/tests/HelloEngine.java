@@ -26,13 +26,6 @@ public class HelloEngine extends Application {
 	@Override
 	protected void onUpdate(Timer.Time time) {
 		log.debug("onUpdate");
-		// EngineManager.shutdown(Engine.ShutdownReason.error(new
-		// RuntimeException("AAA####AAA")));
-		throw new RuntimeException("AAA####AAA");
-		// if (time.version() == 10) {
-		// component(EngineManager.class).shutdown(Engine.ShutdownReason.ok("User
-		// requested shutdown")); }
-
 	}
 
 	@Override
