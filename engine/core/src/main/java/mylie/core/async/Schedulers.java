@@ -38,6 +38,7 @@ public class Schedulers {
 				Result.Completable<R> result = Result.completable(hash, version, new CompletableFuture<>(), function,
 						target);
 				cache.result(result);
+				Async.unlock();
 				executorService.execute(() -> {
 					if (result.running().compareAndSet(false, true)) {
 						result.future().complete(function.get());
@@ -60,7 +61,7 @@ public class Schedulers {
 
 	static non-sealed abstract class MultiThreadedScheduler extends Scheduler {
 		public MultiThreadedScheduler() {
-			super(new MapCache());
+			super(true,new MapCache());
 		}
 
 		@Override
@@ -78,6 +79,7 @@ public class Schedulers {
 				Result.Completable<R> result = Result.completable(hash, version, new CompletableFuture<>(), function,
 						target);
 				cache.result(result);
+				Async.unlock();
 				drain.accept(result::result);
 				return result;
 			}
@@ -86,7 +88,7 @@ public class Schedulers {
 
 	static final class SingleThreadedScheduler extends Scheduler {
 		public SingleThreadedScheduler() {
-			super(new MapCache());
+			super(false,new MapCache());
 			target(Async.Target.Any, taskExecutor);
 		}
 
@@ -96,6 +98,7 @@ public class Schedulers {
 					Supplier<R> function) {
 				Result.Fixed<R> result = Result.fixed(hash, version);
 				cache.result(result);
+				Async.unlock();
 				result.result(function.get());
 				return result;
 			}

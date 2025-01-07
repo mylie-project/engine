@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.component.Components;
@@ -14,12 +16,15 @@ import mylie.core.component.Components;
 @Setter
 public abstract sealed class Scheduler implements Components.CoreComponent
 		permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
+	@Getter
+	private final boolean multiThreaded;
 	private final Cache globalCache;
 	private final Set<Cache> caches = new HashSet<>();
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
 
-	public Scheduler(Cache globalCache) {
-		this.globalCache = globalCache;
+	public Scheduler(boolean multiThreaded, Cache globalCache) {
+        this.multiThreaded = multiThreaded;
+        this.globalCache = globalCache;
 		cache(Caches.No);
 		cache(Caches.OneFrame);
 		cache(Caches.InvalidateOlder);
@@ -68,7 +73,7 @@ public abstract sealed class Scheduler implements Components.CoreComponent
 
 		@SuppressWarnings("unchecked")
 		@Override
-		protected <R> Result<R> result(Async.Hash hash, long version) {
+		<R> Result<R> result(Async.Hash hash, long version) {
 			return (Result<R>) store.get(hash);
 		}
 

@@ -2,6 +2,8 @@ package mylie.core.async;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 public class Async {
 	@Setter(AccessLevel.PUBLIC)
 	static Scheduler SCHEDULER;
+	private static final Lock lock = new ReentrantLock();
+
+	static void lock(){
+		lock.lock();
+	}
+
+	static void unlock(){
+		lock.unlock();
+	}
 
 	/// Executes the provided function asynchronously or synchronously based on the
 	/// given execution mode,
@@ -33,14 +44,16 @@ public class Async {
 	/// recalculated if necessary.
 	/// @return The result of the executed function, either retrieved from the cache
 	/// or freshly executed.
-	@Synchronized
 	public static <R> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F0<R> function) {
 		Hash hash = hash(function);
+		lock();
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function);
-		if (result != null)
+		if (result != null) {
+			unlock();
 			return result;
+		}
 		return executeFunction(executionMode, target, cache, version, hash, function::apply);
 	}
 
@@ -58,14 +71,17 @@ public class Async {
 	/// @param a the argument to be passed to the function
 	/// @return a `Result<R>` object representing the outcome of the function
 	/// execution
-	@Synchronized
 	public static <R, A> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F1<A, R> function, A a) {
+
 		Hash hash = hash(function, a);
+		lock();
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function, a);
-		if (result != null)
+		if (result != null) {
+			unlock();
 			return result;
+		}
 		return executeFunction(executionMode, target, cache, version, hash, () -> function.apply(a));
 	}
 
@@ -91,14 +107,16 @@ public class Async {
 	/// @param b the second input parameter to the function
 	/// @return a `Result<R>` containing the result of the executed function or the
 	/// cached result if available
-	@Synchronized
 	public static <R, A, B> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F2<A, B, R> function, A a, B b) {
 		Hash hash = hash(function, a, b);
+		lock();
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function, a, b);
-		if (result != null)
+		if (result != null) {
+			unlock();
 			return result;
+		}
 		return executeFunction(executionMode, target, cache, version, hash, () -> function.apply(a, b));
 	}
 
@@ -122,14 +140,16 @@ public class Async {
 	/// @param b The second argument to pass to the function.
 	/// @param c The third argument to pass to the function.
 	/// @return A `Result<R>` containing the result of the function execution.
-	@Synchronized
 	public static <R, A, B, C> Result<R> async(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Function.F3<A, B, C, R> function, A a, B b, C c) {
 		Hash hash = hash(function, a, b, c);
+		lock();
 		Result<R> result = cache.result(hash, version);
 		logAsyncCall(target, hash, result, function, a, b, c);
-		if (result != null)
+		if (result != null) {
+			unlock();
 			return result;
+		}
 		return executeFunction(executionMode, target, cache, version, hash, () -> function.apply(a, b, c));
 	}
 
@@ -138,10 +158,11 @@ public class Async {
 		if (executeDirect(executionMode, target)) {
 			Result.Fixed<R> result = Result.fixed(hash, version);
 			cache.result(result);
+			unlock();
 			result.result(function.get());
 			return result;
 		}
-		return SCHEDULER.executeFunction(target, cache, version, hash, function);
+        return SCHEDULER.executeFunction(target, cache, version, hash, function);
 	}
 
 	private static boolean executeDirect(ExecutionMode executionMode, Target target) {

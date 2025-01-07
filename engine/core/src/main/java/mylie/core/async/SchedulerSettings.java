@@ -1,10 +1,9 @@
-package mylie.core;
+package mylie.core.async;
 
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
-import mylie.core.async.Scheduler;
-import mylie.core.async.Schedulers;
+import mylie.core.EngineModuleSettings;
 
 @Getter(AccessLevel.PACKAGE)
 public class SchedulerSettings implements EngineModuleSettings<Scheduler> {
