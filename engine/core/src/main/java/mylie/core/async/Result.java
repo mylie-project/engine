@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import mylie.core.Engine;
+import mylie.core.EngineManager;
 
 @AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
@@ -58,12 +60,18 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 
 		@Override
 		public R result() {
-			if (!complete() && (target == Async.Target.Any || Async.CURRENT_THREAD_TARGET.get() == target)) {
-				if (running.compareAndSet(false, true)) {
-					future.complete(function.get());
+			try {
+				if (!complete() && (target == Async.Target.Any || Async.CURRENT_THREAD_TARGET.get() == target)) {
+					if (running.compareAndSet(false, true)) {
+						future.complete(function.get());
+					}
 				}
+				return future.join();
+			}catch (Exception e) {
+				future.completeExceptionally(e);
+				EngineManager.shutdown(Engine.ShutdownReason.error(e));
 			}
-			return future.join();
+			return null;
 		}
 
 		@Override

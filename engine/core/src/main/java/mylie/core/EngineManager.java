@@ -9,7 +9,7 @@ public class EngineManager implements Components.AppComponent {
 		this.engine = engine;
 	}
 
-	public void shutdown(Engine.ShutdownReason reason) {
-		engine.shutdownReason(reason);
+	public static void shutdown(Engine.ShutdownReason reason) {
+		Engine.instance.shutdownReason(reason);
 	}
 }

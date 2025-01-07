@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.application.Application;
@@ -22,6 +23,7 @@ import mylie.util.configuration.Observable;
 
 @Slf4j
 public class Engine {
+	static Engine instance;
 	public static final Async.Target TARGET = new Async.Target("EnginePrimary");
 	private final Platform platform;
 	private final EngineConfiguration configuration;
@@ -32,6 +34,7 @@ public class Engine {
 	public Engine(Platform platform, EngineConfiguration configuration) {
 		MylieLogo.printLogo(log);
 		new BuildInfo().logBuildInfo(log);
+		instance = this;
 		this.platform = platform;
 		this.configuration = configuration;
 		initModules();
@@ -81,6 +84,9 @@ public class Engine {
 			Thread.currentThread().setName("EnginePrimary");
 			updateLoop();
 		}
+		if(shutdownReason instanceof ShutdownReason.Error error){
+			log.error("Exception: {}",error.cause().getMessage(),error.cause());
+		}
 		return shutdownReason;
 	}
 
@@ -93,7 +99,11 @@ public class Engine {
 			log.debug("### Frame {} ###", frameId);
 			Timer.Time time = componentManager.component(AbstractTimer.class).update(frameId);
 			componentManager.component(Scheduler.class).update(frameId);
-			componentManager.onUpdate(time);
+			try {
+				componentManager.onUpdate(time);
+			}catch (Exception e){
+				shutdownReason = ShutdownReason.error(e);
+			}
 			counter++;
 			logTime += time.delta();
 			if (logTime >= 1) {
@@ -113,14 +123,35 @@ public class Engine {
 		componentManager.component(component);
 	}
 
-	public static class ShutdownReason {
-		String reason;
-		private ShutdownReason(String reason) {
-			this.reason = reason;
+	public interface ShutdownReason {
+
+		static ShutdownReason ok(String reason) {
+			return new UserRequest(reason);
 		}
 
-		public static ShutdownReason ok(String reason) {
-			return new ShutdownReason(reason);
+		static ShutdownReason error(Throwable cause) {
+			return new Error(cause);
+		}
+
+		@Getter
+		class UserRequest implements ShutdownReason {
+			final String reason;
+
+			public UserRequest(String reason) {
+				this.reason = reason;
+			}
+		}
+
+		@Getter
+		class Error implements ShutdownReason{
+			Throwable cause;
+
+			public Error(Throwable cause) {
+				this.cause = cause;
+				while (this.cause.getCause() != null) {
+					this.cause = this.cause.getCause();
+				}
+			}
 		}
 	}
 }
