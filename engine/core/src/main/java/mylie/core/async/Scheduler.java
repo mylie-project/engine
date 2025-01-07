@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +22,8 @@ public abstract sealed class Scheduler implements Components.CoreComponent
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
 
 	public Scheduler(boolean multiThreaded, Cache globalCache) {
-        this.multiThreaded = multiThreaded;
-        this.globalCache = globalCache;
+		this.multiThreaded = multiThreaded;
+		this.globalCache = globalCache;
 		cache(Caches.No);
 		cache(Caches.OneFrame);
 		cache(Caches.InvalidateOlder);

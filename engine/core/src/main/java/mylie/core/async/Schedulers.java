@@ -61,7 +61,7 @@ public class Schedulers {
 
 	static non-sealed abstract class MultiThreadedScheduler extends Scheduler {
 		public MultiThreadedScheduler() {
-			super(true,new MapCache());
+			super(true, new MapCache());
 		}
 
 		@Override
@@ -88,7 +88,7 @@ public class Schedulers {
 
 	static final class SingleThreadedScheduler extends Scheduler {
 		public SingleThreadedScheduler() {
-			super(false,new MapCache());
+			super(false, new MapCache());
 			target(Async.Target.Any, taskExecutor);
 		}
 
