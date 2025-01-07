@@ -19,11 +19,11 @@ public class Async {
 	static Scheduler SCHEDULER;
 	private static final Lock lock = new ReentrantLock();
 
-	static void lock(){
+	static void lock() {
 		lock.lock();
 	}
 
-	static void unlock(){
+	static void unlock() {
 		lock.unlock();
 	}
 
@@ -162,7 +162,7 @@ public class Async {
 			result.result(function.get());
 			return result;
 		}
-        return SCHEDULER.executeFunction(target, cache, version, hash, function);
+		return SCHEDULER.executeFunction(target, cache, version, hash, function);
 	}
 
 	private static boolean executeDirect(ExecutionMode executionMode, Target target) {

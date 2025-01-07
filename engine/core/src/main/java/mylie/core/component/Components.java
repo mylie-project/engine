@@ -38,6 +38,7 @@ public class Components {
 			}
 		}
 	}
+	@Slf4j
 	@Setter(AccessLevel.PACKAGE)
 	@Getter(AccessLevel.PACKAGE)
 	static sealed class Base implements Component permits Core, App {
@@ -70,7 +71,7 @@ public class Components {
 			this.componentManager = null;
 		}
 
-		Result<?> update() {
+		public Result<?> update() {
 			return Async.async(executionMode, target, cache, -1, Update, this);
 		}
 
@@ -155,11 +156,6 @@ public class Components {
 			super.executionMode(executionMode);
 			return this;
 		}
-
-		@Override
-		protected Result<?> update() {
-			return super.update();
-		}
 	}
 
 	@Slf4j
@@ -186,6 +182,10 @@ public class Components {
 	}
 
 	public static non-sealed abstract class AppParallel extends App {
-
+		@Override
+		void onAdd(ComponentManager componentManager) {
+			super.onAdd(componentManager);
+			Stages.PostRender.addDependency(this::update);
+		}
 	}
 }

@@ -33,7 +33,7 @@ public class Stage {
 	}
 
 	public Result<Boolean> execute() {
-		return Async.async(Async.ExecutionMode.Direct, Async.Target.Any, Caches.OneFrame, -1, ExecuteStage, this);
+		return Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.OneFrame, -1, ExecuteStage, this);
 	}
 
 	private static final Function.F1<Stage, Boolean> ExecuteStage = new Function.F1<>("ExecuteStage") {

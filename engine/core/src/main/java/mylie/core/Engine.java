@@ -15,6 +15,7 @@ import mylie.core.component.ComponentManager;
 import mylie.core.components.threads.ThreadManager;
 import mylie.core.components.time.AbstractTimer;
 import mylie.core.components.time.Timer;
+import mylie.core.input.InputSystem;
 import mylie.util.configuration.Observable;
 
 @Slf4j
@@ -34,14 +35,22 @@ public class Engine {
 
 	private void initModules() {
 		componentManager.component(new EngineManager(this));
-		initModule(EngineConfiguration.Scheduler);
-		componentManager.component(ThreadManager.create(configuration.option(EngineConfiguration.MultiThreaded)));
-		Async.SCHEDULER(componentManager.component(Scheduler.class));
+		initScheduler();
 		initModule(EngineConfiguration.Timer);
+		componentManager.component(new InputSystem());
+
 		Application application = configuration.option(EngineConfiguration.Application);
 		if (application != null) {
 			componentManager.component(new ApplicationSystem(application));
 		}
+	}
+
+	private void initScheduler() {
+		initModule(EngineConfiguration.Scheduler);
+		boolean multiThreaded = componentManager.component(Scheduler.class).multiThreaded();
+		configuration.option(EngineConfiguration.MultiThreaded, multiThreaded);
+		componentManager.component(ThreadManager.create(multiThreaded));
+		Async.SCHEDULER(componentManager.component(Scheduler.class));
 	}
 
 	ShutdownReason start() {

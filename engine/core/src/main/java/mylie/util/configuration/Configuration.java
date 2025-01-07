@@ -21,13 +21,13 @@ public class Configuration<T> {
 		versioned.value(value);
 	}
 
+	protected <V> void option(Observable<T, V> option, V value) {
+		getVersioned(option).value(value);
+	}
+
 	@SuppressWarnings("unchecked")
 	private <V> Versioned<V> getVersioned(Observable<T, V> option) {
-		store.computeIfAbsent(option, _ -> {
-			Versioned<Object> objectVersioned = new Versioned<>();
-			objectVersioned.value(option.defaultValue());
-			return objectVersioned;
-		});
+		store.computeIfAbsent(option, _ -> new Versioned<Object>(option.defaultValue()));
 		return (Versioned<V>) store.get(option);
 	}
 

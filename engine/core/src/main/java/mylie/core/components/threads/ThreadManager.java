@@ -19,6 +19,7 @@ public class ThreadManager implements Components.CoreComponent {
 			activeThreads.add(managedThread);
 			return managedThread;
 		} else {
+			scheduler.target(target, null);
 			return new NoOpThread();
 		}
 	}

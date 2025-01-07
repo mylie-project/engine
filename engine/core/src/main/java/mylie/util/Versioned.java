@@ -17,7 +17,14 @@ import lombok.Setter;
 @Getter
 public class Versioned<T> {
 	private T value;
-	private long version;
+	private long version = 0;
+
+	public Versioned() {
+	}
+
+	public Versioned(T value) {
+		this.value = value;
+	}
 
 	/// Updates the value and associated version of the instance.
 	///

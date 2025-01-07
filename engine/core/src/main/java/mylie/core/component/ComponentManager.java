@@ -16,6 +16,7 @@ public class ComponentManager {
 		stages.add(Stages.PreUpdateLogic);
 		stages.add(Stages.UpdateLogic);
 		stages.add(Stages.Render);
+		stages.add(Stages.PostRender);
 	}
 
 	public <T extends Component> T component(Class<T> componentClass) {
@@ -34,6 +35,16 @@ public class ComponentManager {
 			base.onAdd(this);
 		}
 		return this;
+	}
+
+	public <T extends Component> List<T> components(Class<T> type) {
+		List<T> components = new LinkedList<>();
+		for (Component component : this.components) {
+			if (type.isInstance(component)) {
+				components.add(type.cast(component));
+			}
+		}
+		return components;
 	}
 
 	public boolean removeComponent(Component component) {
@@ -61,4 +72,5 @@ public class ComponentManager {
 		}
 		results.forEach(Result::result);
 	}
+
 }

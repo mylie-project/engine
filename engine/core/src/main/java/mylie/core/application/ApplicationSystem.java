@@ -1,5 +1,6 @@
 package mylie.core.application;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.async.*;
 import mylie.core.component.Components;
@@ -39,6 +40,12 @@ public class ApplicationSystem extends Components.Core
 			initialized = true;
 			application.onInitialize();
 		}
+		List<Components.AppSequential> sequentialComponents = componentManager()
+				.components(Components.AppSequential.class);
+
+		for (Components.AppSequential sequentialComponent : sequentialComponents) {
+			sequentialComponent.update().result();
+		}
 		application.onUpdate(component(Timer.class).time());
 	}
 
@@ -46,31 +53,6 @@ public class ApplicationSystem extends Components.Core
 	public void onRemoved() {
 
 	}
-
-	private static Function.F1<Application, Boolean> InitApplication = new Function.F1<>("InitApplication") {
-		@Override
-		protected Boolean apply(Application application) {
-			application.onInitialize();
-			return true;
-		}
-	};
-
-	private static Function.F2<Application, Timer.Time, Boolean> UpdateApplication = new Function.F2<>(
-			"UpdateApplication") {
-		@Override
-		protected Boolean apply(Application application, Timer.Time time) {
-			application.onUpdate(time);
-			return true;
-		}
-	};
-
-	private static Function.F1<Application, Boolean> ShutdownApplication = new Function.F1<>("ShutdownApplication") {
-		@Override
-		protected Boolean apply(Application application) {
-			application.onShutdown();
-			return true;
-		}
-	};
 
 	@Override
 	public void onInitialize() {

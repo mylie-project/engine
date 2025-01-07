@@ -1,6 +1,8 @@
 package mylie.core;
 
 import mylie.core.application.Application;
+import mylie.core.async.SchedulerSettings;
+import mylie.core.components.time.TimerSettings;
 import mylie.util.configuration.Changeable;
 import mylie.util.configuration.Configuration;
 import mylie.util.configuration.Observable;
@@ -12,6 +14,12 @@ public class EngineConfiguration extends Configuration<Engine> {
 	public static final Observable<Engine, Boolean> MultiThreaded = new Observable<>(true);
 	public static final Changeable<Engine, Application> Application = new Changeable<>(null);
 	private final Platform platform;
+
+	@Override
+	protected <V> void option(Observable<Engine, V> option, V value) {
+		super.option(option, value);
+	}
+
 	EngineConfiguration(Platform platform) {
 		super(Engine.class);
 		this.platform = platform;

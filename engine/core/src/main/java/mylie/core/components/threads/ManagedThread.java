@@ -15,8 +15,8 @@ class ManagedThread implements EngineThread {
 	private final Thread thread;
 	private boolean running = false;
 	ManagedThread(Async.Target target, Scheduler scheduler) {
-		this.target = target;
 		scheduler.target(target, queue::add);
+		this.target = target;
 		this.thread = new Thread(this::run);
 		this.thread.setName(target.id());
 	}

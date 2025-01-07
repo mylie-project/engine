@@ -3,7 +3,6 @@ package mylie.core.components.time;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import mylie.core.TimerSettings;
 import mylie.util.Versioned;
 
 /// AbstractTimer is an abstract class that serves as a base implementation for timers
@@ -29,7 +28,7 @@ import mylie.util.Versioned;
 /// - `timeRef()`: Retrieves a versioned reference to the current `Time` object.
 @Slf4j
 public abstract class AbstractTimer implements Timer {
-	final Versioned<Time> time = new Versioned<>();
+	final Versioned<Time> time = new Versioned<>(null);
 
 	@Getter(AccessLevel.PROTECTED)
 	private final TimerSettings settings;

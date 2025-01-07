@@ -7,7 +7,7 @@
             <pattern>%cyan([%thread]) %level_color(%-5level) %yellow(%logger{15}) - %level_color(%msg) %n</pattern>
         </encoder>
     </appender>
-    <root level="trace">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
