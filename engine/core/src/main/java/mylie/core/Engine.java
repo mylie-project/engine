@@ -16,6 +16,8 @@ import mylie.core.components.threads.ThreadManager;
 import mylie.core.components.time.AbstractTimer;
 import mylie.core.components.time.Timer;
 import mylie.core.input.InputSystem;
+import mylie.info.BuildInfo;
+import mylie.info.MylieLogo;
 import mylie.util.configuration.Observable;
 
 @Slf4j
@@ -28,6 +30,8 @@ public class Engine {
 	@Setter(AccessLevel.PACKAGE)
 	private ShutdownReason shutdownReason;
 	public Engine(Platform platform, EngineConfiguration configuration) {
+		MylieLogo.printLogo(log);
+		new BuildInfo().logBuildInfo(log);
 		this.platform = platform;
 		this.configuration = configuration;
 		initModules();

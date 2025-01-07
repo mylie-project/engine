@@ -6,11 +6,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import lombok.Getter;
+import org.slf4j.Logger;
 
 @Getter
-public final class Build {
+public final class BuildInfo {
 	@Getter
-	private static final Build info = new Build();
+	private static final BuildInfo info = new BuildInfo();
 
 	final String engineVersion;
 	private final String lastTag;
@@ -21,7 +22,7 @@ public final class Build {
 	private final String isCleanTag;
 	private final String buildTime;
 
-	private Build() {
+	public BuildInfo() {
 		Properties properties = new Properties();
 		try (InputStream versionPropertiesStream = getClass().getResourceAsStream("/mylie/engine/version.properties")) {
 			if (versionPropertiesStream == null) {
@@ -40,5 +41,16 @@ public final class Build {
 		this.branchName = properties.getProperty("branchName");
 		this.isCleanTag = properties.getProperty("isCleanTag");
 		this.buildTime = properties.getProperty("buildTime");
+	}
+
+	public void logBuildInfo(Logger logger) {
+		logger.error("Engine version: {}", engineVersion);
+		logger.error("Last tag: {}", lastTag);
+		logger.error("Commit distance: {}", commitDistance);
+		logger.error("Git hash: {}", gitHash);
+		logger.error("Git hash full: {}", gitHashFull);
+		logger.error("Branch name: {}", branchName);
+		logger.error("Is clean tag: {}", isCleanTag);
+		logger.error("Build time: {}", buildTime);
 	}
 }
