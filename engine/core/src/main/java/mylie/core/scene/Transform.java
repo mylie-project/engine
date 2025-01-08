@@ -40,27 +40,24 @@ public class Transform {
 		return matrix;
 	}
 
-	Transform position(Vector3fc position) {
+	void position(Vector3fc position) {
 		if (position.equals(this.position))
-			return this;
+			return;
 		this.position.set(position);
 		onTransformChange();
-		return this;
 	}
 
-	Transform rotation(Quaternionfc rotation) {
+	void rotation(Quaternionfc rotation) {
 		if (rotation.equals(this.rotation))
-			return this;
+			return;
 		this.rotation.set(rotation);
 		onTransformChange();
-		return this;
 	}
 
-	Transform scale(Vector3fc scale) {
+	void scale(Vector3fc scale) {
 		if (scale.equals(this.scale))
-			return this;
+			return;
 		this.scale.set(scale);
 		onTransformChange();
-		return this;
 	}
 }
