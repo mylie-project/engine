@@ -9,7 +9,7 @@ public class Wait {
 		return result.result();
 	}
 
-	public static void wait(Collection<Result<?>> async) {
+	public static <R> void wait(Collection<Result<R>> async) {
 		async.forEach(Result::result);
 	}
 }

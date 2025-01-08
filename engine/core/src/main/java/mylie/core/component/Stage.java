@@ -11,42 +11,43 @@ import mylie.core.async.Async;
 import mylie.core.async.Caches;
 import mylie.core.async.Function;
 import mylie.core.async.Result;
+import mylie.util.Void;
 
 @Getter(AccessLevel.PACKAGE)
 public class Stage {
 	private final String name;
-	private final List<Supplier<Result<?>>> dependencies = new CopyOnWriteArrayList<>();
+	private final List<Supplier<Result<Void>>> dependencies = new CopyOnWriteArrayList<>();
 
 	@SafeVarargs
-	public Stage(String name, Supplier<Result<?>>... dependencies) {
+	public Stage(String name, Supplier<Result<Void>>... dependencies) {
 		this.name = name;
 		Collections.addAll(this.dependencies, dependencies);
 	}
 
-	public Stage updateDependency(Supplier<Result<?>> dependency) {
+	public Stage updateDependency(Supplier<Result<Void>> dependency) {
 		dependencies.add(dependency);
 		return this;
 	}
 
-	public void removeDependency(Supplier<Result<?>> dependency) {
+	public void removeDependency(Supplier<Result<Void>> dependency) {
 		dependencies.remove(dependency);
 	}
 
-	public Result<Boolean> execute() {
+	public Result<Void> execute() {
 		return Async.async(Async.ExecutionMode.DIRECT, Async.Target.Any, Caches.OneFrame, -1, ExecuteStage, this);
 	}
 
-	private static final Function.F1<Stage, Boolean> ExecuteStage = new Function.F1<>("ExecuteStage") {
+	private static final Function.F1<Stage, Void> ExecuteStage = new Function.F1<>("ExecuteStage") {
 		@Override
-		protected Boolean apply(Stage stage) {
+		protected Void apply(Stage stage) {
 			List<Result<?>> results = new LinkedList<>();
-			for (Supplier<Result<?>> dependency : stage.dependencies) {
+			for (Supplier<Result<Void>> dependency : stage.dependencies) {
 				results.add(dependency.get());
 			}
 			for (Result<?> result : results) {
 				result.result();
 			}
-			return true;
+			return Void.VOID;
 		}
 	};
 

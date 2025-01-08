@@ -152,13 +152,13 @@ public class Async {
 		return executeFunction(executionMode, target, cache, version, hash, () -> function.apply(a, b, c));
 	}
 
-	public static Collection<Result<?>> async(List<Supplier<Result<?>>> asyncTasks) {
+	public static <R> Collection<Result<R>> async(List<Supplier<Result<R>>> asyncTasks) {
 		return async(asyncTasks, new ArrayList<>(asyncTasks.size()));
 	}
 
-	public static <T extends Collection<Result<?>>> Collection<Result<?>> async(List<Supplier<Result<?>>> asyncTasks,
+	public static <R, T extends Collection<Result<R>>> Collection<Result<R>> async(List<Supplier<Result<R>>> asyncTasks,
 			T results) {
-		for (Supplier<Result<?>> asyncTask : asyncTasks) {
+		for (Supplier<Result<R>> asyncTask : asyncTasks) {
 			results.add(asyncTask.get());
 		}
 		return results;

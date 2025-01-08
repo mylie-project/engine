@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.application.Application;
 import mylie.core.async.*;
+import mylie.util.Void;
 
 public class Components {
 	public interface AppComponent extends Component {
@@ -45,8 +46,8 @@ public class Components {
 	@Getter(AccessLevel.PACKAGE)
 	static sealed class Base implements Component permits Core, App {
 		private ComponentManager componentManager;
-		private final List<Supplier<Result<?>>> updateDependecies = new CopyOnWriteArrayList<>();
-		private final List<Supplier<Result<?>>> shutdownDependecies = new CopyOnWriteArrayList<>();
+		private final List<Supplier<Result<Void>>> updateDependecies = new CopyOnWriteArrayList<>();
+		private final List<Supplier<Result<Void>>> shutdownDependecies = new CopyOnWriteArrayList<>();
 		private Async.ExecutionMode executionMode = Async.ExecutionMode.ASYNC;
 		private Cache cache = Caches.OneFrame;
 		private Async.Target target = Async.Target.Any;
@@ -74,11 +75,11 @@ public class Components {
 			this.componentManager = null;
 		}
 
-		public Result<?> update() {
+		public Result<Void> update() {
 			return Async.async(executionMode, target, cache, -1, Update, this);
 		}
 
-		Result<?> shutdown() {
+		Result<Void> shutdown() {
 			return Async.async(executionMode, target, cache, -1, Shutdown, this);
 		}
 
@@ -91,17 +92,17 @@ public class Components {
 			}
 		}
 
-		public void updateDependency(Supplier<Result<?>> dependency) {
+		public void updateDependency(Supplier<Result<Void>> dependency) {
 			updateDependecies.add(dependency);
 		}
 
-		public void shutdownDependency(Supplier<Result<?>> dependency) {
+		public void shutdownDependency(Supplier<Result<Void>> dependency) {
 			shutdownDependecies.add(dependency);
 		}
 
-		private static final Function.F1<Base, Boolean> Update = new Function.F1<>("Update") {
+		private static final Function.F1<Base, Void> Update = new Function.F1<>("Update") {
 			@Override
-			protected Boolean apply(Base base) {
+			protected Void apply(Base base) {
 				Wait.wait(Async.async(base.updateDependecies()));
 				if (!base.initialized) {
 					base.initialized = true;
@@ -122,19 +123,19 @@ public class Components {
 				if (base instanceof Updateable updateable) {
 					updateable.onUpdate();
 				}
-				return true;
+				return Void.VOID;
 			}
 		};
 
-		private static final Function.F1<Base, Boolean> Shutdown = new Function.F1<>("Shutdown") {
+		private static final Function.F1<Base, Void> Shutdown = new Function.F1<>("Shutdown") {
 			@Override
-			protected Boolean apply(Base base) {
+			protected Void apply(Base base) {
 				Wait.wait(Async.async(base.shutdownDependecies));
 				base.initialized = false;
 				if (base instanceof Initializable initializable) {
 					initializable.onShutdown();
 				}
-				return true;
+				return Void.VOID;
 			}
 		};
 	}
