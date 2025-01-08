@@ -15,7 +15,7 @@ public class Caches {
 	/// or not required, ensuring minimal side effects while maintaining
 	/// compatibility with
 	/// the caching interface.
-	public static final Cache No = new Cache.NoOpCache();
+	public static final Cache No = new Cache.NoOpCache("NoOp");
 	/// A pre-defined static cache instance that encapsulates the behavior
 	/// of an [Cache.InvalidateAll] cache implementation for managing and
 	/// invalidating cached results associated with a single frame of execution.
