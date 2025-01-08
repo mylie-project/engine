@@ -26,7 +26,7 @@ import mylie.util.configuration.Observable;
 
 @Slf4j
 public class Engine {
-	public static final Vault.Item<Args> Arguments=new Vault.Item<>();
+	public static final Vault.Item<Args> Arguments = new Vault.Item<>();
 	static Engine instance;
 	public static final Async.Target TARGET = new Async.Target("EnginePrimary");
 	private final Platform platform;
@@ -35,7 +35,7 @@ public class Engine {
 	private final BlockingQueue<Runnable> engineTasks = new LinkedBlockingQueue<>();
 	@Setter(AccessLevel.PACKAGE)
 	private ShutdownReason shutdownReason;
-	public Engine(Args args,Platform platform, EngineConfiguration configuration) {
+	public Engine(Args args, Platform platform, EngineConfiguration configuration) {
 		MylieLogo.printLogo(log);
 		new BuildInfo().logBuildInfo(log);
 		instance = this;
@@ -43,7 +43,7 @@ public class Engine {
 		this.platform = platform;
 		this.configuration = configuration;
 		componentManager.component(new Vault());
-		componentManager.component(Vault.class).value(Arguments,args);
+		componentManager.component(Vault.class).value(Arguments, args);
 		initModules();
 	}
 
@@ -163,43 +163,45 @@ public class Engine {
 		}
 	}
 	@Slf4j
-	public static class Args{
+	public static class Args {
 		public static final String DEFINED = "defined";
-		Map<String,String> args=new HashMap<>();
-		public Args(String[] args){
+		Map<String, String> args = new HashMap<>();
+		public Args(String[] args) {
 			for (int i = 0; i < args.length;) {
-				String command=null;
-				String value=null;
-				if(args[i].startsWith("-")){
-					command=args[i].substring(1);
+				String command = null;
+				String value = null;
+				if (args[i].startsWith("-")) {
+					command = args[i].substring(1);
 				}
-				if(i+1<args.length){
-					if(!args[i+1].startsWith("-")){
-						value=args[i+1];
+				if (i + 1 < args.length) {
+					if (!args[i + 1].startsWith("-")) {
+						value = args[i + 1];
 					}
 				}
-				if(command!=null){
-					if(value==null){
-						this.args.put(command,DEFINED);
-					}else{
-						this.args.put(command,value);
+				if (command != null) {
+					if (value == null) {
+						this.args.put(command, DEFINED);
+					} else {
+						this.args.put(command, value);
 						i++;
 					}
 					i++;
-					log.trace("Argument {} : {}",command,value);
-				}else{
-					throw new IllegalArgumentException("Invalid argument: "+args[i]);
+					log.trace("Argument {} : {}", command, value);
+				} else {
+					throw new IllegalArgumentException("Invalid argument: " + args[i]);
 				}
 			}
 		}
 
-		public boolean defined(String key){
-			if(key==null)return false;
-			if(!args.containsKey(key)) return false;
+		public boolean defined(String key) {
+			if (key == null)
+				return false;
+			if (!args.containsKey(key))
+				return false;
 			return args.containsKey(key) || args.get(key).equals(DEFINED);
 		}
 
-		public String value(String key){
+		public String value(String key) {
 			return args.get(key);
 		}
 	}

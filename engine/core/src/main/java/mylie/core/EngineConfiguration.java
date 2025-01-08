@@ -23,11 +23,11 @@ public class EngineConfiguration extends Configuration<Engine> {
 
 	EngineConfiguration(Engine.Args args, Platform platform) {
 		super(Engine.class);
-        this.args = args;
-        this.platform = platform;
+		this.args = args;
+		this.platform = platform;
 	}
 
 	public Engine.ShutdownReason startEngine() {
-		return new Engine(args,platform, this).start();
+		return new Engine(args, platform, this).start();
 	}
 }

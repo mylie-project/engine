@@ -2,5 +2,5 @@ package mylie.demos;
 
 import mylie.core.component.Components;
 
-public class Demo extends Components.AppSequential{
+public class Demo extends Components.AppSequential {
 }
