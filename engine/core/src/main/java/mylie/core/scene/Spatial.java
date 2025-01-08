@@ -10,8 +10,8 @@ import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
 public class Spatial implements Asset<SpatialId, Spatial> {
-	private final static int WorldTransformChanged = 1;
-	private final static int WorldBoundsChanged = 1 << 1;
+	private static final int WorldTransformChanged = 1;
+	private static final int WorldBoundsChanged = 1 << 1;
 	private final Transform localTransform = new Transform();
 	private final Transform worldTransform = new Transform();
 	private final Flags flags = new Flags();

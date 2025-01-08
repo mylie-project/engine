@@ -59,8 +59,8 @@ public class Schedulers {
 		}
 	}
 
-	static non-sealed abstract class MultiThreadedScheduler extends Scheduler {
-		public MultiThreadedScheduler() {
+	static abstract non-sealed class MultiThreadedScheduler extends Scheduler {
+		protected MultiThreadedScheduler() {
 			super(true, new MapCache());
 		}
 
@@ -111,7 +111,7 @@ public class Schedulers {
 
 		@Override
 		public void onShutdown() {
-
+			// Nothing to shut down
 		}
 	}
 }

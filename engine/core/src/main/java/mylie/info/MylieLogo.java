@@ -3,6 +3,8 @@ package mylie.info;
 import org.slf4j.Logger;
 
 public class MylieLogo {
+	private MylieLogo() {
+	}
 	public static void printLogo(Logger logger) {
 		logger.error(".----------------.  .----------------.  .----------------.  .----------------. "
 				+ " .----------------.");

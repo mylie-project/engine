@@ -4,7 +4,8 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class CollisionMath {
-
+	private CollisionMath() {
+	}
 	public static boolean collides(Plane plane, AlignedBox box) {
 		// Get the AABB's center and half extents
 		Vector3f boxCenter = new Vector3f(box.min()).add(box.max()).mul(0.5f);

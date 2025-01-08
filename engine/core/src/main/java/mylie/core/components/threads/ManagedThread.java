@@ -38,7 +38,7 @@ class ManagedThread implements EngineThread {
 			future.complete(true);
 		});
 		try {
-			Boolean threadStopped = future.get(1, TimeUnit.SECONDS);
+			boolean threadStopped = future.get(1, TimeUnit.SECONDS);
 			if (!threadStopped) {
 				log.error("Failed to stop engine thread");
 			}

@@ -140,7 +140,7 @@ public class Components {
 	}
 
 	@Slf4j
-	public non-sealed static abstract class Core extends Base implements CoreComponent {
+	public non-sealed abstract static class Core extends Base implements CoreComponent {
 
 		protected <T extends Component> T component(Class<T> type) {
 			return componentManager().component(type);
@@ -175,7 +175,7 @@ public class Components {
 	}
 
 	@Slf4j
-	sealed static abstract class App extends Base implements AppComponent permits AppSequential, AppParallel {
+	sealed abstract static class App extends Base implements AppComponent permits AppSequential, AppParallel {
 		protected <T extends AppComponent> T component(Class<T> type) {
 			return componentManager().component(type);
 		}
@@ -193,8 +193,8 @@ public class Components {
 		}
 	}
 
-	public static non-sealed abstract class AppSequential extends App {
-		public AppSequential() {
+	public non-sealed abstract static class AppSequential extends App {
+		protected AppSequential() {
 			target(Application.TARGET);
 		}
 
@@ -205,7 +205,7 @@ public class Components {
 		}
 	}
 
-	public static non-sealed abstract class AppParallel extends App {
+	public non-sealed abstract static class AppParallel extends App {
 		@Override
 		void onAdd(ComponentManager componentManager) {
 			super.onAdd(componentManager);
