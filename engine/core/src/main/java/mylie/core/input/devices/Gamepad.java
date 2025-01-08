@@ -1,9 +1,8 @@
 package mylie.core.input.devices;
 
+import java.util.Objects;
 import mylie.core.input.InputDevice;
 import mylie.core.input.InputType;
-
-import java.util.Objects;
 
 public class Gamepad extends InputDevice<Gamepad> {
 	final int gamepadIndex;
@@ -27,15 +26,16 @@ public class Gamepad extends InputDevice<Gamepad> {
 		UP, DOWN, LEFT, RIGHT;
 	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Gamepad gamepad = (Gamepad) o;
-        return gamepadIndex == gamepad.gamepadIndex && name().equals(gamepad.name());
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Gamepad gamepad = (Gamepad) o;
+		return gamepadIndex == gamepad.gamepadIndex && name().equals(gamepad.name());
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(gamepadIndex,name());
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(gamepadIndex, name());
+	}
 }

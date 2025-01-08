@@ -45,24 +45,27 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	/// from being processed further by adding the device to an ignore list.
 	///
 	/// @param provider The class type of the input provider whose associated
-	///                 input device should be ignored. Must implement the
-	///                 [Input.Provider] interface.
-	/// @param device   The input device instance to be ignored for the specified
-	///                 provider.
+	/// input device should be ignored. Must implement the
+	/// [Input.Provider] interface.
+	/// @param device The input device instance to be ignored for the specified
+	/// provider.
 	@Override
 	public void ignoreInputFrom(Class<? extends Input.Provider> provider, InputDevice<?> device) {
-		Set<InputDevice<?>> devices = ignoreList.computeIfAbsent(provider,_ -> new HashSet<>());
+		Set<InputDevice<?>> devices = ignoreList.computeIfAbsent(provider, _ -> new HashSet<>());
 		devices.add(device);
 	}
 
-	/// Removes the specified input device from the ignore list for the provided input provider class.
-	/// If the input device is in the ignore list for the given provider, it will no longer be ignored.
+	/// Removes the specified input device from the ignore list for the provided
+	/// input provider class.
+	/// If the input device is in the ignore list for the given provider, it will no
+	/// longer be ignored.
 	///
-	/// @param provider the class of the input provider whose ignore list should be modified
-	/// @param device   the input device to remove from the ignore list
+	/// @param provider the class of the input provider whose ignore list should be
+	/// modified
+	/// @param device the input device to remove from the ignore list
 	@Override
 	public void unignoreInputFrom(Class<? extends Input.Provider> provider, InputDevice<?> device) {
-		Set<InputDevice<?>> devices = ignoreList.computeIfAbsent(provider,_ -> new HashSet<>());
+		Set<InputDevice<?>> devices = ignoreList.computeIfAbsent(provider, _ -> new HashSet<>());
 		devices.remove(device);
 	}
 

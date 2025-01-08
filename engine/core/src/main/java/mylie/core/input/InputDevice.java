@@ -2,9 +2,7 @@ package mylie.core.input;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import lombok.Getter;
-import mylie.core.input.devices.Keyboard;
 import mylie.util.Versioned;
 
 public class InputDevice<D extends InputDevice<D>> {
