@@ -12,6 +12,7 @@ import mylie.core.component.Components;
 @Slf4j
 public class DemoSelector extends Components.AppParallel implements Components.Initializable {
 	private Map<String, List<Demo>> loadedDemos = new HashMap<>();
+	private Demo currentDemo;
 	@Override
 	public void onInitialize() {
 		log.info("Scanning for demos...");
@@ -23,6 +24,15 @@ public class DemoSelector extends Components.AppParallel implements Components.I
 				log.info("Found demo: {} in category: {}", subclass.getSimpleName(), category);
 			}
 		}
+	}
+
+	public void selectDemo(Demo demo) {
+		if (currentDemo == null || !currentDemo.equals(demo)) {
+			removeComponent(currentDemo);
+			currentDemo = null;
+		}
+		currentDemo = demo;
+		component(demo);
 	}
 
 	@Override

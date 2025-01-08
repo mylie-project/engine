@@ -11,7 +11,7 @@ public class EngineConfiguration extends Configuration<Engine> {
 	private final Engine.Args args;
 	public static final Changeable<Engine, SchedulerSettings> Scheduler = new Changeable<>(
 			SchedulerSettings.virtualThreads());
-	public static final Changeable<Engine, TimerSettings> Timer = new Changeable<>(TimerSettings.dynamicInterval());
+	public static final Changeable<Engine, TimerSettings> Timer = new Changeable<>(TimerSettings.dynamicInterval(-1));
 	public static final Observable<Engine, Boolean> MultiThreaded = new Observable<>(true);
 	public static final Changeable<Engine, Application> Application = new Changeable<>(null);
 	private final Platform platform;
