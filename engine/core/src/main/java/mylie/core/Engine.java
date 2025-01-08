@@ -87,6 +87,7 @@ public class Engine {
 					if (runnable != null)
 						runnable.run();
 				} catch (InterruptedException e) {
+					log.error("Engine thread interrupted", e);
 					shutdownReason = ShutdownReason.error(e);
 				}
 			}
