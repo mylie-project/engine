@@ -5,6 +5,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.Engine;
+import mylie.core.EngineManager;
 import mylie.core.async.Async;
 import mylie.core.async.Scheduler;
 
@@ -29,7 +31,6 @@ class ManagedThread implements EngineThread {
 
 	@Override
 	public void stop() {
-
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
 		queue.add(() -> {
 			log.trace("Stopping engine thread");
@@ -37,12 +38,13 @@ class ManagedThread implements EngineThread {
 			future.complete(true);
 		});
 		try {
-			Boolean b = future.get(1, TimeUnit.SECONDS);
-			if (!b) {
+			Boolean threadStopped = future.get(1, TimeUnit.SECONDS);
+			if (!threadStopped) {
 				log.error("Failed to stop engine thread");
 			}
 		} catch (Exception e) {
 			log.error("Failed to stop engine thread", e);
+			future.completeExceptionally(e);
 		}
 	}
 
@@ -53,6 +55,7 @@ class ManagedThread implements EngineThread {
 				queue.take().run();
 			} catch (InterruptedException e) {
 				log.error("Engine thread interrupted", e);
+				EngineManager.shutdown(Engine.ShutdownReason.error(e));
 			}
 		}
 	}
