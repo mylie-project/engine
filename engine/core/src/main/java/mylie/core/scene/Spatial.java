@@ -10,8 +10,8 @@ import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
 public class Spatial implements Asset<SpatialId, Spatial> {
-	private static final int WorldTransformChanged = 1;
-	private static final int WorldBoundsChanged = 1 << 1;
+	private static final int WORLD_TRANSFORM_CHANGED = 1;
+	private static final int WORLD_BOUNDS_CHANGED = 1 << 1;
 	private final Transform localTransform = new Transform();
 	private final Transform worldTransform = new Transform();
 	private final Flags flags = new Flags();
@@ -23,9 +23,9 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	private SpatialId assetId;
 
 	protected void onLocalTransformChanged() {
-		flags.set(WorldTransformChanged);
+		flags.set(WORLD_TRANSFORM_CHANGED);
 		Traverser.traverse(Traverser.ToLeaf, this, spatial -> {
-			spatial.flags().set(WorldBoundsChanged | WorldTransformChanged);
+			spatial.flags().set(WORLD_BOUNDS_CHANGED | WORLD_TRANSFORM_CHANGED);
 			return true;
 		});
 		onWorldBoundsChanged();
@@ -33,7 +33,7 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 
 	protected void onWorldBoundsChanged() {
 		Traverser.traverse(Traverser.ToRoot, this, spatial -> {
-			spatial.flags().set(WorldBoundsChanged);
+			spatial.flags().set(WORLD_BOUNDS_CHANGED);
 			return true;
 		});
 	}
@@ -47,7 +47,7 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	}
 
 	public Transform worldTransform() {
-		if (flags().isSet(WorldTransformChanged)) {
+		if (flags().isSet(WORLD_TRANSFORM_CHANGED)) {
 			if (parent != null) {
 				this.worldTransform.combine(localTransform, parent().worldTransform());
 			} else {

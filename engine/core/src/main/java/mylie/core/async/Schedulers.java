@@ -9,6 +9,8 @@ import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 
 public class Schedulers {
+	private Schedulers() {
+	}
 	public static Scheduler forkJoin() {
 		return new ExecutorScheduler(ForkJoinPool.commonPool());
 	}

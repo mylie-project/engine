@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 
 public class Timers {
+	private Timers() {
+	}
 	static final double NANOSECONDS_IN_SECOND = TimeUnit.SECONDS.toNanos(1);
 
 	public static Timer nanoTimer(TimerSettings timerSettings) {

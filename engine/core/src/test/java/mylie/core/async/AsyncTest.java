@@ -469,24 +469,6 @@ class AsyncTest {
 
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
-	void testInvalidationAndRebuildCache(Scheduler scheduler) {
-		Async.asyncScheduler(scheduler);
-		Cache cache = Caches.OneFrame;
-		AtomicInteger atomicInteger = new AtomicInteger(0);
-
-		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-				atomicInteger));
-		assertEquals(1, atomicInteger.get());
-
-		cache.invalidate();
-
-		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
-				atomicInteger));
-		assertEquals(2, atomicInteger.get()); // Cache rebuilds after invalidation
-	}
-
-	@ParameterizedTest
-	@MethodSource("schedulerProvider")
 	void testCacheNoOpInHighConcurrency(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.No;

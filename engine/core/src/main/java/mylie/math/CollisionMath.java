@@ -620,7 +620,7 @@ public class CollisionMath {
 
 	public static boolean collides(Sphere sphere, OrientedBox box) {
 		// Step 1: Transform the Sphere's Center into Box's Local Space
-		Vector3f[] axes = box.axes(); // {xAxis, yAxis, zAxis}
+		Vector3f[] axes = box.axes();
 		Vector3f center = box.center(); // Box center in world space
 		Vector3f sphereCenter = sphere.center(); // Sphere center in world space
 

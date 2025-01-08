@@ -21,7 +21,7 @@ public abstract sealed class Scheduler implements Components.CoreComponent
 	private final Set<Cache> caches = new HashSet<>();
 	private final Map<Async.Target, TaskExecutor> taskExecutors = new HashMap<>();
 
-	public Scheduler(boolean multiThreaded, Cache globalCache) {
+	protected Scheduler(boolean multiThreaded, Cache globalCache) {
 		this.multiThreaded = multiThreaded;
 		this.globalCache = globalCache;
 		cache(Caches.No);

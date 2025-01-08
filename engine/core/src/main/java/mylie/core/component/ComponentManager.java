@@ -38,13 +38,13 @@ public class ComponentManager {
 	}
 
 	public <T extends Component> List<T> components(Class<T> type) {
-		List<T> components = new LinkedList<>();
+		List<T> result = new LinkedList<>();
 		for (Component component : this.components) {
 			if (type.isInstance(component)) {
-				components.add(type.cast(component));
+				result.add(type.cast(component));
 			}
 		}
-		return components;
+		return result;
 	}
 
 	public boolean removeComponent(Component component) {

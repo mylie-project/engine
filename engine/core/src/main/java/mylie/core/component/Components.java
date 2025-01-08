@@ -110,14 +110,12 @@ public class Components {
 						initializable.onInitialize();
 					}
 				}
-				if (base instanceof Enableable enableable) {
-					if (base.enabled() != base.enabledRequest()) {
-						base.enabled = base.enabledRequest;
-						if (base.enabled()) {
-							enableable.onEnable();
-						} else {
-							enableable.onDisable();
-						}
+				if (base instanceof Enableable enableable && base.enabled() != base.enabledRequest()) {
+					base.enabled = base.enabledRequest;
+					if (base.enabled()) {
+						enableable.onEnable();
+					} else {
+						enableable.onDisable();
 					}
 				}
 				if (base instanceof Updateable updateable) {

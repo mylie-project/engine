@@ -211,16 +211,16 @@ public class Async {
 		public Hash(Function.F function, Object... args) {
 			this.function = function;
 			this.args = args;
-			int hash = function.hashCode();
+			int tmpHash = function.hashCode();
 			for (Object arg : this.args) {
-				hash *= 31;
+				tmpHash *= 31;
 				if (arg instanceof Custom custom) {
-					hash += custom.hash();
+					tmpHash += custom.hash();
 				} else {
-					hash += Objects.hashCode(arg);
+					tmpHash += Objects.hashCode(arg);
 				}
 			}
-			this.hash = hash;
+			this.hash = tmpHash;
 		}
 
 		interface Custom {

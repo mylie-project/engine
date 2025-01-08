@@ -4,7 +4,7 @@ package mylie.util;
 /// using bitwise operations. Flags are stored as integers and can be set, checked,
 /// or cleared individually.
 public class Flags {
-	int flags;
+	int currentFlags;
 
 	/// Sets the specified flag in the current flags using a bitwise OR operation.
 	///
@@ -12,7 +12,7 @@ public class Flags {
 	/// bit
 	/// to avoid conflicts with other flags.
 	public void set(int flag) {
-		flags |= flag;
+		currentFlags |= flag;
 	}
 
 	/// Checks if the specified flag is set in the current flags.
@@ -22,7 +22,7 @@ public class Flags {
 	/// to avoid conflicts with other flags.
 	/// @return true if the specified flag is set, false otherwise.
 	public boolean isSet(int flag) {
-		return (flags & flag) != 0;
+		return (currentFlags & flag) != 0;
 	}
 
 	/// Clears the specified flag from the current flags using a bitwise AND
@@ -33,6 +33,6 @@ public class Flags {
 	/// @param flag the flag to be cleared. Each flag should be represented as
 	/// a unique bit to avoid conflicts with other flags.
 	public void clear(int flag) {
-		flags &= ~flag;
+		currentFlags &= ~flag;
 	}
 }
