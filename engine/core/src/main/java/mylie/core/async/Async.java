@@ -164,6 +164,19 @@ public class Async {
 		return results;
 	}
 
+	public static <R, T> Collection<Result<R>> async(List<T> collection,
+			java.util.function.Function<T, Result<R>> taskSupplier) {
+		return async(collection, taskSupplier, new ArrayList<>(collection.size()));
+	}
+
+	public static <R, T, C extends Collection<Result<R>>> C async(List<T> collection,
+			java.util.function.Function<T, Result<R>> taskSupplier, C results) {
+		for (T t : collection) {
+			results.add(taskSupplier.apply(t));
+		}
+		return results;
+	}
+
 	private static <R> Result<R> executeFunction(ExecutionMode executionMode, Target target, Cache cache, long version,
 			Hash hash, Supplier<R> function) {
 		if (executeDirect(executionMode, target)) {
