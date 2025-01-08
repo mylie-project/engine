@@ -28,7 +28,7 @@ public class Function {
 	/// signatures with
 	/// varying numbers of parameters and result types.
 	@AllArgsConstructor
-	static abstract class F {
+	abstract static class F {
 		@Getter(AccessLevel.PACKAGE)
 		private final String id;
 	}

@@ -35,11 +35,12 @@ public class ThreadManager implements Components.CoreComponent {
 	private static class NoOpThread implements EngineThread {
 		@Override
 		public void start() {
+			// NoOp intentional
 		}
 
 		@Override
 		public void stop() {
-
+			// NoOp intentional
 		}
 	}
 

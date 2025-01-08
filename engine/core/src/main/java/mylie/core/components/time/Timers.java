@@ -13,7 +13,8 @@ public class Timers {
 	}
 
 	static class NanoTimer extends AbstractTimer {
-		long startTime, endTime;
+		long startTime;
+		long endTime;
 
 		public NanoTimer(TimerSettings settings) {
 			super(settings);

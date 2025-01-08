@@ -6,7 +6,8 @@ import org.joml.Vector3f;
 @AllArgsConstructor
 @Getter
 public class AlignedBox implements Shape {
-	Vector3f min, max;
+	Vector3f min;
+	Vector3f max;
 
 	@Override
 	public boolean intersects(Shape other) {
