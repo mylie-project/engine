@@ -144,12 +144,7 @@ public class Engine {
 		}
 
 		@Getter
-		class UserRequest implements ShutdownReason {
-			final String reason;
-
-			public UserRequest(String reason) {
-				this.reason = reason;
-			}
+		record UserRequest(String reason) implements ShutdownReason {
 		}
 
 		@Getter
@@ -167,7 +162,7 @@ public class Engine {
 	@Slf4j
 	public static class Args {
 		private static final String ARGUMENT_DEFINED = "defined";
-		Map<String, String> arguments = new HashMap<>();
+		final Map<String, String> arguments = new HashMap<>();
 		public Args(String[] arguments) {
 			for (int i = 0; i < arguments.length;) {
 				String command = null;

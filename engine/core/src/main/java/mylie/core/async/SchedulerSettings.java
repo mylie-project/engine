@@ -54,7 +54,6 @@ public class SchedulerSettings implements EngineModuleSettings<Scheduler> {
 				case VIRTUAL_THREAD -> Schedulers.virtualThreads();
 				case WORK_STEALING_POOL -> Schedulers.workStealing(threadCount);
 				case CUSTOM -> customSchedulerSupplier.get();
-				default -> throw new IllegalStateException("Unexpected value: " + executorType);
 			};
 		}
 	}

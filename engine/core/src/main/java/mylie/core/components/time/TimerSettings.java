@@ -5,7 +5,7 @@ import mylie.core.EngineModuleSettings;
 
 @Getter
 public class TimerSettings implements EngineModuleSettings<Timer> {
-	private int fps = -1;
+	private int fps;
 	private float timeModifier = 1.0f;
 
 	public TimerSettings(int fps) {

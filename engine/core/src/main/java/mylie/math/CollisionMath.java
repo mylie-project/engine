@@ -328,11 +328,8 @@ public class CollisionMath {
 			tMaxZ = temp;
 		}
 
-		if (tMin > tMaxZ || tMinZ > tMax) {
-			return false; // No intersection
-		}
-
-		return true; // Intersection occurs
+		return !(tMin > tMaxZ) && !(tMinZ > tMax); // No intersection
+		// Intersection occurs
 	}
 
 	public static boolean collides(Sphere sphere1, Sphere sphere2) {
@@ -610,12 +607,9 @@ public class CollisionMath {
 			tzMax = temp;
 		}
 
-		if ((tMin > tzMax) || (tzMin > tMax)) {
-			return false; // No collision
-		}
+		return (!(tMin > tzMax)) && (!(tzMin > tMax)); // No collision
 
 		// Step 3: Success - Ray intersects the Oriented Box
-		return true;
 	}
 
 	public static boolean collides(Sphere sphere, OrientedBox box) {
@@ -675,11 +669,8 @@ public class CollisionMath {
 			Vector3f pointOnPlane1 = getPointOnPlane(plane1); // Get a random point on plane 1
 			float distanceToPlane2 = plane2.distanceToPoint(pointOnPlane1); // Check this point with Plane 2
 
-			if (Math.abs(distanceToPlane2) < 1e-6f) {
-				return true; // Planes are coincident (overlapping)
-			}
-
-			return false; // Planes are parallel but not coincident
+			return Math.abs(distanceToPlane2) < 1e-6f; // Planes are coincident (overlapping)
+			// Planes are parallel but not coincident
 		}
 
 		// Step 3: Planes intersect along a line
