@@ -35,6 +35,7 @@ public class Transform {
 	Matrix4f matrix() {
 		if (dirty) {
 			matrix.identity().translate(position).rotate(rotation).scale(scale);
+			dirty = false;
 		}
 		return matrix;
 	}

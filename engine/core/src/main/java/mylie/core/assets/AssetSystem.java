@@ -12,7 +12,7 @@ public class AssetSystem {
 
 	@SuppressWarnings("unchecked")
 	public <K extends AssetId<A>, A> Result<A> loadAssetAsync(K assetId) {
-		return (Result<A>) Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, -1, LoadAssetAsync,
+		return (Result<A>) Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, -1, LoadAssetAsync,
 				assetId, this);
 	}
 

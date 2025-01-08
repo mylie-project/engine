@@ -46,18 +46,9 @@ public abstract class Cache {
 	/// @param hash the unique identifier of the cache entry to be removed
 	abstract void remove(Async.Hash hash);
 
-	/// `NoOpCache` is a concrete implementation of the abstract `Cache` class
-	/// that effectively performs no caching operations. Instances of `NoOpCache`
-	/// are stateless and serve as a placeholder or a no-operation cache, where all
-	/// operations such as storing, retrieving, invalidating, or removing cache
-	/// entries
-	/// have no effect.
-	/// This class can be used in scenarios where caching functionality is optional
-	/// or
-	/// temporarily disabled without altering the rest of the system's behavior.
-	public final static class NoOpCache extends Cache {
-		public NoOpCache() {
-			super("NoOp", null);
+	private abstract static class BaseCache extends Cache {
+		public BaseCache(String id, Cache parent) {
+			super(id, parent);
 		}
 
 		@Override
@@ -67,15 +58,32 @@ public abstract class Cache {
 
 		@Override
 		<R> void result(Result<R> result) {
+
 		}
 
 		@Override
 		void invalidate() {
+
 		}
 
 		@Override
 		void remove(Async.Hash hash) {
 
+		}
+	}
+
+	/// `NoOpCache` is a concrete implementation of the abstract `Cache` class
+	/// that effectively performs no caching operations. Instances of `NoOpCache`
+	/// are stateless and serve as a placeholder or a no-operation cache, where all
+	/// operations such as storing, retrieving, invalidating, or removing cache
+	/// entries
+	/// have no effect.
+	/// This class can be used in scenarios where caching functionality is optional
+	/// or
+	/// temporarily disabled without altering the rest of the system's behavior.
+	public final static class NoOpCache extends BaseCache {
+		public NoOpCache() {
+			super("NoOp", null);
 		}
 	}
 
@@ -136,7 +144,7 @@ public abstract class Cache {
 	/// storage. It relies on the parent for storing and manipulating data while
 	/// providing additional
 	/// version-based invalidation logic.
-	static final class InvalidateOlder extends Cache {
+	static final class InvalidateOlder extends BaseCache {
 
 		public InvalidateOlder(String id) {
 			super(id, null);
@@ -156,16 +164,6 @@ public abstract class Cache {
 		<R> void result(Result<R> result) {
 			parent().result(result);
 		}
-
-		@Override
-		void invalidate() {
-
-		}
-
-		@Override
-		void remove(Async.Hash hash) {
-
-		}
 	}
 
 	/// A specialized implementation of the Cache class that introduces
@@ -174,8 +172,7 @@ public abstract class Cache {
 	/// one.
 	/// This class ensures consistency by removing entries when a version mismatch
 	/// is detected.
-	static final class InvalidateDifferent extends Cache {
-
+	static final class InvalidateDifferent extends BaseCache {
 		public InvalidateDifferent(String id) {
 			super(id, null);
 		}
@@ -194,16 +191,6 @@ public abstract class Cache {
 		<R> void result(Result<R> result) {
 			parent().result(result);
 		}
-
-		@Override
-		void invalidate() {
-
-		}
-
-		@Override
-		void remove(Async.Hash hash) {
-
-		}
 	}
 
 	/// The `NoInvalidation` class is a specific implementation of the `Cache`
@@ -217,7 +204,7 @@ public abstract class Cache {
 	/// without the need for expiration or explicit invalidation.
 	/// The actual caching and retrieval of entries are handled by the parent cache,
 	/// if defined.
-	static final class NoInvalidation extends Cache {
+	static final class NoInvalidation extends BaseCache {
 		public NoInvalidation(String id) {
 			super(id, null);
 		}
@@ -230,16 +217,6 @@ public abstract class Cache {
 		@Override
 		<R> void result(Result<R> result) {
 			parent().result(result);
-		}
-
-		@Override
-		void invalidate() {
-
-		}
-
-		@Override
-		void remove(Async.Hash hash) {
-
 		}
 	}
 

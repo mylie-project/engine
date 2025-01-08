@@ -19,9 +19,9 @@ class AsyncTest {
 	void testAsync(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -31,7 +31,7 @@ class AsyncTest {
 	void testAtomicIntegerDecrease(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerDecrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerDecrease,
 				atomicInteger));
 		assertEquals(-1, atomicInteger.get());
 	}
@@ -41,7 +41,7 @@ class AsyncTest {
 	void testNested3(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, Nested3, atomicInteger));
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, Nested3, atomicInteger));
 		assertEquals(3, atomicInteger.get()); // Nested3 should increment the atomic integer to 3
 	}
 
@@ -50,7 +50,7 @@ class AsyncTest {
 	void testExecutionModeSync(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Ensure synchronous execution increments immediately
 	}
@@ -60,11 +60,11 @@ class AsyncTest {
 	void testMultipleIncrements(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(3, atomicInteger.get()); // Validate 3 sequential increments
 	}
@@ -74,9 +74,9 @@ class AsyncTest {
 	void testNested2(Scheduler scheduler) {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, Nested2, atomicInteger));
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, Nested2, atomicInteger));
 		assertEquals(2, atomicInteger.get()); // Increment by Nested2
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerDecrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerDecrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Ensure Nested2 executed atomicIntegerDecrease
 	}
@@ -87,7 +87,7 @@ class AsyncTest {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		assertThrows(RuntimeException.class, () -> Wait.wait(
-				Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, throwException, atomicInteger)));
+				Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, throwException, atomicInteger)));
 	}
 
 	@ParameterizedTest
@@ -98,13 +98,13 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Execute async function with Caches.No
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 
 		// Validate the cache does not store or affect results
 		assertEquals(1, atomicInteger.get());
 		cache.invalidate();
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -116,13 +116,13 @@ class AsyncTest {
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		// Invalidate and ensure the cache resets
 		cache.invalidate();
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -134,17 +134,17 @@ class AsyncTest {
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		// Using the same version hash should bypass re-execution
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 12345L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Cached result should be used
 
 		// Changing version hash should execute again
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 67890L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 67890L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -157,17 +157,17 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Initial execution with version 1
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		// Attempt to execute with a newer version; should increment
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 
 		// Re-attempt with an older version; should not re-execute
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get()); // Value remains unchanged
 	}
@@ -179,19 +179,19 @@ class AsyncTest {
 		Cache cache = Caches.InvalidateDifferent;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 2L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(3, atomicInteger.get());
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(3, atomicInteger.get());
 	}
@@ -203,13 +203,13 @@ class AsyncTest {
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		// Attempt to invalidate - should have no effect
 		cache.invalidate();
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Should still return cached result
 	}
@@ -222,9 +222,9 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Execute two async calls simultaneously
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(2, atomicInteger.get()); // No caching; both calls execute
@@ -237,14 +237,14 @@ class AsyncTest {
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		cache.invalidate();
 		cache.invalidate(); // Multiple invalidations should not cause issues
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -257,10 +257,10 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Execute async calls with the same cache
-		Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease, atomicInteger);
-		Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease, atomicInteger);
+		Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease, atomicInteger);
+		Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease, atomicInteger);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Forever cache prevents re-execution
 	}
@@ -272,9 +272,9 @@ class AsyncTest {
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1002L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1002L, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(2, atomicInteger.get()); // Two distinct hashes trigger two executions
@@ -287,9 +287,9 @@ class AsyncTest {
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 1001L, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(1, atomicInteger.get()); // Same hash results in single execution
@@ -302,11 +302,11 @@ class AsyncTest {
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 2001L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 2002L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 2002L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -319,7 +319,7 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		assertThrows(RuntimeException.class, () -> Wait.wait(
-				Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 3001L, throwException, atomicInteger)));
+				Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 3001L, throwException, atomicInteger)));
 	}
 
 	@ParameterizedTest
@@ -329,9 +329,9 @@ class AsyncTest {
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 4001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 4001L, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 4001L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 4001L, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(1, atomicInteger.get()); // Duplicate execution blocked by cache
@@ -345,9 +345,9 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Create threads to execute on the same cache
-		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 				atomicIntegerIncrease, atomicInteger)));
-		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 				atomicIntegerIncrease, atomicInteger)));
 
 		t1.start();
@@ -370,11 +370,11 @@ class AsyncTest {
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		cache.invalidate(); // Attempt invalidation - should not affect Forever cache
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Cache prevents re-execution
 	}
@@ -388,7 +388,7 @@ class AsyncTest {
 		Cache cache = Caches.No;
 		AtomicInteger atomicInteger = new AtomicInteger(5);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(6, atomicInteger.get());
 
@@ -402,11 +402,11 @@ class AsyncTest {
 		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.OneFrame, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.OneFrame, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.Forever, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.Forever, 0, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(2, atomicInteger.get()); // Three different caches used
@@ -421,7 +421,7 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		for (int i = 0; i < 1000; i++) {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 					atomicInteger));
 			cache.invalidate(); // Invalidate after each increment
 		}
@@ -439,7 +439,7 @@ class AsyncTest {
 
 		// Start invalidation while async is running
 		invalidationThread.start();
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 
 		try {
@@ -459,9 +459,9 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Mixed mode executions on the same cache
-		Wait.wait(Async.async(Async.ExecutionMode.Direct, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.DIRECT, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 
 		assertEquals(1, atomicInteger.get()); // The Forever cache prevents second execution, even with Direct mode
@@ -474,13 +474,13 @@ class AsyncTest {
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		cache.invalidate();
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get()); // Cache rebuilds after invalidation
 	}
@@ -495,7 +495,7 @@ class AsyncTest {
 		// High concurrency with Caches.No
 		Thread[] threads = new Thread[100];
 		for (int i = 0; i < 100; i++) {
-			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
@@ -520,7 +520,7 @@ class AsyncTest {
 
 		// Rapidly change hashes and observe cache behavior
 		for (long i = 0; i < 100; i++) {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, i, atomicIntegerIncrease,
+			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, i, atomicIntegerIncrease,
 					atomicInteger));
 		}
 
@@ -536,7 +536,7 @@ class AsyncTest {
 
 		// Repeated attempts to execute the same cached function
 		for (int i = 0; i < 1000; i++) {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 					atomicInteger));
 		}
 
@@ -553,13 +553,13 @@ class AsyncTest {
 		Function.F1<AtomicInteger, Boolean> nestedFunction = new Function.F1<>("NestedFunction") {
 			@Override
 			public Boolean apply(AtomicInteger o) {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.OneFrame, 0,
+				Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.OneFrame, 0,
 						atomicIntegerIncrease, o));
 				return true;
 			}
 		};
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, nestedFunction, atomicInteger));
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, nestedFunction, atomicInteger));
 		assertEquals(1, atomicInteger.get()); // Ensure nested call executes correctly
 	}
 
@@ -570,7 +570,7 @@ class AsyncTest {
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
@@ -579,7 +579,7 @@ class AsyncTest {
 		}
 
 		// Forever cache should still retain the result
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 	}
@@ -592,12 +592,12 @@ class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		// Use an invalid hash (-1)
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, -1L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, -1L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(1, atomicInteger.get());
 
 		// Ensure no corruption occurs with subsequent valid hashes
-		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0L, atomicIntegerIncrease,
+		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0L, atomicIntegerIncrease,
 				atomicInteger));
 		assertEquals(2, atomicInteger.get());
 	}
@@ -609,10 +609,10 @@ class AsyncTest {
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+		Thread t1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 				atomicIntegerIncrease, atomicInteger)));
 
-		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+		Thread t2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 				atomicIntegerIncrease, atomicInteger)));
 
 		t1.start();
@@ -639,7 +639,7 @@ class AsyncTest {
 		Thread[] threads = new Thread[threadCount];
 
 		for (int i = 0; i < threadCount; i++) {
-			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
@@ -666,7 +666,7 @@ class AsyncTest {
 
 		Thread writerThread = new Thread(() -> {
 			for (int i = 0; i < 5; i++) {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease,
+				Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease,
 						atomicInteger));
 			}
 		});
@@ -703,10 +703,10 @@ class AsyncTest {
 		AtomicInteger atomicInteger1 = new AtomicInteger(0);
 		AtomicInteger atomicInteger2 = new AtomicInteger(0);
 
-		Thread thread1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache1, 0,
+		Thread thread1 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache1, 0,
 				atomicIntegerIncrease, atomicInteger1)));
 
-		Thread thread2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache2, 0,
+		Thread thread2 = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache2, 0,
 				atomicIntegerIncrease, atomicInteger2)));
 
 		thread1.start();
@@ -735,7 +735,7 @@ class AsyncTest {
 		Thread[] threads = new Thread[threadCount];
 
 		for (int i = 0; i < threadCount; i++) {
-			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0,
+			threads[i] = new Thread(() -> Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0,
 					atomicIntegerIncrease, atomicInteger)));
 			threads[i].start();
 		}
@@ -763,8 +763,8 @@ class AsyncTest {
 		Function.F1<AtomicInteger, Boolean> nestedFunction = new Function.F1<>("NestedFunction") {
 			@Override
 			public Boolean apply(AtomicInteger o) {
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease, o));
-				Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, atomicIntegerIncrease, o));
+				Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease, o));
+				Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, atomicIntegerIncrease, o));
 				return true;
 			}
 		};
@@ -772,7 +772,7 @@ class AsyncTest {
 		Thread[] threads = new Thread[10];
 		for (int i = 0; i < 10; i++) {
 			threads[i] = new Thread(() -> Wait.wait(
-					Async.async(Async.ExecutionMode.Async, Async.Target.Any, cache, 0, nestedFunction, atomicInteger)));
+					Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, cache, 0, nestedFunction, atomicInteger)));
 			threads[i].start();
 		}
 
@@ -809,7 +809,7 @@ class AsyncTest {
 		@Override
 		public Boolean apply(AtomicInteger o) {
 			o.incrementAndGet();
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease, o));
+			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease, o));
 
 			return true;
 		}
@@ -818,7 +818,7 @@ class AsyncTest {
 	private static final F1<AtomicInteger, Boolean> Nested3 = new F1<>("AtomicIntegerDecrease") {
 		@Override
 		public Boolean apply(AtomicInteger o) {
-			Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, Nested2, o));
+			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, Nested2, o));
 			o.incrementAndGet();
 			return true;
 		}

@@ -22,7 +22,7 @@ public class ApplicationSystem extends Components.Core
 	public ApplicationSystem(Application application) {
 		this.application = application;
 		target(Application.TARGET);
-		executionMode(Async.ExecutionMode.Async);
+		executionMode(Async.ExecutionMode.ASYNC);
 		cache(Caches.OneFrame);
 	}
 

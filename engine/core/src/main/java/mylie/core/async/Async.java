@@ -177,7 +177,7 @@ public class Async {
 	}
 
 	private static boolean executeDirect(ExecutionMode executionMode, Target target) {
-		if (executionMode == ExecutionMode.Async)
+		if (executionMode == ExecutionMode.ASYNC)
 			return false;
 		if (Target.Any.equals(target))
 			return true;
@@ -232,6 +232,6 @@ public class Async {
 	/// This enumeration can be used to specify whether the execution
 	/// should proceed in a synchronous (direct) manner or asynchronously.
 	public enum ExecutionMode {
-		Direct, Async
+		DIRECT, ASYNC
 	}
 }

@@ -8,11 +8,11 @@ import mylie.core.EngineModuleSettings;
 @Getter(AccessLevel.PACKAGE)
 public class SchedulerSettings implements EngineModuleSettings<Scheduler> {
 	public enum ThreadingModel {
-		SingleThreaded, MultiThreaded,
+		SINGLE_THREADED, MULTI_THREADED,
 	}
 
 	public enum ExecutorType {
-		ForkJoin, ThreadPool, VirtualThread, WorkStealingPool, Custom
+		FORK_JOIN, THREAD_POOL, VIRTUAL_THREAD, WORK_STEALING_POOL, CUSTOM
 	}
 	private final ThreadingModel threadingModel;
 	private final ExecutorType executorType;
@@ -28,32 +28,32 @@ public class SchedulerSettings implements EngineModuleSettings<Scheduler> {
 	}
 
 	public static SchedulerSettings singleThreaded() {
-		return new SchedulerSettings(ThreadingModel.SingleThreaded, null, 0, null);
+		return new SchedulerSettings(ThreadingModel.SINGLE_THREADED, null, 0, null);
 	}
 
 	public static SchedulerSettings multiThreaded(ExecutorType executorType, int threadCount) {
-		return new SchedulerSettings(ThreadingModel.MultiThreaded, executorType, threadCount, null);
+		return new SchedulerSettings(ThreadingModel.MULTI_THREADED, executorType, threadCount, null);
 	}
 
 	public static SchedulerSettings customScheduler(Supplier<Scheduler> customSchedulerSupplier) {
-		return new SchedulerSettings(ThreadingModel.MultiThreaded, ExecutorType.Custom, 0, customSchedulerSupplier);
+		return new SchedulerSettings(ThreadingModel.MULTI_THREADED, ExecutorType.CUSTOM, 0, customSchedulerSupplier);
 	}
 
 	public static SchedulerSettings virtualThreads() {
-		return new SchedulerSettings(ThreadingModel.MultiThreaded, ExecutorType.VirtualThread, 0, null);
+		return new SchedulerSettings(ThreadingModel.MULTI_THREADED, ExecutorType.VIRTUAL_THREAD, 0, null);
 	}
 
 	@Override
 	public Scheduler build() {
-		if (threadingModel == ThreadingModel.SingleThreaded) {
+		if (threadingModel == ThreadingModel.SINGLE_THREADED) {
 			return Schedulers.singleThreaded();
 		} else {
 			return switch (executorType) {
-				case ForkJoin -> Schedulers.forkJoin();
-				case ThreadPool -> Schedulers.threadPool(threadCount);
-				case VirtualThread -> Schedulers.virtualThreads();
-				case WorkStealingPool -> Schedulers.workStealing(threadCount);
-				case Custom -> customSchedulerSupplier.get();
+				case FORK_JOIN -> Schedulers.forkJoin();
+				case THREAD_POOL -> Schedulers.threadPool(threadCount);
+				case VIRTUAL_THREAD -> Schedulers.virtualThreads();
+				case WORK_STEALING_POOL -> Schedulers.workStealing(threadCount);
+				case CUSTOM -> customSchedulerSupplier.get();
 				default -> throw new IllegalStateException("Unexpected value: " + executorType);
 			};
 		}

@@ -47,7 +47,7 @@ public class Components {
 		private ComponentManager componentManager;
 		private final List<Supplier<Result<?>>> updateDependecies = new CopyOnWriteArrayList<>();
 		private final List<Supplier<Result<?>>> shutdownDependecies = new CopyOnWriteArrayList<>();
-		private Async.ExecutionMode executionMode = Async.ExecutionMode.Async;
+		private Async.ExecutionMode executionMode = Async.ExecutionMode.ASYNC;
 		private Cache cache = Caches.OneFrame;
 		private Async.Target target = Async.Target.Any;
 		private boolean enabled = false, enabledRequest = false;
@@ -56,7 +56,7 @@ public class Components {
 		public Base() {
 			if (!(this instanceof Updateable)) {
 				this.cache = Caches.Forever;
-				this.executionMode = Async.ExecutionMode.Direct;
+				this.executionMode = Async.ExecutionMode.DIRECT;
 			}
 		}
 
