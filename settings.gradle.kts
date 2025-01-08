@@ -36,5 +36,8 @@ project(":core").projectDir=file("engine/core")
 include("platform.desktop")
 project(":platform.desktop").projectDir=file("engine/platforms/desktop")
 
-include("examples.tests")
-project(":examples.tests").projectDir=file("examples/tests")
+include("examples.demos")
+project(":examples.demos").projectDir=file("examples/demos")
+
+include("examples.desktop")
+project(":examples.desktop").projectDir=file("examples/desktop")

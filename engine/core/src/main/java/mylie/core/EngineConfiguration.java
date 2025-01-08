@@ -8,6 +8,7 @@ import mylie.util.configuration.Configuration;
 import mylie.util.configuration.Observable;
 
 public class EngineConfiguration extends Configuration<Engine> {
+	private final Engine.Args args;
 	public static final Changeable<Engine, SchedulerSettings> Scheduler = new Changeable<>(
 			SchedulerSettings.virtualThreads());
 	public static final Changeable<Engine, TimerSettings> Timer = new Changeable<>(TimerSettings.dynamicInterval());
@@ -20,12 +21,13 @@ public class EngineConfiguration extends Configuration<Engine> {
 		super.option(option, value);
 	}
 
-	EngineConfiguration(Platform platform) {
+	EngineConfiguration(Engine.Args args, Platform platform) {
 		super(Engine.class);
-		this.platform = platform;
+        this.args = args;
+        this.platform = platform;
 	}
 
 	public Engine.ShutdownReason startEngine() {
-		return new Engine(platform, this).start();
+		return new Engine(args,platform, this).start();
 	}
 }
