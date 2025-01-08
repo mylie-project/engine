@@ -44,7 +44,6 @@ class ManagedThread implements EngineThread {
 			}
 		} catch (Exception e) {
 			log.error("Failed to stop engine thread", e);
-			future.completeExceptionally(e);
 		}
 	}
 

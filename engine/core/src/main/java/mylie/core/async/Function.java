@@ -38,8 +38,8 @@ public class Function {
 	/// [#apply()] method.
 	///
 	/// @param <R> the result type of the function
-	public static abstract class F0<R> extends F {
-		public F0(String id) {
+	public abstract static class F0<R> extends F {
+		protected F0(String id) {
 			super(id);
 		}
 		protected abstract R apply();
@@ -53,8 +53,8 @@ public class Function {
 	///
 	/// @param <A> the type of the input to the function
 	/// @param <R> the result type of the function
-	public static abstract class F1<A, R> extends F {
-		public F1(String id) {
+	public abstract static class F1<A, R> extends F {
+		protected F1(String id) {
 			super(id);
 		}
 		protected abstract R apply(A a);
@@ -68,8 +68,8 @@ public class Function {
 	/// @param <A> the type of the first input to the function
 	/// @param <B> the type of the second input to the function
 	/// @param <R> the result type of the function
-	public static abstract class F2<A, B, R> extends F {
-		public F2(String id) {
+	public abstract static class F2<A, B, R> extends F {
+		protected F2(String id) {
 			super(id);
 		}
 		protected abstract R apply(A a, B b);
@@ -86,7 +86,7 @@ public class Function {
 	/// @param <C> the type of the third input to the function
 	/// @param <R> the result type of the function
 	public static abstract class F3<A, B, C, R> extends F {
-		public F3(String id) {
+		protected F3(String id) {
 			super(id);
 		}
 		protected abstract R apply(A a, B b, C c);

@@ -46,7 +46,7 @@ public abstract class Cache {
 	/// @param hash the unique identifier of the cache entry to be removed
 	abstract void remove(Async.Hash hash);
 
-	private abstract static class BaseCache extends Cache {
+	private static abstract class BaseCache extends Cache {
 		public BaseCache(String id, Cache parent) {
 			super(id, parent);
 		}
