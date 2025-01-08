@@ -65,13 +65,13 @@ public class Engine {
 		boolean multiThreaded = componentManager.component(Scheduler.class).multiThreaded();
 		configuration.option(EngineConfiguration.MultiThreaded, multiThreaded);
 		componentManager.component(ThreadManager.create(multiThreaded));
-		Async.SCHEDULER(componentManager.component(Scheduler.class));
+		Async.asyncScheduler(componentManager.component(Scheduler.class));
 	}
 
 	ShutdownReason start() {
 		Thread thread = new Thread(this::updateLoop);
 		thread.setName("EngineUpdate");
-		if (configuration.option(EngineConfiguration.MultiThreaded)) {
+		if (Boolean.TRUE.equals(configuration.option(EngineConfiguration.MultiThreaded))) {
 			thread.start();
 			componentManager.component(Scheduler.class).target(TARGET, engineTasks::add);
 			Async.CURRENT_THREAD_TARGET.set(TARGET);
@@ -164,31 +164,29 @@ public class Engine {
 	}
 	@Slf4j
 	public static class Args {
-		public static final String DEFINED = "defined";
-		Map<String, String> args = new HashMap<>();
-		public Args(String[] args) {
-			for (int i = 0; i < args.length;) {
+		private static final String ARGUMENT_DEFINED = "defined";
+		Map<String, String> arguments = new HashMap<>();
+		public Args(String[] arguments) {
+			for (int i = 0; i < arguments.length;) {
 				String command = null;
 				String value = null;
-				if (args[i].startsWith("-")) {
-					command = args[i].substring(1);
+				if (arguments[i].startsWith("-")) {
+					command = arguments[i].substring(1);
 				}
-				if (i + 1 < args.length) {
-					if (!args[i + 1].startsWith("-")) {
-						value = args[i + 1];
-					}
+				if (i + 1 < arguments.length && !arguments[i + 1].startsWith("-")) {
+					value = arguments[i + 1];
 				}
 				if (command != null) {
 					if (value == null) {
-						this.args.put(command, DEFINED);
+						this.arguments.put(command, ARGUMENT_DEFINED);
 					} else {
-						this.args.put(command, value);
+						this.arguments.put(command, value);
 						i++;
 					}
 					i++;
 					log.trace("Argument {} : {}", command, value);
 				} else {
-					throw new IllegalArgumentException("Invalid argument: " + args[i]);
+					throw new IllegalArgumentException("Invalid argument: " + arguments[i]);
 				}
 			}
 		}
@@ -196,13 +194,13 @@ public class Engine {
 		public boolean defined(String key) {
 			if (key == null)
 				return false;
-			if (!args.containsKey(key))
+			if (!arguments.containsKey(key))
 				return false;
-			return args.containsKey(key) || args.get(key).equals(DEFINED);
+			return arguments.containsKey(key) || arguments.get(key).equals(ARGUMENT_DEFINED);
 		}
 
 		public String value(String key) {
-			return args.get(key);
+			return arguments.get(key);
 		}
 	}
 }

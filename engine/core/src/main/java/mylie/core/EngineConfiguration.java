@@ -17,7 +17,7 @@ public class EngineConfiguration extends Configuration<Engine> {
 	private final Platform platform;
 
 	@Override
-	protected <V> void option(Observable<Engine, V> option, V value) {
+	protected final <V> void option(Observable<Engine, V> option, V value) {
 		super.option(option, value);
 	}
 

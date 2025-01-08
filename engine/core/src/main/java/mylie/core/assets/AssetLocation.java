@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 public abstract class AssetLocation {
 	public enum Operation {
-		Read, Write
+		READ, WRITE
 	}
 	abstract EnumSet<Operation> operations();
 
@@ -35,12 +35,12 @@ public abstract class AssetLocation {
 
 		@Override
 		EnumSet<Operation> operations() {
-			return EnumSet.of(Operation.Read);
+			return EnumSet.of(Operation.READ);
 		}
 
 		@Override
 		<K extends AssetId<A>, A> AssetInfo<K, A> locate(K assetId, Operation operation) {
-			assert operation == Operation.Read;
+			assert operation == Operation.READ;
 			URL resource = ClassPathAssetLocation.class.getClassLoader().getResource(path(assetId));
 			if (resource != null) {
 				return new AssetInfo<>(this, assetId);
@@ -68,17 +68,17 @@ public abstract class AssetLocation {
 		final String basePath;
 		@Override
 		EnumSet<Operation> operations() {
-			return EnumSet.of(Operation.Read, Operation.Write);
+			return EnumSet.of(Operation.READ, Operation.WRITE);
 		}
 
 		@Override
 		<K extends AssetId<A>, A> AssetInfo<K, A> locate(K assetId, Operation operation) {
 			File file = new File(path(assetId));
-			if (operation == Operation.Read) {
+			if (operation == Operation.READ) {
 				if (file.exists() && file.canRead()) {
 					return new AssetInfo<>(this, assetId);
 				}
-			} else if (operation == Operation.Write) {
+			} else if (operation == Operation.WRITE) {
 				if (file.exists() && file.canWrite()) {
 					return new AssetInfo<>(this, assetId);
 				}

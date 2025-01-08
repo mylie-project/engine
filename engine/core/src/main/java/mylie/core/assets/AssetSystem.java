@@ -17,7 +17,7 @@ public class AssetSystem {
 	}
 
 	public <K extends AssetId<A>, A> A loadAsset(K assetId) {
-		AssetInfo<K, A> assetInfo = locateAsset(assetId, AssetLocation.Operation.Read);
+		AssetInfo<K, A> assetInfo = locateAsset(assetId, AssetLocation.Operation.READ);
 		if (assetInfo != null) {
 			AssetImporter<K, A> importer = locateAssetImporter(assetId);
 			if (importer != null) {
@@ -25,8 +25,7 @@ public class AssetSystem {
 			} else {
 				log.warn("No importer found for asset {}", assetId);
 			}
-		}
-		{
+		} else {
 			log.warn("Asset {} not found", assetId.id);
 		}
 		return null;

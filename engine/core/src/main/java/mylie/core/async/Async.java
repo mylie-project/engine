@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Async {
 	@Setter(AccessLevel.PUBLIC)
-	static Scheduler SCHEDULER;
+	static Scheduler asyncScheduler;
 	private static final Lock lock = new ReentrantLock();
 
 	static void lock() {
@@ -173,7 +173,7 @@ public class Async {
 			result.result(function.get());
 			return result;
 		}
-		return SCHEDULER.executeFunction(target, cache, version, hash, function);
+		return asyncScheduler.executeFunction(target, cache, version, hash, function);
 	}
 
 	private static boolean executeDirect(ExecutionMode executionMode, Target target) {

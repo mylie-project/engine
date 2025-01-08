@@ -17,7 +17,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testAsync(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
@@ -29,7 +29,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testAtomicIntegerDecrease(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerDecrease,
 				atomicInteger));
@@ -39,7 +39,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNested3(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, Nested3, atomicInteger));
 		assertEquals(3, atomicInteger.get()); // Nested3 should increment the atomic integer to 3
@@ -48,7 +48,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testExecutionModeSync(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
@@ -58,7 +58,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testMultipleIncrements(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
 				atomicInteger));
@@ -72,7 +72,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNested2(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, Nested2, atomicInteger));
 		assertEquals(2, atomicInteger.get()); // Increment by Nested2
@@ -84,7 +84,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testThrowException(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		assertThrows(RuntimeException.class, () -> Wait.wait(
 				Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, throwException, atomicInteger)));
@@ -93,7 +93,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNoOpCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.No;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -112,7 +112,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testOneFrameCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -130,7 +130,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testVersionedCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -152,7 +152,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidateOlderCacheBehavior(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -175,7 +175,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidateDifferentCacheBehavior(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateDifferent;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -199,7 +199,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNoInvalidationCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -217,7 +217,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNoOpCacheWithConcurrentCalls(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.No;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -233,7 +233,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testOneFrameCacheWithMultipleInvalidations(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -252,7 +252,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testForeverCacheWithConcurrency(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -268,7 +268,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithMultipleHashes(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -283,7 +283,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithSameHash(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -298,7 +298,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidateSpecificHash(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -314,7 +314,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheInteractionWithException(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -325,7 +325,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testOneFrameCacheWithNoInvalidation(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -340,7 +340,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testConcurrencyOnSameCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -366,7 +366,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testForeverCacheInvalidationAttempt(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -384,7 +384,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testNoOpCacheNoSideEffects(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.No;
 		AtomicInteger atomicInteger = new AtomicInteger(5);
 
@@ -399,7 +399,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testMixedCacheUsages(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
 		Wait.wait(Async.async(Async.ExecutionMode.Async, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
@@ -416,7 +416,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testLargeIncrements(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -431,7 +431,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheInvalidationDuringExecution(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -454,7 +454,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testMixedExecutionModesWithCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -470,7 +470,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidationAndRebuildCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -488,7 +488,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheNoOpInHighConcurrency(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.No;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -514,7 +514,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testVersionedCacheWithRapidHashChanges(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -530,7 +530,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testForeverCacheUnderMassiveLoad(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -546,7 +546,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheBehaviorWithNestedAsyncCalls(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -566,7 +566,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheBehaviorAfterMassiveInvalidations(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -587,7 +587,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testInvalidHashInVersionedCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.InvalidateOlder;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -605,7 +605,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testCacheRaceCondition(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -631,7 +631,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testMultipleThreadsAccessingCacheSimultaneously(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -660,7 +660,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testRaceConditionWithInvalidation(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -695,7 +695,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testRaceConditionBetweenMultipleCaches(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 
 		Cache cache1 = Caches.OneFrame;
 		Cache cache2 = Caches.OneFrame;
@@ -727,7 +727,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testConcurrencyWithForeverCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.Forever;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -756,7 +756,7 @@ class AsyncTest {
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
 	void testConcurrentNestedAsyncCallsWithCache(Scheduler scheduler) {
-		Async.SCHEDULER(scheduler);
+		Async.asyncScheduler(scheduler);
 		Cache cache = Caches.OneFrame;
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
