@@ -20,12 +20,11 @@ public class Transform {
 		onTransformChange();
 	}
 
-	Transform set(Transform transform) {
+	void set(Transform transform) {
 		position.set(transform.position);
 		rotation.set(transform.rotation);
 		scale.set(transform.scale);
 		onTransformChange();
-		return this;
 	}
 
 	private void onTransformChange() {

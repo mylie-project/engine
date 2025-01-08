@@ -24,9 +24,8 @@ public class Stage {
 		Collections.addAll(this.dependencies, dependencies);
 	}
 
-	public Stage updateDependency(Supplier<Result<Void>> dependency) {
+	public void updateDependency(Supplier<Result<Void>> dependency) {
 		dependencies.add(dependency);
-		return this;
 	}
 
 	public void removeDependency(Supplier<Result<Void>> dependency) {

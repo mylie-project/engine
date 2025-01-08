@@ -12,11 +12,8 @@ public class TimerSettings implements EngineModuleSettings<Timer> {
 		this.fps = fps;
 	}
 
-	public static TimerSettings dynamicInterval() {
-		return new TimerSettings(-1);
-	}
-	public static TimerSettings limitedDynamicInterval(int fps) {
-		return new TimerSettings(fps);
+	public static TimerSettings dynamicInterval(int fpsLimit) {
+		return new TimerSettings(fpsLimit);
 	}
 
 	@Override

@@ -13,17 +13,17 @@ public class Gamepad extends InputDevice<Gamepad> {
 	}
 
 	public enum State implements InputType.Digital<Gamepad> {
-		CONNECTED, DISCONNECTED, WIRED, VIBRATION;
+		CONNECTED, DISCONNECTED, WIRED, VIBRATION
 	}
 	public enum Axis implements InputType.Digital<Gamepad> {
-		LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, LEFT_TRIGGER, RIGHT_TRIGGER;
+		LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y, LEFT_TRIGGER, RIGHT_TRIGGER
 	}
 	public enum Button implements InputType.Digital<Gamepad> {
-		A, B, X, Y, LEFT_BUMPER, RIGHT_BUMPER, BACK, START, GUIDE, LEFT_STICK, RIGHT_STICK;
+		A, B, X, Y, LEFT_BUMPER, RIGHT_BUMPER, BACK, START, GUIDE, LEFT_STICK, RIGHT_STICK
 	}
 
 	public enum Dpad implements InputType.Digital<Gamepad> {
-		UP, DOWN, LEFT, RIGHT;
+		UP, DOWN, LEFT, RIGHT
 	}
 
 	@Override

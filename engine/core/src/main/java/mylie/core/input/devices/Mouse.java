@@ -19,10 +19,10 @@ public class Mouse extends InputDevice<Mouse> {
 	}
 
 	public enum Button implements InputType.Digital<Mouse> {
-		LEFT, RIGHT, MIDDLE, BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4, BUTTON_5, BUTTON_6, BUTTON_7, BUTTON_8;
+		LEFT, RIGHT, MIDDLE, BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4, BUTTON_5, BUTTON_6, BUTTON_7, BUTTON_8
 	}
 
 	public enum Cursor implements InputType.Absolute<Vector2fc, Mouse> {
-		ABSOLUTE, RELATIVE;
+		ABSOLUTE, RELATIVE
 	}
 }

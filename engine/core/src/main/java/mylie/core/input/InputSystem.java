@@ -35,6 +35,9 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 			for (Input.Event event : events) {
 				if (ignoreEvent(event)) {
 					event.device().value(event.type(), event.value());
+					for (InputListeners.Raw inputListener : inputListeners) {
+						inputListener.onInput(event);
+					}
 				}
 			}
 		}

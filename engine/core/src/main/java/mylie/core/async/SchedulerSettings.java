@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
 import mylie.core.EngineModuleSettings;
-
+@SuppressWarnings("unused")
 @Getter(AccessLevel.PACKAGE)
 public class SchedulerSettings implements EngineModuleSettings<Scheduler> {
 	public enum ThreadingModel {

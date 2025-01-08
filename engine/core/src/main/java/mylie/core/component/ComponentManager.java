@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.async.Result;
-import mylie.core.components.time.Timer;
 
 @Slf4j
 public class ComponentManager {
@@ -47,7 +46,7 @@ public class ComponentManager {
 		return remove;
 	}
 
-	public void onUpdate(Timer.Time time) {
+	public void onUpdate() {
 		List<Result<?>> results = new LinkedList<>();
 		for (Components.AppParallel component : components(Components.AppParallel.class)) {
 			results.add(component.update());

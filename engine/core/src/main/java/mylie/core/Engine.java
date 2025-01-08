@@ -111,7 +111,7 @@ public class Engine {
 			Timer.Time time = componentManager.component(AbstractTimer.class).update(frameId);
 			componentManager.component(Scheduler.class).update(frameId);
 			try {
-				componentManager.onUpdate(time);
+				componentManager.onUpdate();
 			} catch (Exception e) {
 				shutdownReason = ShutdownReason.error(e);
 			}
