@@ -29,16 +29,14 @@ public interface InputManager extends Components.AppComponent {
 	/// queried for input events during the update cycles of the InputSystem.
 	///
 	/// @param provider the input provider instance to be registered.
-	/// @return the current instance of the InputSystem, to allow method chaining.
-	InputSystem registerInputProvider(Input.Provider provider);
+	void registerInputProvider(Input.Provider provider);
 
 	/// Unregisters an input provider from the input system.
 	/// Removing the provider ensures that it will no longer be queried for input
 	/// events during the update cycles of the input system.
 	///
 	/// @param provider the input provider to be unregistered from the input system.
-	/// @return the current instance of the InputSystem, to allow method chaining.
-	InputSystem unregisterInputProvider(Input.Provider provider);
+	void unregisterInputProvider(Input.Provider provider);
 
 	/// Retrieves the first input device instance of the specified type from the
 	/// list of input devices.
@@ -59,4 +57,20 @@ public interface InputManager extends Components.AppComponent {
 	/// @return a list of input devices of the specified type. If no devices match,
 	/// an empty list is returned.
 	<T extends InputDevice<T>> List<InputDevice<?>> devices(Class<T> type);
+
+	/// Registers an input listener that will be notified of raw input events.
+	/// The listener will be added to the list of input listeners to handle
+	/// incoming input events.
+	///
+	/// @param listener The input listener to register. The listener must implement
+	/// the [InputListeners.Raw] interface and define the logic
+	/// to handle input events.
+	void registerInputListener(InputListeners.Raw listener);
+
+	/// Unregisters a specified input listener from the system. Once unregistered,
+	/// the listener will no longer receive raw input events.
+	///
+	/// @param listener the input listener to be removed from the list of registered
+	/// listeners
+	void unregisterInputListener(InputListeners.Raw listener);
 }

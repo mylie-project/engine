@@ -16,7 +16,7 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	private final List<InputDevice<?>> inputDevices = new CopyOnWriteArrayList<>();
 	private final List<Input.Provider> inputProviders = new CopyOnWriteArrayList<>();
 	private final Map<Class<? extends Input.Provider>, Set<InputDevice<?>>> ignoreList = new HashMap<>();
-
+	private final List<InputListeners.Raw> inputListeners = new CopyOnWriteArrayList<>();
 	public InputSystem() {
 		inputDevices.add(new Keyboard("Primary Keyboard"));
 		inputDevices.add(new Mouse("Primary Mouse"));
@@ -84,11 +84,9 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	/// queried for input events during the update cycles of the InputSystem.
 	///
 	/// @param provider the input provider instance to be registered.
-	/// @return the current instance of the InputSystem, to allow method chaining.
 	@Override
-	public InputSystem registerInputProvider(Input.Provider provider) {
+	public void registerInputProvider(Input.Provider provider) {
 		inputProviders.add(provider);
-		return this;
 	}
 
 	/// Unregisters an input provider from the input system.
@@ -96,11 +94,9 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	/// events during the update cycles of the input system.
 	///
 	/// @param provider the input provider to be unregistered from the input system.
-	/// @return the current instance of the InputSystem, to allow method chaining.
 	@Override
-	public InputSystem unregisterInputProvider(Input.Provider provider) {
+	public void unregisterInputProvider(Input.Provider provider) {
 		inputProviders.remove(provider);
-		return this;
 	}
 
 	/// Retrieves the first input device instance of the specified type from the
@@ -127,6 +123,28 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	@Override
 	public <T extends InputDevice<T>> List<InputDevice<?>> devices(Class<T> type) {
 		return inputDevices.stream().filter(type::isInstance).toList();
+	}
+
+	/// Registers an input listener that will be notified of raw input events.
+	/// The listener will be added to the list of input listeners to handle
+	/// incoming input events.
+	///
+	/// @param listener The input listener to register. The listener must implement
+	/// the [InputListeners.Raw] interface and define the logic
+	/// to handle input events.
+	@Override
+	public void registerInputListener(InputListeners.Raw listener) {
+		inputListeners.add(listener);
+	}
+
+	/// Unregisters a specified input listener from the system. Once unregistered,
+	/// the listener will no longer receive raw input events.
+	///
+	/// @param listener the input listener to be removed from the list of registered
+	/// listeners
+	@Override
+	public void unregisterInputListener(InputListeners.Raw listener) {
+		inputListeners.remove(listener);
 	}
 
 	@Override
