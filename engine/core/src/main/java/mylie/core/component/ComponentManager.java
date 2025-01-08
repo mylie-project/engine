@@ -10,14 +10,6 @@ import mylie.core.components.time.Timer;
 @Slf4j
 public class ComponentManager {
 	private final List<Component> components = new CopyOnWriteArrayList<>();
-	private final List<Stage> stages = new CopyOnWriteArrayList<>();
-
-	public ComponentManager() {
-		stages.add(Stages.PreUpdateLogic);
-		stages.add(Stages.UpdateLogic);
-		stages.add(Stages.Render);
-		stages.add(Stages.PostRender);
-	}
 
 	public <T extends Component> T component(Class<T> componentClass) {
 		for (Component component : components) {
