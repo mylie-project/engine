@@ -87,7 +87,7 @@ public class Engine {
 					if (runnable != null)
 						runnable.run();
 				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
+					shutdownReason = ShutdownReason.error(e);
 				}
 			}
 		} else {
