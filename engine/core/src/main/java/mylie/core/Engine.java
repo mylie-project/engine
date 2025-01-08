@@ -144,7 +144,6 @@ public class Engine {
 			return new Error(cause);
 		}
 
-		@Getter
 		record UserRequest(String reason) implements ShutdownReason {
 		}
 
