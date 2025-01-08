@@ -27,8 +27,10 @@ import mylie.util.configuration.Observable;
 @Slf4j
 public class Engine {
 	public static final Vault.Item<Args> Arguments = new Vault.Item<>();
+	private static final String ENGINE_PRIMARY_THREAD_NAME = "EnginePrimary";
+	private static final String ENGINE_UPDATE_THREAD_NAME = "EngineUpdate";
+	public static final Async.Target TARGET = new Async.Target(ENGINE_PRIMARY_THREAD_NAME);
 	static Engine instance;
-	public static final Async.Target TARGET = new Async.Target("EnginePrimary");
 	private final Platform platform;
 	private final EngineConfiguration configuration;
 	private final ComponentManager componentManager = new ComponentManager();
@@ -70,12 +72,12 @@ public class Engine {
 
 	ShutdownReason start() {
 		Thread thread = new Thread(this::updateLoop);
-		thread.setName("EngineUpdate");
+		thread.setName(ENGINE_UPDATE_THREAD_NAME);
 		if (Boolean.TRUE.equals(configuration.option(EngineConfiguration.MultiThreaded))) {
 			thread.start();
 			componentManager.component(Scheduler.class).target(TARGET, engineTasks::add);
 			Async.CURRENT_THREAD_TARGET.set(TARGET);
-			Thread.currentThread().setName("EnginePrimary");
+			Thread.currentThread().setName(ENGINE_PRIMARY_THREAD_NAME);
 			while (thread.isAlive()) {
 				while (!engineTasks.isEmpty()) {
 					engineTasks.poll().run();
@@ -89,7 +91,7 @@ public class Engine {
 				}
 			}
 		} else {
-			Thread.currentThread().setName("EnginePrimary");
+			Thread.currentThread().setName(ENGINE_PRIMARY_THREAD_NAME);
 			updateLoop();
 		}
 		if (shutdownReason instanceof ShutdownReason.Error error) {
