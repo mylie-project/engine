@@ -7,10 +7,7 @@ import mylie.core.component.Components;
 import mylie.core.input.Input;
 import mylie.core.input.InputListeners;
 import mylie.core.input.InputManager;
-import mylie.core.input.InputSystem;
-import mylie.core.input.devices.Keyboard;
 import mylie.demos.Demo;
-import mylie.util.filter.Filter;
 
 @Slf4j
 public class HelloRawInput extends Demo implements InputListeners.Raw, Components.AddRemove {
@@ -25,8 +22,6 @@ public class HelloRawInput extends Demo implements InputListeners.Raw, Component
 	public void onAdded() {
 		component(InputManager.class).registerInputListener(this);
 		InputManager component = component(InputManager.class);
-		InputSystem system = (InputSystem) component;
-		system.map(exitApplication, Filter.eq(system.device(Keyboard.class)), Filter.eq(Keyboard.Key.ESC), b -> b);
 	}
 
 	@Override

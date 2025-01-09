@@ -26,7 +26,6 @@ import mylie.util.configuration.Observable;
 
 @Slf4j
 public class Engine {
-	public static final Vault.Item<Args> Arguments = new Vault.Item<>();
 	private static final String ENGINE_PRIMARY_THREAD_NAME = "EnginePrimary";
 	private static final String ENGINE_UPDATE_THREAD_NAME = "EngineUpdate";
 	public static final Async.Target TARGET = new Async.Target(ENGINE_PRIMARY_THREAD_NAME);
@@ -45,7 +44,7 @@ public class Engine {
 		this.platform = platform;
 		this.configuration = configuration;
 		componentManager.component(new Vault());
-		componentManager.component(Vault.class).value(Arguments, args);
+		componentManager.component(Vault.class).value(Args.class, args);
 		initModules();
 	}
 

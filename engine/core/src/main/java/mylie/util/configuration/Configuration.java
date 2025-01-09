@@ -15,7 +15,6 @@ public class Configuration<T> {
 		this.configClass = configClass;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <V> void option(Changeable<T, V> option, V value) {
 		Versioned<V> versioned = getVersioned(option);
 		versioned.value(value);

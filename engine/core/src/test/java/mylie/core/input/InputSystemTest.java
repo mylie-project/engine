@@ -129,7 +129,7 @@ class InputSystemTest {
 		AtomicInteger counter = new AtomicInteger(0);
 		Action<Boolean> incrementAction = Actions.call(ActionGroup.GLOBAL_INPUT, b -> b, this::increment, counter);
 		system.map(incrementAction, Keyboard.class,
-				InputFilters.sequenze(Keyboard.Key.A, Keyboard.Key.S, Keyboard.Key.D, Keyboard.Key.F));
+				InputFilters.sequence(Keyboard.Key.A, Keyboard.Key.S, Keyboard.Key.D, Keyboard.Key.F));
 		simulatedInputProvider.simulate(Keyboard.Key.A, true);
 		simulatedInputProvider.simulate(Keyboard.Key.S, true);
 		simulatedInputProvider.simulate(Keyboard.Key.D, true);
@@ -146,7 +146,7 @@ class InputSystemTest {
 		AtomicInteger counter = new AtomicInteger(0);
 		Action<Boolean> incrementAction = Actions.call(ActionGroup.GLOBAL_INPUT, b -> b, this::increment, counter);
 		system.map(incrementAction, Keyboard.class,
-				InputFilters.sequenze(Keyboard.Key.A, Keyboard.Key.S, Keyboard.Key.D, Keyboard.Key.F));
+				InputFilters.sequence(Keyboard.Key.A, Keyboard.Key.S, Keyboard.Key.D, Keyboard.Key.F));
 		simulatedInputProvider.simulate(Keyboard.Key.A, true);
 		simulatedInputProvider.simulate(Keyboard.Key.S, true);
 		simulatedInputProvider.simulate(Keyboard.Key.D, true);
@@ -178,12 +178,10 @@ class InputSystemTest {
 	}
 
 	private static final class SimulatedInputProvider implements Input.Provider {
-		private final InputSystem inputSystem;
 		private final Keyboard keyboard;
-		Queue<Input.Event<?, ?, ?>> events = new java.util.LinkedList<>();
+		private final Queue<Input.Event<?, ?, ?>> events = new java.util.LinkedList<>();
 		private SimulatedInputProvider(InputSystem inputSystem) {
-			this.inputSystem = inputSystem;
-			this.inputSystem.registerInputProvider(this);
+			inputSystem.registerInputProvider(this);
 			this.keyboard = inputSystem.device(Keyboard.class);
 		}
 

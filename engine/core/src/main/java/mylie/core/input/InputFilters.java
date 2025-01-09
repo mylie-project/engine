@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import mylie.util.filter.Filter;
 
 public class InputFilters {
-	/// Constructs a filter that detects a specific sequence of input types. The filter matches when the provided
-	/// sequence of input events is detected in the specified order. Once the sequence is detected, the internal
+	/// Constructs a filter that detects a specific sequence of input types. The
+	/// filter matches when the provided
+	/// sequence of input events is detected in the specified order. Once the
+	/// sequence is detected, the internal
 	/// state resets and the filter can match the sequence again.
 	///
 	/// @param <I> The specific type of the input that extends [InputType.Type].
@@ -14,24 +16,24 @@ public class InputFilters {
 	/// @param sequence The sequence of input types to detect.
 	/// @return A [Filter] that detects the specified input sequence.
 	@SafeVarargs
-    public static <I extends InputType.Type<Boolean, D>, D extends InputDevice<D>> Filter<I> sequenze(I... sequence) {
-		return new SequenzeFilter<>(sequence);
+	public static <I extends InputType.Type<Boolean, D>, D extends InputDevice<D>> Filter<I> sequence(I... sequence) {
+		return new SequenceFilter<>(sequence);
 	}
 
 	@Slf4j
-	private static final class SequenzeFilter<I extends InputType.Type<Boolean, D>, D extends InputDevice<D>>
+	private static final class SequenceFilter<I extends InputType.Type<Boolean, D>, D extends InputDevice<D>>
 			extends
 				Filter<I> {
-		I[] sequence;
-		boolean[] sequenceState;
+		final I[] sequence;
+		final boolean[] sequenceState;
 		@SafeVarargs
-        private SequenzeFilter(I... sequence) {
+		private SequenceFilter(I... sequence) {
 			this.sequence = sequence;
 			this.sequenceState = new boolean[sequence.length];
 			resetSequenceState();
 		}
 		@SafeVarargs
-        @Override
+		@Override
 		public final boolean apply(I... value) {
 			for (I key : value) {
 				for (int currentIndex = 0; currentIndex < sequence.length; currentIndex++) {
