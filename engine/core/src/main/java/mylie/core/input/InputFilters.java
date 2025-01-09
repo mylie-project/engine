@@ -1,10 +1,16 @@
 package mylie.core.input;
 
 import java.util.Arrays;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.input.devices.Gamepad;
 import mylie.util.filter.Filter;
 
 public class InputFilters {
+	public static final Filter<InputType.Type<Boolean, Gamepad>> KonamiCode = sequence(Gamepad.Dpad.UP, Gamepad.Dpad.UP,
+			Gamepad.Dpad.DOWN, Gamepad.Dpad.DOWN, Gamepad.Dpad.LEFT, Gamepad.Dpad.RIGHT, Gamepad.Dpad.LEFT,
+			Gamepad.Dpad.RIGHT, Gamepad.Button.B, Gamepad.Button.A);
+
 	/// Constructs a filter that detects a specific sequence of input types. The
 	/// filter matches when the provided
 	/// sequence of input events is detected in the specified order. Once the
@@ -21,10 +27,12 @@ public class InputFilters {
 	}
 
 	@Slf4j
+	@EqualsAndHashCode(callSuper = false)
 	private static final class SequenceFilter<I extends InputType.Type<Boolean, D>, D extends InputDevice<D>>
 			extends
 				Filter<I> {
 		final I[] sequence;
+		@EqualsAndHashCode.Exclude
 		final boolean[] sequenceState;
 		@SafeVarargs
 		private SequenceFilter(I... sequence) {
