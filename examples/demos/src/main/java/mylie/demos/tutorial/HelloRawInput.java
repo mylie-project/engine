@@ -1,15 +1,21 @@
 package mylie.demos.tutorial;
 
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.action.Action;
+import mylie.core.action.Actions;
 import mylie.core.component.Components;
 import mylie.core.input.Input;
 import mylie.core.input.InputListeners;
 import mylie.core.input.InputManager;
+import mylie.core.input.InputSystem;
+import mylie.core.input.devices.Keyboard;
 import mylie.demos.Demo;
+import mylie.util.filter.Filter;
 
 @Slf4j
 public class HelloRawInput extends Demo implements InputListeners.Raw, Components.AddRemove {
-
+	private Action<Boolean> exitApplication = Actions.call(null, b -> b,
+			() -> System.out.println("Exiting application..."));
 	@Override
 	public void onInput(Input.Event<?, ?, ?> event) {
 		log.info("Received input event: {}", event);
@@ -18,6 +24,9 @@ public class HelloRawInput extends Demo implements InputListeners.Raw, Component
 	@Override
 	public void onAdded() {
 		component(InputManager.class).registerInputListener(this);
+		InputManager component = component(InputManager.class);
+		InputSystem system = (InputSystem) component;
+		system.map(exitApplication, Filter.eq(system.device(Keyboard.class)), Filter.eq(Keyboard.Key.ESC), b -> b);
 	}
 
 	@Override

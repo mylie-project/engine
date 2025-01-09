@@ -3,6 +3,7 @@ package mylie.core.input;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.extern.slf4j.Slf4j;
+import mylie.core.action.Action;
 import mylie.core.async.Async;
 import mylie.core.async.Result;
 import mylie.core.component.Components;
@@ -10,6 +11,8 @@ import mylie.core.component.Stages;
 import mylie.core.input.devices.Gamepad;
 import mylie.core.input.devices.Keyboard;
 import mylie.core.input.devices.Mouse;
+import mylie.util.Converter;
+import mylie.util.filter.Filter;
 
 @Slf4j
 public class InputSystem extends Components.Core implements InputManager, Components.Updateable, Components.AddRemove {
@@ -17,6 +20,7 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	private final List<Input.Provider> inputProviders = new CopyOnWriteArrayList<>();
 	private final Map<Class<? extends Input.Provider>, Set<InputDevice<?>>> ignoreList = new HashMap<>();
 	private final List<InputListeners.Raw> inputListeners = new CopyOnWriteArrayList<>();
+	private final Set<Mapping<?, ?, ?>> mappings = new LinkedHashSet<>();
 	public InputSystem() {
 		inputDevices.add(new Keyboard("Primary Keyboard"));
 		inputDevices.add(new Mouse("Primary Mouse"));
@@ -28,20 +32,45 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	public void onUpdate() {
+		log.trace("Updating input system");
 		Collection<Result<Collection<Input.Event<?, ?, ?>>>> results = Async.async(inputProviders,
 				Input.Provider::events);
 		for (Result<Collection<Input.Event<?, ?, ?>>> result : results) {
 			Collection<Input.Event<?, ?, ?>> events = result.result();
 			for (Input.Event event : events) {
-				if (ignoreEvent(event)) {
+				log.trace("Received input event: {}", event);
+				if (!ignoreEvent(event)) {
+
 					event.device().value(event.type(), event.value());
 					for (InputListeners.Raw inputListener : inputListeners) {
 						inputListener.onInput(event);
 					}
+					for (Mapping<?, ?, ?> mapping : mappings) {
+						log.trace("Mapping event: {}", event);
+						mapping.check(event);
+					}
 				}
 			}
 		}
-		log.trace("Updating input system");
+
+	}
+	public void registerMapping(Mapping<?, ?, ?> mapping) {
+		mappings.add(mapping);
+	}
+
+	public <T, D extends InputDevice<D>, I> void map(Action<T> action, Filter<D> deviceFilter,
+			Filter<InputType.Type<I, D>> inputFilter, Converter<I, T> converter) {
+		registerMapping(new Mapping<>(action, deviceFilter, inputFilter, converter));
+	}
+
+	public <T, D extends InputDevice<D>> void map(Action<T> action, Class<D> deviceType,
+			InputType.Type<T, D> inputType) {
+		registerMapping(new Mapping<>(action, Filter.eq(device(deviceType)), Filter.eq(inputType), input -> input));
+	}
+
+	public <T, D extends InputDevice<D>> void map(Action<T> action, Class<D> deviceType,
+			Filter<InputType.Type<T, D>> inputFilter) {
+		registerMapping(new Mapping<>(action, Filter.eq(device(deviceType)), inputFilter, input -> input));
 	}
 
 	/// Prevents input events from the specified device under the given provider
@@ -159,4 +188,5 @@ public class InputSystem extends Components.Core implements InputManager, Compon
 	public void onRemoved() {
 		Stages.PreUpdateLogic.removeDependency(this::update);
 	}
+
 }
