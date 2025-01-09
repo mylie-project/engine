@@ -5,9 +5,9 @@ import org.joml.Vector3f;
 
 @Getter
 public class Sphere implements Shape {
-	private Vector3f center;
-	private float radius;
-	private float radiusSquared;
+	private final Vector3f center;
+	private final float radius;
+	private final float radiusSquared;
 
 	public Sphere(Vector3f center, float radius) {
 		this.center = center;

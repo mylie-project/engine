@@ -11,7 +11,7 @@ import mylie.core.component.Components;
 
 @Slf4j
 public class DemoSelector extends Components.AppParallel implements Components.Initializable {
-	private Map<String, List<Demo>> loadedDemos = new HashMap<>();
+	private final Map<String, List<Demo>> loadedDemos = new HashMap<>();
 	private Demo currentDemo;
 	@Override
 	public void onInitialize() {
@@ -29,7 +29,6 @@ public class DemoSelector extends Components.AppParallel implements Components.I
 	public void selectDemo(Demo demo) {
 		if (currentDemo == null || !currentDemo.equals(demo)) {
 			removeComponent(currentDemo);
-			currentDemo = null;
 		}
 		currentDemo = demo;
 		component(demo);
