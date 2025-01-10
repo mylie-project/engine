@@ -1,145 +1,235 @@
-# empty-jekyll-site
+---
+layout: home
+title: Jekyll Gitbook Theme
+permalink: /
+---
 
-## development environment
+Make Jelly site have a GitBook look!
 
-- Linux
+## Demo
 
-- [git]
+Live demo on Github Pages: [https://sighingnow.github.io/jekyll-gitbook](https://sighingnow.github.io/jekyll-gitbook)
 
-  ```shell
-  sudo apt install git
-  git -v
-  ```
+[![Jekyll Themes](https://img.shields.io/badge/featured%20on-JekyllThemes-red.svg)](https://jekyll-themes.com/jekyll-gitbook/)
 
-- [Ruby] (and [RubyGems])
+## Why Jekyll with GitBook
 
-  ```shell
-  sudo apt install ruby
-  ruby -v
-  gem -v
-  ```
+GitBook is an amazing frontend style to present and organize contents (such as book chapters
+and blogs) on Web. The typical to deploy GitBook at [Github Pages][1]
+is building HTML files locally and then push to Github repository, usually to the `gh-pages`
+branch. It's quite annoying to repeat such workload and make it hard for people do version
+control via git for when there are generated HTML files to be staged in and out.
 
-  Maybe gem source have to be changed.
+This theme takes style definition out of generated GitBook site and provided the template
+for Jekyll to rendering markdown documents to HTML, thus the whole site can be deployed
+to [Github Pages][1] without generating and uploading HTML bundle every time when there are
+changes to the original repo.
 
-  ```shell
-  gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-  gem sources -l
-  ```
+## How to Get Started
 
-- [Bundler]
+This theme can be used just as other [Jekyll themes][1] and support [remote theme][12],
+see [the official guide][13] as well.
 
-  ```shell
-  gem install bundler
-  bundle -v
-  ```
+You can introduce this jekyll theme into your own site by either
 
-  Maybe bundler source have to be changed as well.
+- [Fork][3] this repository and add your markdown posts to the `_posts` folder.
+- Use as a remote theme in your [`_config.yml`][14](just like what we do for this
+  site itself),
 
-  ```shell
-  bundle config mirror.https://rubygems.org https://gems.ruby-china.com
-  bundle config
-  bundle config mirror.https://rubygems.org
-  ```
+```yaml
+remote_theme: sighingnow/jekyll-gitbook
+```
 
-- [Jekyll]
+### Deploy Locally with Jekyll Serve
 
-  ```shell
-  gem install jekyll
-  jekyll -v
-  ```
+This theme can be ran locally using Ruby and Gemfiles.
 
-## Start a new [Jekyll] project
+[Testing your GitHub Pages site locally with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) - GitHub
 
-  ```shell
-  jekyll new <YOUR PROJECT NAME> --blank
-  ```
+## Full-text search
 
-## Set up git
+The search functionality in jekyll-gitbook theme is powered by the [gitbook-plugin-search-pro][5] plugin and is enabled by default.
 
-  ```shell
-  cd <YOUR PROJECT NAME>
-  git init
-  ```
-  
-  Maybe rename the branch.
+[https://sighingnow.github.io/jekyll-gitbook/?q=generated](https://sighingnow.github.io/jekyll-gitbook/?q=generated)
 
-  `git branch -m <OLD BRANCH NAME> <NEW BRANCH NAME>`
+## Code highlight
 
-  Create a file named `.gitignore` and paste the following in it:
+The code highlight style is configurable the following entry in `_config.yaml`:
 
-  ```
-  _site/
-  .sass-cache/
-  .jekyll-cache/
-  .jekyll-metadata
-  node_modules
-  ```
+```yaml
+syntax_highlighter_style: colorful
+```
 
-## Install [Ruby] gems
+The default code highlight style is `colorful`, the full supported styles can be found from [the rouge repository][6]. Customized
+style can be added to [./assets/gitbook/rouge/](./assets/gitbook/rouge/).
 
-  Create a `Gemfile` which is a list of gems used by your site. Add it to the root directory with the following content:
+## How to generate TOC
 
-  ```
-  source 'https://rubygems.org'
+The jekyll-gitbook theme leverages [jekyll-toc][4] to generate the *Contents* for the page.
+The TOC feature is not enabled by default. To use the TOC feature, modify the TOC
+configuration in `_config.yml`:
 
-  gem 'jekyll'
-  gem 'webrick'
-  ```
+```yaml
+toc:
+    enabled: true
+    h_min: 1
+    h_max: 3
+```
 
-  Now install those gems by [Bundler].
+## Google Analytics, etc.
 
-  `bundle`
+The jekyll-gitboook theme supports embedding the [Google Analytics][7], [CNZZ][8] and [Application Insights][9] website analytical tools with the following
+minimal configuration in `_config.yaml`:
 
-## Build the [Jekyll] site
+```yaml
+tracker:
+  google_analytics: "<YOUR GOOGLE ANALYTICS KEY, e.g, UA-xxxxxx-x>"
+```
 
-  `bundle exec jekyll serve`
+Similarly, CNZZ can be added with the following configuration in `_config.yaml`
 
-  Open <localhost:4000> in your browser. If you see something like this.
+```yaml
+tracker:
+  cnzz: "<YOUR CNZZ ANALYTICS KEY, e.g., xxxxxxxx>"
+```
 
-  ![readytogo](assets/pics/readytogo.png)
+Application Insights can be added with the following configuration in `_config.yaml`
 
-## Publish to [Github] (optional)
+```yaml
+tracker:
+  application_insights: "<YOUR APPLICATION INSIGHTS CONNECTION STRING>"
+```
 
-  Add files to the staging area and commit your changes.
+## Disqus comments
 
-  ```shell
-  git add .
-  git commit -m 'Your commit message'
-  ```
-  Create a [Github] repository.
-  
-  - Go to GitHub.com and sign in to your account.
+[Disqus](https://disqus.com/) comments can be enabled by adding the following configuration in `_config.yaml`:
 
-  - Click on the "+" button in the top right corner and select "New repository."
+```yaml
+disqushandler: "<YOUR DISQUS SHORTNAME>"
+```
 
-  - Give your repository a name and description.
+## Jekyll collections
 
-  - Choose whether you want the repository to be public or private.
+Jekyll's [collections][15] is supported to organize the pages in a more fine-grained manner, e.g.,
 
-  - Click "Create repository."
+```yaml
+collections:
+  pages:
+    output: true
+    sort_by: date
+    permalink: /:collection/:year-:month-:day-:title:output_ext
+  others:
+    output: true
+    sort_by: date
+    permalink: /:collection/:year-:month-:day-:title:output_ext
+```
 
-  Connect the local repository to [Github].
+An optional `ordered_collections` key can be added to `_config.yaml` to control the order of collections in the sidebar:
 
-  `git remote add origin https://github.com/<your_username>/<your_repository_name>.git`
+```yaml
+ordered_collections:
+  - posts
+  - pages
+  - others
+```
 
-  Push your local changes to [Github].
+If not specified, the order of collections would be decided by Jekyll. Note that the key `posts` is a special collection
+that indicates the `_posts` pages of Jekyll.
 
-  `git push origin main`
+## Extra StyleSheet or Javascript elements
 
-You'r made it.
+You can add extra CSS or JavaScript references using configuration collections:
 
-## Usefull links
+- extra_css: for additional style sheets. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
+- extra_header_js: for additional scripts to be included in the `<head>` tag, after the `extra_css` has been added. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
+- extra_footer_js: for additional scripts to be included at the end of the HTML document, just before the site tracking script. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
 
-- [Starting a blank Jekyll site with Tailwind CSS in 2022](https://mzrn.sh/2022/04/09/starting-a-blank-jekyll-site-with-tailwind-css-in-2022)
+## Customizing font settings
 
-- [Installation | Jekyll](https://jekyllrb.com/docs/installation)
+The fonts can be customized by modifying the `.book.font-family-0` and `.book.font-family-1` entry in [`./assets/gitbook/custom.css`][10],
 
-- [Creating a new repository | Github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)
+```css
+.book.font-family-0 {
+    font-family: Georgia, serif;
+}
+.book.font-family-1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+```
 
-<!--links-->
-[Ruby]:https://www.ruby-lang.org/en/documentation/installation
-[RubyGems]:https://github.com/rubygems/rubygems?tab=readme-ov-file#installation
-[Bundler]:https://bundler.io
-[Jekyll]:https://jekyllrb.com
-[git]:https://git-scm.com
-[github]:https://github.com
+## Tips, Warnings and Dangers blocks
+
+The jekyll-gitbook theme supports customized kramdown attributes (`{: .block-tip }`, `{: .block-warning }`,
+`{: .block-danger }`) like that displayed in [the discord.js website][11]. The marker can be used like
+
+```markdown
+> ##### TIP
+>
+> This guide is last tested with @napi-rs/canvas^0.1.20, so make sure you have
+> this or a similar version after installation.
+{: .block-tip }
+```
+
+Rendered page can be previewed from
+
+[https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html](https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html)
+
+## Cover image inside pages
+
+The jekyll-gitbook theme supports adding a cover image to a specific page by adding
+a `cover` field to the page metadata:
+
+```diff
+  ---
+  title: Page with cover image
+  author: Tao He
+  date: 2022-05-24
+  category: Jekyll
+  layout: post
++ cover: /assets/jekyll-gitbook/dinosaur.gif
+  ---
+```
+
+The effect can be previewed from
+
+[https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-05-24-page_cover.html](https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-05-24-page_cover.html)
+
+## Diagrams with mermaid.js
+
+This jekyll-theme supports [mermaid.js](https://mermaid.js.org/) to render diagrams
+in markdown.
+
+To enable the mermaid support, you need to set `mermaid: true` in the front matter
+of your post.
+
+```markdown
+---
+mermaid: true
+---
+```
+
+The example can be previewed from
+
+[https://sighingnow.github.io/jekyll-gitbook/jekyll/2023-08-31-mermaid.html](https://sighingnow.github.io/jekyll-gitbook/jekyll/2023-08-31-mermaid.html)
+
+## License
+
+This work is open sourced under the Apache License, Version 2.0.
+
+Copyright 2019 Tao He.
+
+[1]: https://pages.github.com
+[2]: https://pages.github.com/themes
+[3]: https://github.com/sighingnow/jekyll-gitbook/fork
+[4]: https://github.com/allejo/jekyll-toc
+[5]: https://github.com/gitbook-plugins/gitbook-plugin-search-pro
+[6]: https://github.com/rouge-ruby/rouge/tree/master/lib/rouge/themes
+[7]: https://analytics.google.com/analytics/web/
+[8]: https://www.cnzz.com/
+[9]: https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
+[10]: https://github.com/sighingnow/jekyll-gitbook/blob/master/gitbook/custom.css
+[11]: https://discordjs.guide/popular-topics/canvas.html#setting-up-napi-rs-canvas
+[12]: https://rubygems.org/gems/jekyll-remote-theme
+[13]: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll
+[14]: https://github.com/sighingnow/jekyll-gitbook/blob/master/_config.yml
+[15]: https://jekyllrb.com/docs/collections/
