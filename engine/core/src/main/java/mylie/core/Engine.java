@@ -13,6 +13,8 @@ import mylie.core.application.Application;
 import mylie.core.application.ApplicationSystem;
 import mylie.core.async.Async;
 import mylie.core.async.Scheduler;
+import mylie.core.audio.AudioApi;
+import mylie.core.audio.AudioSystem;
 import mylie.core.component.Component;
 import mylie.core.component.ComponentManager;
 import mylie.core.components.Vault;
@@ -49,12 +51,14 @@ public class Engine {
 	}
 
 	private void initModules() {
-
 		componentManager.component(new EngineManager(this));
 		initScheduler();
 		initModule(EngineConfiguration.Timer);
 		componentManager.component(new InputSystem());
-
+		AudioApi audioApi = configuration.option(EngineConfiguration.AudioApi);
+		if(audioApi!=null) {
+			componentManager.component(new AudioSystem(audioApi));
+		}
 		Application application = configuration.option(EngineConfiguration.Application);
 		if (application != null) {
 			componentManager.component(new ApplicationSystem(application));

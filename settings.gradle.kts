@@ -18,12 +18,14 @@ dependencyResolutionManagement{
             library("lwjgl3.core","org.lwjgl","lwjgl").versionRef("lwjgl3")
             library("lwjgl3.glfw","org.lwjgl","lwjgl-glfw").versionRef("lwjgl3")
             library("lwjgl3.opengl","org.lwjgl","lwjgl-opengl").versionRef("lwjgl3")
+            library("lwjgl3.openal","org.lwjgl","lwjgl-openal").versionRef("lwjgl3")
             library("lwjgl3.stb","org.lwjgl","lwjgl-stb").versionRef("lwjgl3")
             library("lwjgl3.assimp","org.lwjgl","lwjgl-assimp").versionRef("lwjgl3")
             library("lwjgl3.assimp.natives","org.lwjgl","lwjgl-assimp").versionRef("lwjgl3")
             library("lwjgl3.core.natives","org.lwjgl","lwjgl").versionRef("lwjgl3")
             library("lwjgl3.glfw.natives","org.lwjgl","lwjgl-glfw").versionRef("lwjgl3")
             library("lwjgl3.opengl.natives","org.lwjgl","lwjgl-opengl").versionRef("lwjgl3")
+            library("lwjgl3.openal.natives","org.lwjgl","lwjgl-openal").versionRef("lwjgl3")
             library("lwjgl3.stb.natives","org.lwjgl","lwjgl-stb").versionRef("lwjgl3")
 
         }
@@ -41,3 +43,6 @@ project(":examples.demos").projectDir=file("examples/demos")
 
 include("examples.desktop")
 project(":examples.desktop").projectDir=file("examples/desktop")
+
+include("backends.lwjgl3.openal")
+project(":backends.lwjgl3.openal").projectDir=file("backends/lwjgl3/openal")

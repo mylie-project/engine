@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":platform.desktop"))
     implementation(project(":examples.demos"))
+    implementation(project(":backends.lwjgl3.openal"))
     implementation(libs.logging.runtime)
     runtimeOnly(libs.logging.runtime)
 }

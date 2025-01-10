@@ -1,5 +1,7 @@
 package mylie.core.input;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Queue;
@@ -13,8 +15,6 @@ import mylie.core.async.TestResult;
 import mylie.core.input.devices.Keyboard;
 import mylie.util.filter.Filter;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class InputSystemTest {
 
@@ -123,7 +123,7 @@ class InputSystemTest {
 	}
 
 	@Test
-	public void testObservableAction(){
+	public void testObservableAction() {
 		InputSystem system = new InputSystem();
 		SimulatedInputProvider simulatedInputProvider = new SimulatedInputProvider(system);
 		ActionGroup.GLOBAL_INPUT.enabled(true);

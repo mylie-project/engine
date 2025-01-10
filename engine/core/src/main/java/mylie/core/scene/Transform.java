@@ -35,8 +35,7 @@ public class Transform {
 
 	Matrix4f matrix() {
 		if (dirty) {
-			matrix = Matrix4f.IDENTITY;
-			// matrix.identity().translate(position).rotate(rotation).scale(scale);
+			matrix = Matrix4f.IDENTITY.translationRotationScale(position, rotation, scale);
 			dirty = false;
 		}
 		return matrix;

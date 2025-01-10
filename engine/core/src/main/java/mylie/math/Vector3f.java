@@ -1,5 +1,6 @@
 package mylie.math;
 
+@SuppressWarnings("unused")
 public record Vector3f(float x, float y, float z) {
 	public Vector3f(float value) {
 		this(value, value, value);
@@ -71,15 +72,18 @@ public record Vector3f(float x, float y, float z) {
 	}
 
 	public Vector3f clamp(float min, float max) {
-		return new Vector3f(Math.max(min, Math.min(max, x)), Math.max(min, Math.min(max, y)), Math.max(min, Math.min(max, z)));
+		return new Vector3f(Math.max(min, Math.min(max, x)), Math.max(min, Math.min(max, y)),
+				Math.max(min, Math.min(max, z)));
 	}
 
 	public Vector3f clamp(Vector3f min, Vector3f max) {
-		return new Vector3f(Math.max(min.x, Math.min(max.x, x)), Math.max(min.y, Math.min(max.y, y)), Math.max(min.z, Math.min(max.z, z)));
+		return new Vector3f(Math.max(min.x, Math.min(max.x, x)), Math.max(min.y, Math.min(max.y, y)),
+				Math.max(min.z, Math.min(max.z, z)));
 	}
 
 	public Vector3f lerp(float x, float y, float z, float alpha) {
-		return new Vector3f(this.x + alpha * (x - this.x), this.y + alpha * (y - this.y), this.z + alpha * (z - this.z));
+		return new Vector3f(this.x + alpha * (x - this.x), this.y + alpha * (y - this.y),
+				this.z + alpha * (z - this.z));
 	}
 
 	public Vector3f lerp(Vector3f vector, float alpha) {

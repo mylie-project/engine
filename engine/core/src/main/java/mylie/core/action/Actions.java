@@ -1,15 +1,15 @@
 package mylie.core.action;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 public class Actions {
-	private Actions() {}
+	private Actions() {
+	}
 
 	@AllArgsConstructor
 	@Getter(AccessLevel.PROTECTED)

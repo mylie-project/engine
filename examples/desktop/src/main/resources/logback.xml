@@ -7,7 +7,9 @@
             <pattern>%cyan([%thread]) %level_color(%-5level) %yellow(%logger{15}) - %level_color(%msg) %n</pattern>
         </encoder>
     </appender>
-    <root level="info">
+
+    <logger name="mylie.lwjgl3" level="trace"/>
+    <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
