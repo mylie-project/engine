@@ -1,7 +1,5 @@
 package mylie.core.input;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Queue;
@@ -9,11 +7,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import mylie.core.action.Action;
 import mylie.core.action.ActionGroup;
 import mylie.core.action.Actions;
+import mylie.core.action.ObservableAction;
 import mylie.core.async.Result;
 import mylie.core.async.TestResult;
 import mylie.core.input.devices.Keyboard;
 import mylie.util.filter.Filter;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class InputSystemTest {
 
@@ -119,6 +120,25 @@ class InputSystemTest {
 		simulatedInputProvider.simulate(Keyboard.Key.BACKSPACE, true);
 		system.onUpdate();
 		assertEquals(2, counter.get());
+	}
+
+	@Test
+	public void testObservableAction(){
+		InputSystem system = new InputSystem();
+		SimulatedInputProvider simulatedInputProvider = new SimulatedInputProvider(system);
+		ActionGroup.GLOBAL_INPUT.enabled(true);
+		AtomicInteger counter = new AtomicInteger(0);
+		ObservableAction<Boolean> observable = Actions.observable(ActionGroup.GLOBAL_INPUT);
+		system.map(observable, Keyboard.class, Keyboard.Key.ESC);
+		simulatedInputProvider.simulate(Keyboard.Key.ESC, true);
+		system.onUpdate();
+		assertTrue(observable.value());
+		simulatedInputProvider.simulate(Keyboard.Key.ESC, true);
+		system.onUpdate();
+		assertTrue(observable.value());
+		simulatedInputProvider.simulate(Keyboard.Key.ESC, false);
+		system.onUpdate();
+		assertFalse(observable.value());
 	}
 
 	@Test

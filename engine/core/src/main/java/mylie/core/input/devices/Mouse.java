@@ -2,7 +2,7 @@ package mylie.core.input.devices;
 
 import mylie.core.input.InputDevice;
 import mylie.core.input.InputType;
-import org.joml.Vector2fc;
+import mylie.math.Vector2f;
 
 public class Mouse extends InputDevice<Mouse> {
 
@@ -22,7 +22,7 @@ public class Mouse extends InputDevice<Mouse> {
 		LEFT, RIGHT, MIDDLE, BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4, BUTTON_5, BUTTON_6, BUTTON_7, BUTTON_8
 	}
 
-	public enum Cursor implements InputType.Absolute<Vector2fc, Mouse> {
+	public enum Cursor implements InputType.Absolute<Vector2f, Mouse> {
 		ABSOLUTE, RELATIVE
 	}
 }

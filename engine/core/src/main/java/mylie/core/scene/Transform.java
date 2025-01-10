@@ -2,28 +2,30 @@ package mylie.core.scene;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.joml.*;
+import mylie.math.Matrix4f;
+import mylie.math.Quaternionf;
+import mylie.math.Vector3f;
 
 @Getter(AccessLevel.PACKAGE)
 public class Transform {
-	final Vector3f position = new Vector3f(0f);
-	final Quaternionf rotation = new Quaternionf();
-	final Vector3f scale = new Vector3f(1.0f);
-	final Matrix4f matrix = new Matrix4f();
+	Vector3f position = new Vector3f(0f);
+	Quaternionf rotation = new Quaternionf();
+	Vector3f scale = new Vector3f(1.0f);
+	Matrix4f matrix = new Matrix4f();
 	boolean dirty = true;
 	void combine(Transform localTransform, Transform parentWorldTransform) {
-		parentWorldTransform.rotation.mul(localTransform.rotation, this.rotation);
-		parentWorldTransform.scale.mul(localTransform.scale, this.scale);
-		parentWorldTransform.scale.mul(localTransform.position, this.position);
-		parentWorldTransform.rotation.transform(this.position, this.position);
-		this.position.add(parentWorldTransform.position);
+		this.rotation = parentWorldTransform.rotation.mul(localTransform.rotation);
+		this.scale = parentWorldTransform.scale.mul(localTransform.scale);
+		this.position = parentWorldTransform.scale.mul(localTransform.position);
+		position = parentWorldTransform.rotation.transform(this.position);
+		position = position.add(parentWorldTransform.position);
 		onTransformChange();
 	}
 
 	void set(Transform transform) {
-		position.set(transform.position);
-		rotation.set(transform.rotation);
-		scale.set(transform.scale);
+		position = transform.position;
+		rotation = transform.rotation;
+		scale = transform.scale;
 		onTransformChange();
 	}
 
@@ -33,30 +35,31 @@ public class Transform {
 
 	Matrix4f matrix() {
 		if (dirty) {
-			matrix.identity().translate(position).rotate(rotation).scale(scale);
+			matrix = Matrix4f.IDENTITY;
+			// matrix.identity().translate(position).rotate(rotation).scale(scale);
 			dirty = false;
 		}
 		return matrix;
 	}
 
-	void position(Vector3fc position) {
+	void position(Vector3f position) {
 		if (position.equals(this.position))
 			return;
-		this.position.set(position);
+		this.position = position;
 		onTransformChange();
 	}
 
-	void rotation(Quaternionfc rotation) {
+	void rotation(Quaternionf rotation) {
 		if (rotation.equals(this.rotation))
 			return;
-		this.rotation.set(rotation);
+		this.rotation = rotation;
 		onTransformChange();
 	}
 
-	void scale(Vector3fc scale) {
+	void scale(Vector3f scale) {
 		if (scale.equals(this.scale))
 			return;
-		this.scale.set(scale);
+		this.scale = scale;
 		onTransformChange();
 	}
 }

@@ -2,8 +2,8 @@ package mylie.core.scene;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
+import mylie.math.Quaternionf;
+import mylie.math.Vector3f;
 import org.junit.jupiter.api.Test;
 
 class NodeTest {

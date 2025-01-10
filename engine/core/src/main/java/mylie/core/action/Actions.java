@@ -1,10 +1,21 @@
 package mylie.core.action;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Actions {
+	private Actions() {}
+
+	@AllArgsConstructor
+	@Getter(AccessLevel.PROTECTED)
+	protected static abstract class BaseAction<T> implements Action<T> {
+		final ActionGroup group;
+	}
 
 	public static <T> Action<T> call(ActionGroup group, Function<T, Boolean> condition, Runnable action) {
 		return (value) -> {
@@ -34,5 +45,9 @@ public class Actions {
 			if (group.enabled() && condition.apply(value))
 				paramAction.accept(value, param);
 		};
+	}
+
+	public static <T> ObservableAction<T> observable(ActionGroup group) {
+		return new ObservableAction<>(group);
 	}
 }

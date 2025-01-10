@@ -4,9 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import mylie.core.assets.Asset;
+import mylie.math.Quaternionf;
+import mylie.math.Vector3f;
 import mylie.util.Flags;
-import org.joml.Quaternionfc;
-import org.joml.Vector3fc;
 
 @Getter(AccessLevel.PACKAGE)
 public class Spatial implements Asset<SpatialId, Spatial> {
@@ -58,14 +58,14 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	}
 
 	public interface Translatable {
-		default void translation(Vector3fc newPosition) {
+		default void translation(Vector3f newPosition) {
 			if (this instanceof Spatial spatial) {
 				spatial.localTransform().position(newPosition);
 				spatial.onLocalTransformChanged();
 			}
 		}
 
-		default void translate(Vector3fc offset) {
+		default void translate(Vector3f offset) {
 			translate(offset.x(), offset.y(), offset.z());
 		}
 
@@ -77,20 +77,20 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	}
 
 	public interface Rotatable {
-		default void rotation(Quaternionfc newRotation) {
+		default void rotation(Quaternionf newRotation) {
 			if (this instanceof Spatial spatial) {
 				spatial.localTransform().rotation(newRotation);
 				spatial.onLocalTransformChanged();
 			}
 		}
 
-		default void rotate(Quaternionfc rotation) {
+		default void rotate(Quaternionf rotation) {
 			if (this instanceof Spatial spatial) {
 				rotation(spatial.localTransform().rotation().mul(rotation));
 			}
 		}
 
-		default void rotateAxis(float angle, Vector3fc axis) {
+		default void rotateAxis(float angle, Vector3f axis) {
 			if (this instanceof Spatial spatial) {
 				rotation(spatial.localTransform().rotation().rotateAxis(angle, axis));
 			}
@@ -100,7 +100,7 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	public interface ScalableUniform {
 		default void scaling(float scaling) {
 			if (this instanceof Spatial spatial) {
-				spatial.localTransform().scale(spatial.localTransform().scale().set(scaling));
+				spatial.localTransform().scale(new Vector3f(scaling));
 				spatial.onLocalTransformChanged();
 			}
 		}
@@ -114,14 +114,14 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	}
 
 	public interface Scalable extends ScalableUniform {
-		default void scaling(Vector3fc scaling) {
+		default void scaling(Vector3f scaling) {
 			if (this instanceof Spatial spatial) {
 				spatial.localTransform().scale(scaling);
 				spatial.onLocalTransformChanged();
 			}
 		}
 
-		default void scale(Vector3fc scale) {
+		default void scale(Vector3f scale) {
 			if (this instanceof Spatial spatial) {
 				scaling(spatial.localTransform().scale().mul(scale));
 			}
