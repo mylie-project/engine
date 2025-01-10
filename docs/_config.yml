@@ -1,4 +1,4 @@
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://mylie-project.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/engine" # the subpath of your site, e.g. /blog
 title: "The MyLiE(ngine)" # the name of your site, e.g. ACME Corp.
 remote_theme: sighingnow/jekyll-gitbook
