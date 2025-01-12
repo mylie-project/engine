@@ -3,7 +3,6 @@ package mylie.core.components.threads;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.Engine;
 import mylie.core.EngineManager;
@@ -37,13 +36,10 @@ class ManagedThread implements EngineThread {
 			running = false;
 			future.complete(true);
 		});
-		try {
-			boolean threadStopped = future.get(1, TimeUnit.SECONDS);
-			if (!threadStopped) {
-				log.error("Failed to stop engine thread");
-			}
-		} catch (Exception e) {
-			log.error("Failed to stop engine thread", e);
+
+		Boolean join = future.join();
+		if (!join) {
+			log.error("Failed to stop engine thread");
 		}
 	}
 
