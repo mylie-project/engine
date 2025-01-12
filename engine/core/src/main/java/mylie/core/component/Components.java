@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.application.Application;
 import mylie.core.async.*;
@@ -42,8 +43,9 @@ public class Components {
 		}
 	}
 	@Slf4j
-	@Setter(AccessLevel.PACKAGE)
 	@Getter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.PACKAGE)
+	@Accessors(chain = false)
 	static sealed class Base implements Component permits Core, App {
 		private ComponentManager componentManager;
 		private final List<Supplier<Result<Void>>> updateDependecies = new CopyOnWriteArrayList<>();
