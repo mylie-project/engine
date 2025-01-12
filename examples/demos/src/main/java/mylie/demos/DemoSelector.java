@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import mylie.core.component.Components;
 
 @Slf4j
-public class DemoSelector extends Components.AppParallel implements Components.Initializable {
+public class DemoSelector extends Components.AppSequential implements Components.Initializable {
 	private final Map<String, List<Demo>> loadedDemos = new HashMap<>();
 	private Demo currentDemo;
 	@Override
@@ -22,6 +22,7 @@ public class DemoSelector extends Components.AppParallel implements Components.I
 				String category = subclass.getName().substring(0, subclass.getName().lastIndexOf("."));
 				category = category.replace("mylie.demos.", "");
 				log.info("Found demo: {} in category: {}", subclass.getSimpleName(), category);
+				Class<? extends Demo> subclass1 = subclass.loadClass().asSubclass(Demo.class);
 			}
 		}
 	}
