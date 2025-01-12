@@ -27,7 +27,7 @@ public class Math {
 	static double sin_theagentd_arith(double x) {
 		double xi = floor((x + PI_OVER_4) * ONE_OVER_PI);
 		double x_ = x - xi * PI;
-		double sign = ((int) xi & 1) * -2 + 1;
+		double sign = ((int) xi & 1) * -2 + 1D;
 		double x2 = x_ * x_;
 		double sin = x_;
 		double tx = x_ * x2;
@@ -54,7 +54,7 @@ public class Math {
 	static double sin_roquen_arith(double x) {
 		double xi = Math.floor((x + PI_OVER_4) * ONE_OVER_PI);
 		double x_ = x - xi * PI;
-		double sign = ((int) xi & 1) * -2 + 1;
+		double sign = ((int) xi & 1) * -2 + 1D;
 		double x2 = x_ * x_;
 
 		// code from sin_theagentd_arith:
@@ -94,7 +94,7 @@ public class Math {
 	static double sin_roquen_9(double v) {
 		double i = java.lang.Math.rint(v * ONE_OVER_PI);
 		double x = v - i * Math.PI;
-		double qs = 1 - 2 * ((int) i & 1);
+		double qs = 1D - 2 * ((int) i & 1);
 		double x2 = x * x;
 		double r;
 		x = qs * x;
@@ -121,7 +121,7 @@ public class Math {
 	static double sin_roquen_newk(double v) {
 		double i = java.lang.Math.rint(v * ONE_OVER_PI);
 		double x = v - i * Math.PI;
-		double qs = 1 - 2 * ((int) i & 1);
+		double qs = 1D - 2 * ((int) i & 1);
 		double x2 = x * x;
 		double r;
 		x = qs * x;

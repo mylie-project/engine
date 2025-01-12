@@ -1,6 +1,7 @@
 package mylie.core.audio.loaders;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -44,16 +45,21 @@ public class JavaAudioSystemLoader extends AssetImporter<AudioData.Id, AudioData
 				AudioFormat format = audioInputStream.getFormat();
 				int channels = format.getChannels();
 				float sampleRate = format.getSampleRate();
-				int bufferSize = (int) (format.getFrameRate() * format.getFrameSize());
-				byte[] data = new byte[bufferSize];
-				// noinspection StatementWithEmptyBody
-				while (audioInputStream.read(data) != -1) {
-					// intentional
+				int bitsPerSample = format.getSampleSizeInBits();
+
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				byte[] buffer = new byte[10000];
+				int readBytes;
+				while ((readBytes = audioInputStream.read(buffer, 0, buffer.length)) != -1) {
+					outputStream.write(buffer, 0, readBytes);
 				}
-				AudioData audioData = new AudioData(channels, sampleRate, ByteBuffer.wrap(data));
+				byte[] data = outputStream.toByteArray();
+				float duration = getDuration(format, data.length);
+				AudioData audioData = new AudioData(channels, sampleRate, bitsPerSample, duration,
+						ByteBuffer.wrap(data));
 				audioData.assetId(assetInfo.assetId());
 				audioData.assetId().loaded(true);
-				log.trace("Loaded audio data: {}", audioData);
+				log.trace("Loaded audio data {}", audioData);
 				return audioData;
 
 			} catch (UnsupportedAudioFileException e) {
@@ -61,5 +67,17 @@ public class JavaAudioSystemLoader extends AssetImporter<AudioData.Id, AudioData
 			}
 		}
 		return null;
+	}
+
+	private float getDuration(AudioFormat format, int dataLength) {
+		Long duration = (Long) format.properties().get("duration");
+		if (duration == null) {
+			int channels = format.getChannels();
+			float sampleRate = format.getSampleRate();
+			int bitsPerSample = format.getSampleSizeInBits();
+			return ((dataLength / (channels * (bitsPerSample / 8f))) / sampleRate);
+		} else {
+			return duration;
+		}
 	}
 }

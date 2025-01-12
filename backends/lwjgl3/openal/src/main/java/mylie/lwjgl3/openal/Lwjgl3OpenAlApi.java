@@ -12,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import mylie.core.audio.AudioDevice;
 import mylie.core.audio.AudioOutputContext;
 import mylie.core.audio.AudioSystem;
+import mylie.core.audio.apis.openal.OpenAl;
 import org.lwjgl.openal.*;
 @Slf4j
-public class Lwjgl3OpenAlApi extends mylie.core.audio.apis.OpenAl {
+public class Lwjgl3OpenAlApi extends OpenAl {
 	long device;
 	@Override
 	public void initialize(AudioSystem audioSystem) {

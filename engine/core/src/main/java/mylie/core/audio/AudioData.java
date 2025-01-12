@@ -14,12 +14,18 @@ public class AudioData implements Asset<AudioData.Id, AudioData> {
 	final int channels;
 	@Getter
 	final float sampleRate;
+	@Getter
+	final int bitsPerSample;
+	@Getter
+	final float duration;
 	@Getter(AccessLevel.PACKAGE)
 	final ByteBuffer data;
 
-	public AudioData(int channels, float sampleRate, ByteBuffer data) {
+	public AudioData(int channels, float sampleRate, int bitsPerSample, float duration, ByteBuffer data) {
 		this.channels = channels;
 		this.sampleRate = sampleRate;
+		this.bitsPerSample = bitsPerSample;
+		this.duration = duration;
 		this.data = data;
 	}
 

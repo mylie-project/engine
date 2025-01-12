@@ -1,4 +1,4 @@
-package mylie.core.audio.apis;
+package mylie.core.audio.apis.openal;
 
 import mylie.core.audio.AudioApi;
 
