@@ -15,7 +15,7 @@ public class EngineConfiguration extends Configuration<Engine> {
 	public static final Changeable<Engine, TimerSettings> Timer = new Changeable<>(TimerSettings.dynamicInterval(-1));
 	public static final Observable<Engine, Boolean> MultiThreaded = new Observable<>(true);
 	public static final Changeable<Engine, Application> Application = new Changeable<>(null);
-	public static final Changeable<Engine, AudioApi> AudioApi=new Changeable<>(null);
+	public static final Changeable<Engine, AudioApi> AudioApi = new Changeable<>(null);
 	private final Platform platform;
 
 	@Override

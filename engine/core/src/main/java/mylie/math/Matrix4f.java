@@ -82,7 +82,7 @@ public record Matrix4f(float m00, float m01, float m02, float m03, float m10, fl
 	}
 
 	public Matrix4f translationRotationScale(float tx, float ty, float tz, float qx, float qy, float qz, float qw,
-											 float sx, float sy, float sz) {
+			float sx, float sy, float sz) {
 		float dqx = qx + qx;
 		float dqy = qy + qy;
 		float dqz = qz + qz;

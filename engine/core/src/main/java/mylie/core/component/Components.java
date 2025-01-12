@@ -157,19 +157,16 @@ public class Components {
 			return super.componentManager;
 		}
 
-		protected Core cache(Cache cache) {
-			super.cache(cache);
-			return this;
+		protected void cache(Cache cache) {
+			super.cache = cache;
 		}
 
-		protected Core target(Async.Target target) {
+		protected void target(Async.Target target) {
 			super.target(target);
-			return this;
 		}
 
-		protected Core executionMode(Async.ExecutionMode executionMode) {
+		protected void executionMode(Async.ExecutionMode executionMode) {
 			super.executionMode(executionMode);
-			return this;
 		}
 	}
 

@@ -33,20 +33,6 @@ public class Timers {
 		}
 
 		static class NanoTime extends Time {
-			@Override
-			protected Time version(long version) {
-				return super.version(version);
-			}
-
-			@Override
-			protected Time delta(double delta) {
-				return super.delta(delta);
-			}
-
-			@Override
-			protected Time deltaMod(double deltaMod) {
-				return super.deltaMod(deltaMod);
-			}
 		}
 	}
 

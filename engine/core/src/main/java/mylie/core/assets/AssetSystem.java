@@ -1,27 +1,35 @@
 package mylie.core.assets;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.async.*;
+import mylie.core.component.Components;
 
 @Slf4j
-public class AssetSystem {
+public class AssetSystem implements AssetManager, Components.CoreComponent {
 	private final List<AssetLocation> assetLocations = new ArrayList<>();
 	private final List<AssetImporter<?, ?>> assetImporters = new ArrayList<>();
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public <K extends AssetId<A>, A> Result<A> loadAssetAsync(K assetId) {
 		return (Result<A>) Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, -1, LoadAssetAsync,
 				assetId, this);
 	}
 
+	@Override
 	public <K extends AssetId<A>, A> A loadAsset(K assetId) {
 		AssetInfo<K, A> assetInfo = locateAsset(assetId, AssetLocation.Operation.READ);
 		if (assetInfo != null) {
 			AssetImporter<K, A> importer = locateAssetImporter(assetId);
 			if (importer != null) {
-				return importer.read(assetInfo);
+				try {
+					return importer.read(assetInfo);
+				} catch (IOException e) {
+					log.error("Failed to read asset {}", assetId, e);
+				}
 			} else {
 				log.warn("No importer found for asset {}", assetId);
 			}
@@ -56,18 +64,22 @@ public class AssetSystem {
 		return null;
 	}
 
+	@Override
 	public void addAssetLocation(AssetLocation assetLocation) {
 		assetLocations.add(assetLocation);
 	}
 
+	@Override
 	public void removeAssetLocation(AssetLocation assetLocation) {
 		assetLocations.remove(assetLocation);
 	}
 
+	@Override
 	public void addAssetImporter(AssetImporter<?, ?> assetImporter) {
 		assetImporters.add(assetImporter);
 	}
 
+	@Override
 	public void removeAssetImporter(AssetImporter<?, ?> assetImporter) {
 		assetImporters.remove(assetImporter);
 	}

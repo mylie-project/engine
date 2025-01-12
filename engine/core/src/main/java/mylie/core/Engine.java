@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import mylie.core.application.Application;
 import mylie.core.application.ApplicationSystem;
+import mylie.core.assets.AssetSystem;
 import mylie.core.async.Async;
 import mylie.core.async.Scheduler;
 import mylie.core.audio.AudioApi;
@@ -54,9 +55,10 @@ public class Engine {
 		componentManager.component(new EngineManager(this));
 		initScheduler();
 		initModule(EngineConfiguration.Timer);
+		componentManager.component(new AssetSystem());
 		componentManager.component(new InputSystem());
 		AudioApi audioApi = configuration.option(EngineConfiguration.AudioApi);
-		if(audioApi!=null) {
+		if (audioApi != null) {
 			componentManager.component(new AudioSystem(audioApi));
 		}
 		Application application = configuration.option(EngineConfiguration.Application);
