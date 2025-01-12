@@ -47,6 +47,9 @@ public record Vector3f(float x, float y, float z) {
 	}
 
 	public Vector3f normalize() {
+		if (x == 0 && y == 0 && z == 0) {
+			throw new ArithmeticException("Cannot normalize the zero vector");
+		}
 		float length = Math.sqrt(x * x + y * y + z * z);
 		return new Vector3f(x / length, y / length, z / length);
 	}
@@ -92,5 +95,9 @@ public record Vector3f(float x, float y, float z) {
 
 	public Vector3f cross(Vector3f vector) {
 		return new Vector3f(y * vector.z - z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x);
+	}
+
+	public float lengthSquared() {
+		return x * x + y * y + z * z;
 	}
 }
