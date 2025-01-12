@@ -4,7 +4,6 @@ import mylie.core.async.Result;
 import mylie.core.component.Components;
 
 public interface AssetManager extends Components.AppComponent {
-	@SuppressWarnings("unchecked")
 	<K extends AssetId<A>, A> Result<A> loadAssetAsync(K assetId);
 
 	<K extends AssetId<A>, A> A loadAsset(K assetId);

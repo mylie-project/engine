@@ -22,8 +22,7 @@ public class Lwjgl3OpenAlApi extends mylie.core.audio.apis.OpenAl {
 		device = alcOpenDevice((ByteBuffer) null);
 		if (device == NULL) {
 			log.error("Failed to open OpenAL device.");
-			return;
-		}
+        }
 	}
 
 	@Override

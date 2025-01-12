@@ -11,7 +11,7 @@ import mylie.demos.Demo;
 
 @Slf4j
 public class HelloRawInput extends Demo implements InputListeners.Raw, Components.AddRemove {
-	private Action<Boolean> exitApplication = Actions.call(null, b -> b,
+	private final Action<Boolean> exitApplication = Actions.call(null, b -> b,
 			() -> System.out.println("Exiting application..."));
 	@Override
 	public void onInput(Input.Event<?, ?, ?> event) {

@@ -16,7 +16,7 @@ import mylie.core.audio.AudioData;
 
 @Slf4j
 public class JavaAudioSystemLoader extends AssetImporter<AudioData.Id, AudioData> {
-	private Set<String> supportedTypes = new HashSet<>();
+	private final Set<String> supportedTypes = new HashSet<>();
 
 	public JavaAudioSystemLoader() {
 		this(Arrays.stream(AudioSystem.getAudioFileTypes()).map(AudioFileFormat.Type::getExtension).toList()

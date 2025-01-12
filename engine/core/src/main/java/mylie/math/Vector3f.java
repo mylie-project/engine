@@ -60,7 +60,7 @@ public record Vector3f(float x, float y, float z) {
 	}
 
 	public float angle(Vector3f vector) {
-		return (float) Math.acos(dot(vector) / (length() * vector.length()));
+		return Math.acos(dot(vector) / (length() * vector.length()));
 	}
 
 	public Vector3f negate() {

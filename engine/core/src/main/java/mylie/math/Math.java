@@ -208,7 +208,7 @@ public class Math {
 	public static float safeAcos(float v) {
 		if (v < -1.0f)
 			return Math.PI_f;
-		else if (v > +1.0f)
+		else if (v > 1.0f)
 			return 0.0f;
 		else
 			return acos(v);
@@ -216,7 +216,7 @@ public class Math {
 	public static double safeAcos(double v) {
 		if (v < -1.0)
 			return Math.PI;
-		else if (v > +1.0)
+		else if (v > 1.0)
 			return 0.0;
 		else
 			return acos(v);
@@ -378,58 +378,37 @@ public class Math {
 	}
 
 	public static int roundUsing(float v, int mode) {
-		switch (mode) {
-			case RoundingMode.TRUNCATE :
-				return (int) v;
-			case RoundingMode.CEILING :
-				return (int) java.lang.Math.ceil(v);
-			case RoundingMode.FLOOR :
-				return (int) java.lang.Math.floor(v);
-			case RoundingMode.HALF_DOWN :
-				return roundHalfDown(v);
-			case RoundingMode.HALF_UP :
-				return roundHalfUp(v);
-			case RoundingMode.HALF_EVEN :
-				return roundHalfEven(v);
-			default :
-				throw new UnsupportedOperationException();
-		}
+        return switch (mode) {
+            case RoundingMode.TRUNCATE -> (int) v;
+            case RoundingMode.CEILING -> (int) java.lang.Math.ceil(v);
+            case RoundingMode.FLOOR -> (int) java.lang.Math.floor(v);
+            case RoundingMode.HALF_DOWN -> roundHalfDown(v);
+            case RoundingMode.HALF_UP -> roundHalfUp(v);
+            case RoundingMode.HALF_EVEN -> roundHalfEven(v);
+            default -> throw new UnsupportedOperationException();
+        };
 	}
 	public static int roundUsing(double v, int mode) {
-		switch (mode) {
-			case RoundingMode.TRUNCATE :
-				return (int) v;
-			case RoundingMode.CEILING :
-				return (int) java.lang.Math.ceil(v);
-			case RoundingMode.FLOOR :
-				return (int) java.lang.Math.floor(v);
-			case RoundingMode.HALF_DOWN :
-				return roundHalfDown(v);
-			case RoundingMode.HALF_UP :
-				return roundHalfUp(v);
-			case RoundingMode.HALF_EVEN :
-				return roundHalfEven(v);
-			default :
-				throw new UnsupportedOperationException();
-		}
+        return switch (mode) {
+            case RoundingMode.TRUNCATE -> (int) v;
+            case RoundingMode.CEILING -> (int) java.lang.Math.ceil(v);
+            case RoundingMode.FLOOR -> (int) java.lang.Math.floor(v);
+            case RoundingMode.HALF_DOWN -> roundHalfDown(v);
+            case RoundingMode.HALF_UP -> roundHalfUp(v);
+            case RoundingMode.HALF_EVEN -> roundHalfEven(v);
+            default -> throw new UnsupportedOperationException();
+        };
 	}
 	public static long roundLongUsing(double v, int mode) {
-		switch (mode) {
-			case RoundingMode.TRUNCATE :
-				return (long) v;
-			case RoundingMode.CEILING :
-				return (long) java.lang.Math.ceil(v);
-			case RoundingMode.FLOOR :
-				return (long) java.lang.Math.floor(v);
-			case RoundingMode.HALF_DOWN :
-				return roundHalfDown(v);
-			case RoundingMode.HALF_UP :
-				return roundHalfUp(v);
-			case RoundingMode.HALF_EVEN :
-				return roundHalfEven(v);
-			default :
-				throw new UnsupportedOperationException();
-		}
+        return switch (mode) {
+            case RoundingMode.TRUNCATE -> (long) v;
+            case RoundingMode.CEILING -> (long) java.lang.Math.ceil(v);
+            case RoundingMode.FLOOR -> (long) java.lang.Math.floor(v);
+            case RoundingMode.HALF_DOWN -> roundHalfDown(v);
+            case RoundingMode.HALF_UP -> roundHalfUp(v);
+            case RoundingMode.HALF_EVEN -> roundHalfEven(v);
+            default -> throw new UnsupportedOperationException();
+        };
 	}
 
 	public static float lerp(float a, float b, float t) {
