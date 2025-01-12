@@ -191,6 +191,9 @@ public class Engine {
 					throw new IllegalArgumentException("Invalid argument: " + arguments[i]);
 				}
 			}
+			for (Map.Entry<String, String> stringStringEntry : this.arguments.entrySet()) {
+				log.info("Argument {} : {}", stringStringEntry.getKey(), stringStringEntry.getValue());
+			}
 		}
 
 		public boolean defined(String key) {

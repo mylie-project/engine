@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mylie.math.Quaternionf;
 import mylie.math.Vector3f;
+import mylie.math.primitives.Shape;
 import mylie.util.Flags;
 
 @Getter(AccessLevel.PACKAGE)
@@ -14,6 +15,8 @@ public class Spatial {
 	private final Transform localTransform = new Transform();
 	private final Transform worldTransform = new Transform();
 	private final Flags flags = new Flags();
+	@Getter
+	private Shape worldBounds;
 	@Getter(AccessLevel.PUBLIC)
 	@Setter(AccessLevel.PACKAGE)
 	private Spatial parent;

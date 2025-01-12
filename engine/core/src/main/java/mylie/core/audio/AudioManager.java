@@ -10,4 +10,8 @@ public interface AudioManager extends Components.AppComponent {
 	List<AudioDevice.Output> playbackDevices();
 
 	List<AudioDevice.Input> recordDevices();
+
+	void listener(AudioListener audioListener);
+
+	void createOutputContext(AudioDevice.Output device);
 }
