@@ -57,18 +57,6 @@ public class Math {
 		double sign = ((int) xi & 1) * -2 + 1D;
 		double x2 = x_ * x_;
 
-		// code from sin_theagentd_arith:
-		// double sin = x_;
-		// double tx = x_ * x2;
-		// sin += tx * c1; tx *= x2;
-		// sin += tx * c2; tx *= x2;
-		// sin += tx * c3; tx *= x2;
-		// sin += tx * c4; tx *= x2;
-		// sin += tx * c5; tx *= x2;
-		// sin += tx * c6; tx *= x2;
-		// sin += tx * c7;
-		// return sign * sin;
-
 		double sin;
 		x_ = sign * x_;
 		sin = c7;

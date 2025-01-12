@@ -25,8 +25,8 @@ class QuaternionfTest {
 		Quaternionf result = initial.rotateAxis(angle, axisX, axisY, axisZ);
 
 		// Assert
-		float expectedX = (float) Math.sin(angle / 2);
-		float expectedW = (float) Math.cos(angle / 2);
+		float expectedX = Math.sin(angle / 2);
+		float expectedW = Math.cos(angle / 2);
 		assertEquals(expectedX, result.x(), 1e-6f);
 		assertEquals(0.0f, result.y(), 1e-6f);
 		assertEquals(0.0f, result.z(), 1e-6f);
@@ -44,8 +44,8 @@ class QuaternionfTest {
 		Quaternionf result = initial.rotateAxis(angle, axisX, axisY, axisZ);
 
 		// Assert
-		float expectedY = (float) Math.sin(angle / 2);
-		float expectedW = (float) Math.cos(angle / 2);
+		float expectedY = Math.sin(angle / 2);
+		float expectedW = Math.cos(angle / 2);
 		assertEquals(0.0f, result.x(), 1e-6f);
 		assertEquals(expectedY, result.y(), 1e-6f);
 		assertEquals(0.0f, result.z(), 1e-6f);
@@ -63,8 +63,8 @@ class QuaternionfTest {
 		Quaternionf result = initial.rotateAxis(angle, axisX, axisY, axisZ);
 
 		// Assert
-		float expectedZ = (float) Math.sin(angle / 2);
-		float expectedW = (float) Math.cos(angle / 2);
+		float expectedZ = Math.sin(angle / 2);
+		float expectedW = Math.cos(angle / 2);
 		assertEquals(0.0f, result.x(), 1e-6f);
 		assertEquals(0.0f, result.y(), 1e-6f);
 		assertEquals(expectedZ, result.z(), 1e-6f);
@@ -83,11 +83,11 @@ class QuaternionfTest {
 
 		// Assert
 		float invLength = (float) (1.0 / Math.sqrt(3.0));
-		float sinAngle = (float) Math.sin(angle / 2);
+		float sinAngle = Math.sin(angle / 2);
 		float expectedX = axisX * invLength * sinAngle;
 		float expectedY = axisY * invLength * sinAngle;
 		float expectedZ = axisZ * invLength * sinAngle;
-		float expectedW = (float) Math.cos(angle / 2);
+		float expectedW = Math.cos(angle / 2);
 		assertEquals(expectedX, result.x(), 1e-6f);
 		assertEquals(expectedY, result.y(), 1e-6f);
 		assertEquals(expectedZ, result.z(), 1e-6f);
