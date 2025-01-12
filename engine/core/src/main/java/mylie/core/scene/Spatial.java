@@ -3,13 +3,12 @@ package mylie.core.scene;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import mylie.core.assets.Asset;
 import mylie.math.Quaternionf;
 import mylie.math.Vector3f;
 import mylie.util.Flags;
 
 @Getter(AccessLevel.PACKAGE)
-public class Spatial implements Asset<SpatialId, Spatial> {
+public class Spatial {
 	private static final int WORLD_TRANSFORM_CHANGED = 1;
 	private static final int WORLD_BOUNDS_CHANGED = 1 << 1;
 	private final Transform localTransform = new Transform();
@@ -18,9 +17,6 @@ public class Spatial implements Asset<SpatialId, Spatial> {
 	@Getter(AccessLevel.PUBLIC)
 	@Setter(AccessLevel.PACKAGE)
 	private Spatial parent;
-	@Getter(AccessLevel.PUBLIC)
-	@Setter(AccessLevel.PUBLIC)
-	private SpatialId assetId;
 
 	protected void onLocalTransformChanged() {
 		flags.set(WORLD_TRANSFORM_CHANGED);
