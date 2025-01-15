@@ -100,4 +100,20 @@ public record Vector3f(float x, float y, float z) {
 	public float lengthSquared() {
 		return x * x + y * y + z * z;
 	}
+
+	public float distanceSquared(Vector3f vector) {
+		return Math.fma(x - vector.x, x - vector.x, Math.fma(y - vector.y, y - vector.y, z - vector.z));
+	}
+
+	public float distance(Vector3f vector) {
+		return Math.sqrt(distanceSquared(vector));
+	}
+
+	public Vector3f min(Vector3f vector) {
+		return new Vector3f(Math.min(x, vector.x), Math.min(y, vector.y), Math.min(z, vector.z));
+	}
+
+	public Vector3f max(Vector3f vector) {
+		return new Vector3f(Math.max(x, vector.x), Math.max(y, vector.y), Math.max(z, vector.z));
+	}
 }

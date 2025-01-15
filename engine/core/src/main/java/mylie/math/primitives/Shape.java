@@ -1,5 +1,9 @@
 package mylie.math.primitives;
 
+import mylie.math.Collision;
+
 public interface Shape {
-    boolean collidesWith(Shape other);
+	default boolean collidesWith(Shape other) {
+		return Collision.collides(this,other);
+	}
 }

@@ -2,10 +2,10 @@ package mylie.core.audio;
 
 import mylie.core.scene.Spatial;
 
-public class AudioListener extends Spatial implements Spatial.Rotatable,Spatial.Translatable {
+public class AudioListener extends Spatial implements Spatial.Rotatable, Spatial.Translatable {
 
-    @Override
-    protected Spatial getRoot() {
-        return super.getRoot();
-    }
+	@Override
+	protected Spatial getRoot() {
+		return super.getRoot();
+	}
 }

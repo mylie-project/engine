@@ -3,7 +3,6 @@ package mylie.core.audio;
 import static mylie.util.Void.*;
 
 import java.util.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import mylie.core.component.Components;
 import mylie.core.component.Stages;
 import mylie.core.components.threads.EngineThread;
 import mylie.core.components.threads.ThreadManager;
-import mylie.core.scene.Node;
 import mylie.core.scene.Spatial;
 import mylie.core.scene.Traverser;
 
@@ -63,7 +61,7 @@ public class AudioSystem extends Components.Core implements AudioManager, Compon
 		if (listener != null) {
 			Spatial sceneRoot = listener.getRoot();
 			AudioCullResult audioCullResult = new AudioCullResult(listener, null);
-			Traverser.traverse(Traverser.ToLeaf,sceneRoot,audioCullResult);
+			Traverser.traverse(Traverser.ToLeaf, sceneRoot, audioCullResult);
 			Set<AudioSource> sources = audioCullResult.sources;
 
 		}
@@ -72,13 +70,12 @@ public class AudioSystem extends Components.Core implements AudioManager, Compon
 
 	@Override
 	public void createOutputContext(AudioDevice.Output device) {
-		if(device == null){
+		if (device == null) {
 			device = playbackDevices.getFirst();
 		}
 		outputContext = audioApi.createContext(device);
 		outputContext.create();
 	}
-
 
 	private static final Function.F0<mylie.util.Void> Update = new Function.F0<>("UpdateAudio") {
 		@Override
@@ -87,28 +84,26 @@ public class AudioSystem extends Components.Core implements AudioManager, Compon
 		}
 	};
 
-
-
 	private static class AudioCullResult implements Traverser.Visitor {
 		final AudioListener listener;
 		final AudioCullResult parent;
 		final Set<AudioSource> sources = new HashSet<>();
 		public AudioCullResult(AudioListener listener, AudioCullResult parent) {
 			this.listener = listener;
-            this.parent = parent;
-        }
+			this.parent = parent;
+		}
 
 		@Override
 		public boolean visit(Spatial spatial) {
-			//if(!spatial.worldBounds().collidesWith(listener.worldBounds())){
-			//	return false;
-			//}else{
-				if(spatial instanceof AudioSource audioSource){
-					if(audioSource.state() == AudioSource.State.PLAYING) {
-						sources.add(audioSource);
-					}
+			// if(!spatial.worldBounds().collidesWith(listener.worldBounds())){
+			// return false;
+			// }else{
+			if (spatial instanceof AudioSource audioSource) {
+				if (audioSource.state() == AudioSource.State.PLAYING) {
+					sources.add(audioSource);
 				}
-			//}
+			}
+			// }
 			return true;
 		}
 	}
