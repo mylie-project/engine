@@ -1,5 +1,6 @@
 package mylie.math;
 
+@SuppressWarnings("unused")
 public interface Vec2<V extends Vec2<V, N>, N extends Number> extends Vec<V, N> {
 
     /**
