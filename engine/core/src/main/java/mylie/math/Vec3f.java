@@ -1,7 +1,7 @@
 package mylie.math;
 
 @SuppressWarnings({"SuspiciousNameCombination", "unused"})
-public record Vec3f(float x, float y, float z) implements Vec3<Vec2f,Vec3f, Float> {
+public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f, Float> {
 
 	/**
 	 * Computes the cross product of this vector with another vector.
