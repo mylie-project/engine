@@ -1,12 +1,13 @@
 package mylie.math;
 
 @SuppressWarnings({"SuspiciousNameCombination", "unused"})
-public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f, Float> {
+public record Vec3f(float x, float y, float z) implements Vec3<Vec3f, Vec2f, Vec3f, Float> {
 
 	/**
 	 * Computes the cross product of this vector with another vector.
 	 *
-	 * @param other the vector to compute the cross product with
+	 * @param other
+	 *            the vector to compute the cross product with
 	 * @return a new {@code Vec3f} representing the cross product
 	 */
 	@Override
@@ -15,11 +16,11 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 				this.x * other.y - this.y * other.x);
 	}
 
-
 	/**
 	 * Adds this vector to another vector component-wise.
 	 *
-	 * @param other the vector to add
+	 * @param other
+	 *            the vector to add
 	 * @return a new {@code Vec3f} representing the sum
 	 */
 	@Override
@@ -30,7 +31,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	/**
 	 * Subtracts another vector from this vector component-wise.
 	 *
-	 * @param other the vector to subtract
+	 * @param other
+	 *            the vector to subtract
 	 * @return a new {@code Vec3f} representing the difference
 	 */
 	@Override
@@ -41,7 +43,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	/**
 	 * Multiplies this vector by another vector component-wise.
 	 *
-	 * @param other the vector to multiply
+	 * @param other
+	 *            the vector to multiply
 	 * @return a new {@code Vec3f} representing the product
 	 */
 	@Override
@@ -52,7 +55,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	/**
 	 * Divides this vector by another vector component-wise.
 	 *
-	 * @param other the vector to divide by
+	 * @param other
+	 *            the vector to divide by
 	 * @return a new {@code Vec3f} representing the quotient
 	 */
 	@Override
@@ -63,7 +67,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	/**
 	 * Computes the dot product of this vector with another vector.
 	 *
-	 * @param other the vector to compute the dot product with
+	 * @param other
+	 *            the vector to compute the dot product with
 	 * @return the scalar dot product
 	 */
 	@Override
@@ -163,7 +168,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	}
 
 	/**
-	 * Creates a 2D vector with both components set to the x-component of this vector.
+	 * Creates a 2D vector with both components set to the x-component of this
+	 * vector.
 	 *
 	 * @return a new {@code Vec2f} containing the x-component in both positions
 	 */
@@ -173,7 +179,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	}
 
 	/**
-	 * Creates a 2D vector with both components set to the y-component of this vector.
+	 * Creates a 2D vector with both components set to the y-component of this
+	 * vector.
 	 *
 	 * @return a new {@code Vec2f} containing the y-component in both positions
 	 */
@@ -183,7 +190,8 @@ public record Vec3f(float x, float y, float z) implements Vec3<Vec3f,Vec2f,Vec3f
 	}
 
 	/**
-	 * Creates a 2D vector with both components set to the z-component of this vector.
+	 * Creates a 2D vector with both components set to the z-component of this
+	 * vector.
 	 *
 	 * @return a new {@code Vec2f} containing the z-component in both positions
 	 */

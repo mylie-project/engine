@@ -6,7 +6,8 @@ public interface Vec<V extends Vec<V, N>, N extends Number> {
 	/**
 	 * Adds the given vector to the current vector.
 	 *
-	 * @param other the vector to add
+	 * @param other
+	 *            the vector to add
 	 * @return a new vector representing the result of the addition
 	 */
 	V add(V other);
@@ -14,7 +15,8 @@ public interface Vec<V extends Vec<V, N>, N extends Number> {
 	/**
 	 * Subtracts the given vector from the current vector.
 	 *
-	 * @param other the vector to subtract
+	 * @param other
+	 *            the vector to subtract
 	 * @return a new vector representing the result of the subtraction
 	 */
 	V sub(V other);
@@ -22,7 +24,8 @@ public interface Vec<V extends Vec<V, N>, N extends Number> {
 	/**
 	 * Multiplies the current vector by the given vector.
 	 *
-	 * @param other the vector to multiply by
+	 * @param other
+	 *            the vector to multiply by
 	 * @return a new vector representing the result of the multiplication
 	 */
 	V mul(V other);
@@ -30,7 +33,8 @@ public interface Vec<V extends Vec<V, N>, N extends Number> {
 	/**
 	 * Divides the current vector by the given vector.
 	 *
-	 * @param other the vector to divide by
+	 * @param other
+	 *            the vector to divide by
 	 * @return a new vector representing the result of the division
 	 */
 	V div(V other);
@@ -38,7 +42,8 @@ public interface Vec<V extends Vec<V, N>, N extends Number> {
 	/**
 	 * Computes the dot product of the current vector and the given vector.
 	 *
-	 * @param other the vector to compute the dot product with
+	 * @param other
+	 *            the vector to compute the dot product with
 	 * @return the dot product as a float
 	 */
 	float dot(V other);

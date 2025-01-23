@@ -1,580 +1,581 @@
 package mylie.math;
 
 @SuppressWarnings("unused")
-public interface Vec4<V extends Vec<V,N>,V2 extends Vec2<V2,N>,V3 extends Vec3<V3,V2,V3,N>,N extends Number> extends Vec<V,N> {
+public interface Vec4<V extends Vec<V, N>, V2 extends Vec2<V2, N>, V3 extends Vec3<V3, V2, V3, N>, N extends Number>
+		extends
+			Vec<V, N> {
 
-    V2 xx();
-    V2 xy();
-    V2 xz();
-    V2 xw();
-    V2 yx();
-    V2 yy();
-    V2 yz();
-    V2 yw();
-    V2 zx();
-    V2 zy();
-    V2 zz();
-    V2 zw();
+	V2 xx();
+	V2 xy();
+	V2 xz();
+	V2 xw();
+	V2 yx();
+	V2 yy();
+	V2 yz();
+	V2 yw();
+	V2 zx();
+	V2 zy();
+	V2 zz();
+	V2 zw();
 
-    V3 xyz();
+	V3 xyz();
 
-    V3 xyw();
+	V3 xyw();
 
-    V3 xzw();
+	V3 xzw();
 
-    V3 xwx();
+	V3 xwx();
 
-    V3 xwy();
+	V3 xwy();
 
-    V3 xwz();
+	V3 xwz();
 
-    V3 yzw();
+	V3 yzw();
 
-    V3 yxz();
+	V3 yxz();
 
-    V3 yzx();
+	V3 yzx();
 
-    V3 ywx();
+	V3 ywx();
 
-    V3 ywz();
+	V3 ywz();
 
-    V3 yxy();
+	V3 yxy();
 
-    V3 zyw();
+	V3 zyw();
 
-    V3 zxy();
+	V3 zxy();
 
-    V3 zyx();
+	V3 zyx();
 
-    V3 zxz();
+	V3 zxz();
 
-    V3 zxw();
+	V3 zxw();
 
-    V3 wxy();
+	V3 wxy();
 
-    V3 wxz();
+	V3 wxz();
 
-    V3 wyz();
+	V3 wyz();
 
-    V3 wzx();
+	V3 wzx();
 
-    V3 wzy();
+	V3 wzy();
 
-    V3 wyw();
+	V3 wyw();
 
-    V3 wxw();
+	V3 wxw();
 
-    V xxxx();
+	V xxxx();
 
-    V xxxy();
+	V xxxy();
 
-    V xxxz();
+	V xxxz();
 
-    V xxxw();
+	V xxxw();
 
-    V xxyx();
+	V xxyx();
 
-    V xxyy();
+	V xxyy();
 
-    V xxyz();
+	V xxyz();
 
-    V xxyw();
+	V xxyw();
 
-    V xxzx();
+	V xxzx();
 
-    V xxzy();
+	V xxzy();
 
-    V xxzz();
+	V xxzz();
 
-    V xxzw();
+	V xxzw();
 
-    V xxwx();
+	V xxwx();
 
-    V xxwy();
+	V xxwy();
 
-    V xxwz();
+	V xxwz();
 
-    V xxww();
+	V xxww();
 
-    V xyxx();
+	V xyxx();
 
-    V xyxy();
+	V xyxy();
 
-    V xyxz();
+	V xyxz();
 
-    V xyxw();
+	V xyxw();
 
-    V xyyx();
+	V xyyx();
 
-    V xyyy();
+	V xyyy();
 
-    V xyyz();
+	V xyyz();
 
-    V xyyw();
+	V xyyw();
 
-    V xyzx();
+	V xyzx();
 
-    V xyzy();
+	V xyzy();
 
-    V xyzz();
+	V xyzz();
 
-    V xyzw();
+	V xyzw();
 
-    V xywx();
+	V xywx();
 
-    V xywy();
+	V xywy();
 
-    V xywz();
+	V xywz();
 
-    V xyww();
+	V xyww();
 
-    V xzxx();
+	V xzxx();
 
-    V xzxy();
+	V xzxy();
 
-    V xzxz();
+	V xzxz();
 
-    V xzxw();
+	V xzxw();
 
-    V xzyx();
+	V xzyx();
 
-    V xzyy();
+	V xzyy();
 
-    V xzyz();
+	V xzyz();
 
-    V xzyw();
+	V xzyw();
 
-    V xzzx();
+	V xzzx();
 
-    V xzzy();
+	V xzzy();
 
-    V xzzz();
+	V xzzz();
 
-    V xzzw();
+	V xzzw();
 
-    V xzwx();
+	V xzwx();
 
-    V xzwy();
+	V xzwy();
 
-    V xzwz();
+	V xzwz();
 
-    V xzww();
+	V xzww();
 
-    V xwxx();
+	V xwxx();
 
-    V xwxy();
+	V xwxy();
 
-    V xwxz();
+	V xwxz();
 
-    V xwxw();
+	V xwxw();
 
-    V xwyx();
+	V xwyx();
 
-    V xwyy();
+	V xwyy();
 
-    V xwyz();
+	V xwyz();
 
-    V xwyw();
+	V xwyw();
 
-    V xwzx();
+	V xwzx();
 
-    V xwzy();
+	V xwzy();
 
-    V xwzz();
+	V xwzz();
 
-    V xwzw();
+	V xwzw();
 
-    V xwwx();
+	V xwwx();
 
-    V xwwy();
+	V xwwy();
 
-    V xwwz();
+	V xwwz();
 
-    V xwww();
+	V xwww();
 
-    V yxxx();
+	V yxxx();
 
-    V yxxy();
+	V yxxy();
 
-    V yxxz();
+	V yxxz();
 
-    V yxxw();
+	V yxxw();
 
-    V yxyx();
+	V yxyx();
 
-    V yxyy();
+	V yxyy();
 
-    V yxyz();
+	V yxyz();
 
-    V yxyw();
+	V yxyw();
 
-    V yxzx();
+	V yxzx();
 
-    V yxzy();
+	V yxzy();
 
-    V yxzz();
+	V yxzz();
 
-    V yxzw();
+	V yxzw();
 
-    V yxwx();
+	V yxwx();
 
-    V yxwy();
+	V yxwy();
 
-    V yxwz();
+	V yxwz();
 
-    V yxww();
+	V yxww();
 
-    V yyxx();
+	V yyxx();
 
-    V yyxy();
+	V yyxy();
 
-    V yyxz();
+	V yyxz();
 
-    V yyxw();
+	V yyxw();
 
-    V yyyx();
+	V yyyx();
 
-    V yyyy();
+	V yyyy();
 
-    V yyyz();
+	V yyyz();
 
-    V yyyw();
+	V yyyw();
 
-    V yyzx();
+	V yyzx();
 
-    V yyzy();
+	V yyzy();
 
-    V yyzz();
+	V yyzz();
 
-    V yyzw();
+	V yyzw();
 
-    V yywx();
+	V yywx();
 
-    V yywy();
+	V yywy();
 
-    V yywz();
+	V yywz();
 
-    V yyww();
+	V yyww();
 
-    V yzxx();
+	V yzxx();
 
-    V yzxy();
+	V yzxy();
 
-    V yzxz();
+	V yzxz();
 
-    V yzxw();
+	V yzxw();
 
-    V yzyx();
+	V yzyx();
 
-    V yzyy();
+	V yzyy();
 
-    V yzyz();
+	V yzyz();
 
-    V yzyw();
+	V yzyw();
 
-    V yzzx();
+	V yzzx();
 
-    V yzzy();
+	V yzzy();
 
-    V yzzz();
+	V yzzz();
 
-    V yzzw();
+	V yzzw();
 
-    V yzwx();
+	V yzwx();
 
-    V yzwy();
+	V yzwy();
 
-    V yzwz();
+	V yzwz();
 
-    V yzww();
+	V yzww();
 
-    V ywxx();
+	V ywxx();
 
-    V ywxy();
+	V ywxy();
 
-    V ywxz();
+	V ywxz();
 
-    V ywxw();
+	V ywxw();
 
-    V ywyx();
+	V ywyx();
 
-    V ywyy();
+	V ywyy();
 
-    V ywyz();
+	V ywyz();
 
-    V ywyw();
+	V ywyw();
 
-    V ywzx();
+	V ywzx();
 
-    V ywzy();
+	V ywzy();
 
-    V ywzz();
+	V ywzz();
 
-    V ywzw();
+	V ywzw();
 
-    V ywwx();
+	V ywwx();
 
-    V ywwy();
+	V ywwy();
 
-    V ywwz();
+	V ywwz();
 
-    V ywww();
+	V ywww();
 
-    V zxxx();
+	V zxxx();
 
-    V zxxy();
+	V zxxy();
 
-    V zxxz();
+	V zxxz();
 
-    V zxxw();
+	V zxxw();
 
-    V zxyx();
+	V zxyx();
 
-    V zxyy();
+	V zxyy();
 
-    V zxyz();
+	V zxyz();
 
-    V zxyw();
+	V zxyw();
 
-    V zxzx();
+	V zxzx();
 
-    V zxzy();
+	V zxzy();
 
-    V zxzz();
+	V zxzz();
 
-    V zxzw();
+	V zxzw();
 
-    V zxwx();
+	V zxwx();
 
-    V zxwy();
+	V zxwy();
 
-    V zxwz();
+	V zxwz();
 
-    V zxww();
+	V zxww();
 
-    V zyxx();
+	V zyxx();
 
-    V zyxy();
+	V zyxy();
 
-    V zyxz();
+	V zyxz();
 
-    V zyxw();
+	V zyxw();
 
-    V zyyx();
+	V zyyx();
 
-    V zyyy();
+	V zyyy();
 
-    V zyyz();
+	V zyyz();
 
-    V zyyw();
+	V zyyw();
 
-    V zyzx();
+	V zyzx();
 
-    V zyzy();
+	V zyzy();
 
-    V zyzz();
+	V zyzz();
 
-    V zyzw();
+	V zyzw();
 
-    V zywx();
+	V zywx();
 
-    V zywy();
+	V zywy();
 
-    V zywz();
+	V zywz();
 
-    V zyww();
+	V zyww();
 
-    V zzxx();
+	V zzxx();
 
-    V zzxy();
+	V zzxy();
 
-    V zzxz();
+	V zzxz();
 
-    V zzxw();
+	V zzxw();
 
-    V zzyx();
+	V zzyx();
 
-    V zzyy();
+	V zzyy();
 
-    V zzyz();
+	V zzyz();
 
-    V zzyw();
+	V zzyw();
 
-    V zzzx();
+	V zzzx();
 
-    V zzzy();
+	V zzzy();
 
-    V zzzz();
+	V zzzz();
 
-    V zzzw();
+	V zzzw();
 
-    V zzwx();
+	V zzwx();
 
-    V zzwy();
+	V zzwy();
 
-    V zzwz();
+	V zzwz();
 
-    V zzww();
+	V zzww();
 
-    V zwxx();
+	V zwxx();
 
-    V zwxy();
+	V zwxy();
 
-    V zwxz();
+	V zwxz();
 
-    V zwxw();
+	V zwxw();
 
-    V zwyx();
+	V zwyx();
 
-    V zwyy();
+	V zwyy();
 
-    V zwyz();
+	V zwyz();
 
-    V zwyw();
+	V zwyw();
 
-    V zwzx();
+	V zwzx();
 
-    V zwzy();
+	V zwzy();
 
-    V zwzz();
+	V zwzz();
 
-    V zwzw();
+	V zwzw();
 
-    V zwwx();
+	V zwwx();
 
-    V zwwy();
+	V zwwy();
 
-    V zwwz();
+	V zwwz();
 
-    V zwww();
+	V zwww();
 
-    V wxxx();
+	V wxxx();
 
-    V wxxy();
+	V wxxy();
 
-    V wxxz();
+	V wxxz();
 
-    V wxxw();
+	V wxxw();
 
-    V wxyx();
+	V wxyx();
 
-    V wxyy();
+	V wxyy();
 
-    V wxyz();
+	V wxyz();
 
-    V wxyw();
+	V wxyw();
 
-    V wxzx();
+	V wxzx();
 
-    V wxzy();
+	V wxzy();
 
-    V wxzz();
+	V wxzz();
 
-    V wxzw();
+	V wxzw();
 
-    V wxwx();
+	V wxwx();
 
-    V wxwy();
+	V wxwy();
 
-    V wxwz();
+	V wxwz();
 
-    V wxww();
+	V wxww();
 
-    V wyxx();
+	V wyxx();
 
-    V wyxy();
+	V wyxy();
 
-    V wyxz();
+	V wyxz();
 
-    V wyxw();
+	V wyxw();
 
-    V wyyx();
+	V wyyx();
 
-    V wyyy();
+	V wyyy();
 
-    V wyyz();
+	V wyyz();
 
-    V wyyw();
+	V wyyw();
 
-    V wyzx();
+	V wyzx();
 
-    V wyzy();
+	V wyzy();
 
-    V wyzz();
+	V wyzz();
 
-    V wyzw();
+	V wyzw();
 
-    V wywx();
+	V wywx();
 
-    V wywy();
+	V wywy();
 
-    V wywz();
+	V wywz();
 
-    V wyww();
+	V wyww();
 
-    V wzxx();
+	V wzxx();
 
-    V wzxy();
+	V wzxy();
 
-    V wzxz();
+	V wzxz();
 
-    V wzxw();
+	V wzxw();
 
-    V wzyx();
+	V wzyx();
 
-    V wzyy();
+	V wzyy();
 
-    V wzyz();
+	V wzyz();
 
-    V wzyw();
+	V wzyw();
 
-    V wzzx();
+	V wzzx();
 
-    V wzzy();
+	V wzzy();
 
-    V wzzz();
+	V wzzz();
 
-    V wzzw();
+	V wzzw();
 
-    V wzwx();
+	V wzwx();
 
-    V wzwy();
+	V wzwy();
 
-    V wzwz();
+	V wzwz();
 
-    V wzww();
+	V wzww();
 
-    V wwxx();
+	V wwxx();
 
-    V wwxy();
+	V wwxy();
 
-    V wwxz();
+	V wwxz();
 
-    V wwxw();
+	V wwxw();
 
-    V wwyx();
+	V wwyx();
 
-    V wwyy();
+	V wwyy();
 
-    V wwyz();
+	V wwyz();
 
-    V wwyw();
+	V wwyw();
 
-    V wwzx();
+	V wwzx();
 
-    V wwzy();
+	V wwzy();
 
-    V wwzz();
+	V wwzz();
 
-    V wwzw();
+	V wwzw();
 
-    V wwwx();
+	V wwwx();
 
-    V wwwy();
+	V wwwy();
 
-    V wwwz();
+	V wwwz();
 
-    V wwww();
-
+	V wwww();
 
 }
