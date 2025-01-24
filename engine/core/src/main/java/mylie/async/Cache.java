@@ -29,7 +29,7 @@ public abstract class Cache {
 	 *
 	 * @param id the unique identifier for the cache
 	 */
-	public Cache(String id) {
+	protected Cache(String id) {
 		this.id = id;
 	}
 
