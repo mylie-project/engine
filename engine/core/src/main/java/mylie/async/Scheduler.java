@@ -12,8 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Setter
-public abstract sealed class Scheduler
-		permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
+public abstract sealed class Scheduler permits Schedulers.SingleThreadedScheduler, Schedulers.MultiThreadedScheduler {
 	@Getter
 	private final boolean multiThreaded;
 	private final Cache globalCache;
@@ -58,6 +57,13 @@ public abstract sealed class Scheduler
 
 	public abstract void onShutdown();
 
+	public void initialize() {
+		globalCache.reset();
+		for (Cache cache : caches) {
+			cache.reset();
+		}
+	}
+
 	abstract static class TaskExecutor {
 		abstract <R> Result<R> executeFunction(Async.Target target, Cache cache, long version, Async.Hash hash,
 				Supplier<R> function);
@@ -88,6 +94,11 @@ public abstract sealed class Scheduler
 		@Override
 		void remove(Async.Hash hash) {
 			store.remove(hash);
+		}
+
+		@Override
+		public void reset() {
+			store.clear();
 		}
 	}
 }

@@ -21,7 +21,16 @@ public class Async {
 		if (asyncScheduler != null)
 			throw new IllegalStateException("Async scheduler already set");
 		asyncScheduler = scheduler;
+		asyncScheduler.initialize();
 		log.info("Async scheduler set to {}", scheduler.getClass().getSimpleName());
+	}
+
+	public static void shutdown() {
+		if (asyncScheduler == null)
+			throw new IllegalStateException("Async scheduler not set");
+		asyncScheduler.onShutdown();
+		asyncScheduler = null;
+		log.info("Async scheduler shut down");
 	}
 
 	private static final Lock lock = new ReentrantLock();

@@ -46,6 +46,8 @@ public abstract class Cache {
 	/// @param hash the unique identifier of the cache entry to be removed
 	abstract void remove(Async.Hash hash);
 
+	public abstract void reset();
+
 	/// `NoOpCache` is a concrete implementation of the abstract `Cache` class
 	/// that effectively performs no caching operations. Instances of `NoOpCache`
 	/// are stateless and serve as a placeholder or a no-operation cache, where all
@@ -77,6 +79,11 @@ public abstract class Cache {
 
 		@Override
 		void remove(Async.Hash hash) {
+			// NoOp intentional
+		}
+
+		@Override
+		public void reset() {
 			// NoOp intentional
 		}
 	}
@@ -113,6 +120,11 @@ public abstract class Cache {
 		void invalidate() {
 			store.keySet().forEach(parent::remove);
 			store.clear();
+		}
+
+		@Override
+		public void reset() {
+			invalidate();
 		}
 	}
 
