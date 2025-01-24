@@ -90,10 +90,8 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 
 	/**
 	 * Updates the Scheduler's state for the given frame, invalidating associated caches.
-	 *
-	 * @param frameId the ID of the current frame.
 	 */
-	public void update(long frameId) {
+	public void invalidate() {
 		for (Cache cache : caches) {
 			cache.invalidate();
 		}

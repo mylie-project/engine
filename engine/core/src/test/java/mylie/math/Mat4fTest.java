@@ -10,8 +10,8 @@ class Mat4fTest {
 	void testAdd() {
 		Mat4<Float> matrix1 = Mat4.f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
 				14.0f, 15.0f, 16.0f);
-		Mat4<Float> matrix2 = Mat4.f(16.0f, 15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f,
-				3.0f, 2.0f, 1.0f);
+		Mat4<Float> matrix2 = Mat4.f(16.0f, 15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f,
+				4.0f, 3.0f, 2.0f, 1.0f);
 		Mat4<Float> result = matrix1.add(matrix2);
 
 		Mat4<Float> expected = new Mat4f(17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f, 17.0f,
@@ -23,8 +23,8 @@ class Mat4fTest {
 	void testSub() {
 		Mat4<Float> matrix1 = Mat4.f(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f,
 				-3.0f, -4.0f, -5.0f);
-		Mat4<Float> matrix2 = Mat4.f(5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f,
-				-8.0f, -9.0f, -10.0f);
+		Mat4<Float> matrix2 = Mat4.f(5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f,
+				-7.0f, -8.0f, -9.0f, -10.0f);
 		Mat4<Float> result = matrix1.sub(matrix2);
 
 		Mat4<Float> expected = new Mat4f(5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
@@ -138,9 +138,9 @@ class Mat4fTest {
 		Vec3<Float> vector = Vec3.of(1.0f, 2.0f, 3.0f);
 		Vec3<Float> result = customMatrix.transform(vector);
 
-		float expectedX = 2 * 1 + 3 * 2 + 4 * 3 + 5;
-		float expectedY = 6 * 1 + 7 * 2 + 8 * 3 + 9;
-		float expectedZ = 10 * 1 + 11 * 2 + 12 * 3 + 13;
+		float expectedX = 2 + 3 * 2 + 4 * 3 + 5;
+		float expectedY = 6 + 7 * 2 + 8 * 3 + 9;
+		float expectedZ = 10 + 11 * 2 + 12 * 3 + 13;
 
 		assertEquals(expectedX, result.getX());
 		assertEquals(expectedY, result.getY());

@@ -264,7 +264,7 @@ public class Async {
 			Result.Fixed<R> result = Result.fixed(hash, version);
 			cache.result(result);
 			unlock();
-			result.result(function.get());
+			result.future().complete(function.get());
 			return result;
 		}
 		return asyncScheduler.executeFunction(target, cache, version, hash, function);

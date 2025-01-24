@@ -27,18 +27,23 @@ public abstract sealed class Result<R> permits Result.Fixed, Result.Completable 
 		return new Completable<>(hash, version, future, function, target);
 	}
 
-	@Getter
 	static final class Fixed<R> extends Result<R> {
-		@Setter(AccessLevel.PACKAGE)
-		private R result;
+		@Getter(AccessLevel.PACKAGE)
+		private final CompletableFuture<R> future;
 
 		public Fixed(Async.Hash hash, long version) {
 			super(hash, version);
+			this.future = new CompletableFuture<>();
 		}
 
 		@Override
 		boolean complete() {
-			return result != null;
+			return future.isDone();
+		}
+
+		@Override
+		public R result() {
+			return future.join();
 		}
 	}
 

@@ -157,7 +157,7 @@ public class Schedulers {
 				Result.Fixed<R> result = Result.fixed(hash, version);
 				cache.result(result);
 				Async.unlock();
-				result.result(function.get());
+				result.future().complete(function.get());
 				return result;
 			}
 		};
