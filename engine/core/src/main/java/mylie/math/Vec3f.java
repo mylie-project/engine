@@ -163,7 +163,7 @@ record Vec3f(float x, float y, float z) implements Vec3<Float> {
 		throw new IllegalArgumentException("Component must be X, Y or Z");
 	}
 
-	Vec3f cast(Vec3<Float> other) {
+	static Vec3f cast(Vec3<Float> other) {
 		return (Vec3f) other;
 	}
 }

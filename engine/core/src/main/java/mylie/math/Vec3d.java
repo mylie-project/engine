@@ -2,15 +2,15 @@ package mylie.math;
 
 @SuppressWarnings({"unused"})
 record Vec3d(double x, double y, double z) implements Vec3<Double> {
-	private static final Vec3d ZERO = new Vec3d(0, 0, 0);
-	private static final Vec3d ONE = new Vec3d(1, 1, 1);
-	private static final Vec3d UNIT_X = new Vec3d(1, 0, 0);
-	private static final Vec3d UNIT_Y = new Vec3d(0, 1, 0);
-	private static final Vec3d UNIT_Z = new Vec3d(0, 0, 1);
-	private static final Vec3d NEGATIVE_ONE = new Vec3d(-1, -1, -1);
-	private static final Vec3d NEGATIVE_UNIT_X = new Vec3d(-1, 0, 0);
-	private static final Vec3d NEGATIVE_UNIT_Y = new Vec3d(0, -1, 0);
-	private static final Vec3d NEGATIVE_UNIT_Z = new Vec3d(0, 0, -1);
+	static final Vec3d ZERO = new Vec3d(0, 0, 0);
+	static final Vec3d ONE = new Vec3d(1, 1, 1);
+	static final Vec3d UNIT_X = new Vec3d(1, 0, 0);
+	static final Vec3d UNIT_Y = new Vec3d(0, 1, 0);
+	static final Vec3d UNIT_Z = new Vec3d(0, 0, 1);
+	static final Vec3d NEGATIVE_ONE = new Vec3d(-1, -1, -1);
+	static final Vec3d NEGATIVE_UNIT_X = new Vec3d(-1, 0, 0);
+	static final Vec3d NEGATIVE_UNIT_Y = new Vec3d(0, -1, 0);
+	static final Vec3d NEGATIVE_UNIT_Z = new Vec3d(0, 0, -1);
 	@Override
 	public Vec3<Double> add(Vec3<Double> other) {
 		Vec3d b = cast(other);
@@ -163,7 +163,7 @@ record Vec3d(double x, double y, double z) implements Vec3<Double> {
 		throw new IllegalArgumentException("Component must be X, Y or Z");
 	}
 
-	Vec3d cast(Vec3<Double> other) {
+	static Vec3d cast(Vec3<Double> other) {
 		return (Vec3d) other;
 	}
 }

@@ -2,13 +2,13 @@ package mylie.math;
 
 @SuppressWarnings("unused")
 record Vec2d(double x, double y) implements Vec2<Double> {
-	private static final Vec2d ZERO = new Vec2d(0, 0);
-	private static final Vec2d ONE = new Vec2d(1, 1);
-	private static final Vec2d UNIT_X = new Vec2d(1, 0);
-	private static final Vec2d UNIT_Y = new Vec2d(0, 1);
-	private static final Vec2d NEGATIVE_ONE = new Vec2d(-1, -1);
-	private static final Vec2d NEGATIVE_UNIT_X = new Vec2d(-1, 0);
-	private static final Vec2d NEGATIVE_UNIT_Y = new Vec2d(0, -1);
+	static final Vec2d ZERO = new Vec2d(0, 0);
+	static final Vec2d ONE = new Vec2d(1, 1);
+	static final Vec2d UNIT_X = new Vec2d(1, 0);
+	static final Vec2d UNIT_Y = new Vec2d(0, 1);
+	static final Vec2d NEGATIVE_ONE = new Vec2d(-1, -1);
+	static final Vec2d NEGATIVE_UNIT_X = new Vec2d(-1, 0);
+	static final Vec2d NEGATIVE_UNIT_Y = new Vec2d(0, -1);
 
 	@Override
 	public Vec2<Double> add(Vec2<Double> other) {
@@ -70,7 +70,7 @@ record Vec2d(double x, double y) implements Vec2<Double> {
 		return Vec2.of(Math.min(x, b.x), Math.min(y, b.y));
 	}
 
-	Vec2d cast(Vec2<Double> other) {
+	static Vec2d cast(Vec2<Double> other) {
 		return (Vec2d) other;
 	}
 
