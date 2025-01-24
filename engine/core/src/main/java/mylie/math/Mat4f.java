@@ -62,53 +62,61 @@ record Mat4f(float m00, float m01, float m02, float m03, float m10, float m11, f
 	@Override
 	public Float determinant() {
 		// Determinant calculation using Laplace expansion
-		float subFactor00 = m22 * m33 - m23 * m32;
-		float subFactor01 = m21 * m33 - m23 * m31;
-		float subFactor02 = m21 * m32 - m22 * m31;
-		float subFactor03 = m20 * m33 - m23 * m30;
-		float subFactor04 = m20 * m32 - m22 * m30;
-		float subFactor05 = m20 * m31 - m21 * m30;
+		float s0 = m00 * m11 - m10 * m01;
+		float s1 = m00 * m12 - m10 * m02;
+		float s2 = m00 * m13 - m10 * m03;
+		float s3 = m01 * m12 - m11 * m02;
+		float s4 = m01 * m13 - m11 * m03;
+		float s5 = m02 * m13 - m12 * m03;
 
-		return m00 * (m11 * subFactor00 - m12 * subFactor01 + m13 * subFactor02)
-				- m01 * (m10 * subFactor00 - m12 * subFactor03 + m13 * subFactor04)
-				+ m02 * (m10 * subFactor01 - m11 * subFactor03 + m13 * subFactor05)
-				- m03 * (m10 * subFactor02 - m11 * subFactor04 + m12 * subFactor05);
+		float c5 = m22 * m33 - m32 * m23;
+		float c4 = m21 * m33 - m31 * m23;
+		float c3 = m21 * m32 - m31 * m22;
+		float c2 = m20 * m33 - m30 * m23;
+		float c1 = m20 * m32 - m30 * m22;
+		float c0 = m20 * m31 - m30 * m21;
+
+		return (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
 	}
 
 	@Override
 	public Mat4<Float> inverse() throws ArithmeticException {
-		float det = determinant();
-		if (det == 0) {
-			throw new ArithmeticException("Matrix is not invertible (determinant is zero).");
+		// Determinant calculation using Laplace expansion
+		float s0 = m00 * m11 - m10 * m01;
+		float s1 = m00 * m12 - m10 * m02;
+		float s2 = m00 * m13 - m10 * m03;
+		float s3 = m01 * m12 - m11 * m02;
+		float s4 = m01 * m13 - m11 * m03;
+		float s5 = m02 * m13 - m12 * m03;
+
+		float c5 = m22 * m33 - m32 * m23;
+		float c4 = m21 * m33 - m31 * m23;
+		float c3 = m21 * m32 - m31 * m22;
+		float c2 = m20 * m33 - m30 * m23;
+		float c1 = m20 * m32 - m30 * m22;
+		float c0 = m20 * m31 - m30 * m21;
+
+		float determinant = (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
+		if (determinant == 0) {
+			throw new ArithmeticException("Matrix is singular and cannot be inverted");
 		}
-
-		float invDet = 1.0f / det;
-
-		// Cofactors and adjugate (transposed cofactors)
-		float t00 = m11 * (m22 * m33 - m23 * m32) - m12 * (m21 * m33 - m23 * m31) + m13 * (m21 * m32 - m22 * m31);
-		float t01 = -(m01 * (m22 * m33 - m23 * m32) - m02 * (m21 * m33 - m23 * m31) + m03 * (m21 * m32 - m22 * m31));
-		float t02 = m01 * (m12 * m33 - m13 * m32) - m02 * (m11 * m33 - m13 * m31) + m03 * (m11 * m32 - m12 * m31);
-		float t03 = -(m01 * (m12 * m23 - m13 * m22) - m02 * (m11 * m23 - m13 * m21) + m03 * (m11 * m22 - m12 * m21));
-
-		float t10 = -(m10 * (m22 * m33 - m23 * m32) - m12 * (m20 * m33 - m23 * m30) + m13 * (m20 * m32 - m22 * m30));
-		float t11 = m00 * (m22 * m33 - m23 * m32) - m02 * (m20 * m33 - m23 * m30) + m03 * (m20 * m32 - m22 * m30);
-		float t12 = -(m00 * (m12 * m33 - m13 * m32) - m02 * (m10 * m33 - m13 * m30) + m03 * (m10 * m32 - m12 * m30));
-		float t13 = m00 * (m12 * m23 - m13 * m22) - m02 * (m10 * m23 - m13 * m20) + m03 * (m10 * m22 - m12 * m20);
-
-		float t20 = m10 * (m21 * m33 - m23 * m31) - m11 * (m20 * m33 - m23 * m30) + m13 * (m20 * m31 - m21 * m30);
-		float t21 = -(m00 * (m21 * m33 - m23 * m31) - m01 * (m20 * m33 - m23 * m30) + m03 * (m20 * m31 - m21 * m30));
-		float t22 = m00 * (m11 * m33 - m13 * m31) - m01 * (m10 * m33 - m13 * m30) + m03 * (m10 * m31 - m11 * m30);
-		float t23 = -(m00 * (m11 * m23 - m13 * m21) - m01 * (m10 * m23 - m13 * m20) + m03 * (m10 * m21 - m11 * m20));
-
-		float t30 = -(m10 * (m21 * m32 - m22 * m31) - m11 * (m20 * m32 - m22 * m30) + m12 * (m20 * m31 - m21 * m30));
-		float t31 = m00 * (m21 * m32 - m22 * m31) - m01 * (m20 * m32 - m22 * m30) + m02 * (m20 * m31 - m21 * m30);
-		float t32 = -(m00 * (m11 * m32 - m12 * m31) - m01 * (m10 * m32 - m12 * m30) + m02 * (m10 * m31 - m11 * m30));
-		float t33 = m00 * (m11 * m22 - m12 * m21) - m01 * (m10 * m22 - m12 * m20) + m02 * (m10 * m21 - m11 * m20);
-
-		// Multiply by reciprocal of determinant
-		return new Mat4f(t00 * invDet, t01 * invDet, t02 * invDet, t03 * invDet, t10 * invDet, t11 * invDet,
-				t12 * invDet, t13 * invDet, t20 * invDet, t21 * invDet, t22 * invDet, t23 * invDet, t30 * invDet,
-				t31 * invDet, t32 * invDet, t33 * invDet);
+		float inverseDeterminant = 1f / determinant;
+		return new Mat4f((m11 * c5 - m12 * c4 + m13 * c3) * inverseDeterminant,
+				(-m01 * c5 + m02 * c4 - m03 * c3) * inverseDeterminant,
+				(m31 * s5 - m32 * s4 + m33 * s3) * inverseDeterminant,
+				(-m21 * s5 + m22 * s4 - m23 * s3) * inverseDeterminant,
+				(-m10 * c5 + m12 * c2 - m13 * c1) * inverseDeterminant,
+				(m00 * c5 - m02 * c2 + m03 * c1) * inverseDeterminant,
+				(-m30 * s5 + m32 * s2 - m33 * s1) * inverseDeterminant,
+				(m20 * s5 - m22 * s2 + m23 * s1) * inverseDeterminant,
+				(m10 * c4 - m11 * c2 + m13 * c0) * inverseDeterminant,
+				(-m00 * c4 + m01 * c2 - m03 * c0) * inverseDeterminant,
+				(m30 * s4 - m31 * s2 + m33 * s0) * inverseDeterminant,
+				(-m20 * s4 + m21 * s2 - m23 * s0) * inverseDeterminant,
+				(-m10 * c3 + m11 * c1 - m12 * c0) * inverseDeterminant,
+				(m00 * c3 - m01 * c1 + m02 * c0) * inverseDeterminant,
+				(-m30 * s3 + m31 * s1 - m32 * s0) * inverseDeterminant,
+				(m20 * s3 - m21 * s1 + m22 * s0) * inverseDeterminant);
 	}
 
 	@Override
