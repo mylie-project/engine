@@ -1,5 +1,6 @@
 package mylie.engine.info;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -76,7 +77,7 @@ public final class Build {
 			}
 			properties.load(new InputStreamReader(versionPropertiesStream, StandardCharsets.UTF_8));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UnsupportedOperationException(e);
 		}
 
 		this.engineVersion = properties.getProperty("version");

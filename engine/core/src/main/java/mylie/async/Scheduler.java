@@ -152,7 +152,7 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 
 		@Override
 		void invalidate() {
-
+			store.clear();
 		}
 
 		@Override

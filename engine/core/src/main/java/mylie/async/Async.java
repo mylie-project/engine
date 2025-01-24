@@ -318,7 +318,7 @@ public class Async {
 	 */
 	private static void logAsyncCall(Target target, Hash hash, Result<?> result, Function.F function, Object... args) {
 		log.trace("Function.F{}<{}>Target:{} Hash:{} Cached:{} Args:{}", args.length, function.id(), target,
-				hash.hash(), result != null, Arrays.toString(args));
+				hash.code(), result != null, Arrays.toString(args));
 	}
 
 	/**
@@ -342,7 +342,7 @@ public class Async {
 		final Function.F function;
 		final Object[] args;
 		@Getter
-		final int hash;
+		final int code;
 
 		/**
 		 * Constructs a `Hash` instance for a given function and its arguments.
@@ -365,7 +365,7 @@ public class Async {
 					tmpHash += Objects.hashCode(arg);
 				}
 			}
-			this.hash = tmpHash;
+			this.code = tmpHash;
 		}
 
 		/**
