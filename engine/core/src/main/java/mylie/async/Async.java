@@ -292,7 +292,6 @@ public class Async {
 	 * A thread-local variable that stores the current {@link Target} associated with the executing thread.
 	 * This variable is used to define and maintain the execution context or environment specifically assigned
 	 * to the thread during asynchronous computations.
-	 *
 	 * The {@code CURRENT_THREAD_TARGET} is typically utilized in conjunction with asynchronous tasks, enabling
 	 * operations to verify or ensure that they are being executed within the intended target environment. If
 	 * using {@link Result.Completable}, it checks if the execution matches the {@link Async.Target}, ensuring

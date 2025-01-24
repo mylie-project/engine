@@ -96,6 +96,20 @@ public class AsyncTest {
 
 	@ParameterizedTest
 	@MethodSource("schedulerProvider")
+	void testComplete(Scheduler scheduler) {
+		Async.initialize(scheduler);
+		AtomicInteger atomicInteger = new AtomicInteger(0);
+		Result<Boolean> async = Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
+				atomicInteger);
+		if(!async.complete()) {
+			Wait.wait(async);
+		}
+		assertEquals(1, atomicInteger.get());
+		Async.shutdown();
+	}
+
+	@ParameterizedTest
+	@MethodSource("schedulerProvider")
 	void testCache(Scheduler scheduler) {
 		Async.initialize(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
@@ -116,6 +130,15 @@ public class AsyncTest {
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 		Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, Nested3, atomicInteger));
 		assertEquals(3, atomicInteger.get());
+		Async.shutdown();
+	}
+
+	@ParameterizedTest
+	@MethodSource("schedulerProvider")
+	void testResult(Scheduler scheduler) {
+		Async.initialize(scheduler);
+		Result<Integer> async = Async.async(Async.ExecutionMode.DIRECT, Async.Target.Any, Caches.No, 0, add, 1, 2);
+		assertEquals(3, async.result());
 		Async.shutdown();
 	}
 
@@ -195,6 +218,13 @@ public class AsyncTest {
 		@Override
 		public Boolean apply(AtomicInteger o) {
 			throw new RuntimeException("Simulated exception");
+		}
+	};
+
+	private static final Function.F2<Integer,Integer,Integer> add = new Function.F2<>("Add") {
+		@Override
+		public Integer apply(Integer a, Integer b) {
+			return a + b;
 		}
 	};
 }
