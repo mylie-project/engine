@@ -3,6 +3,7 @@
 package mylie.math;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 class Vec2Test {
@@ -109,9 +110,6 @@ class Vec2Test {
         Vec2<Float> uy = Vec2.of(0.0f, 1.0f);
         Vec2<Float> zero = Vec2.of(0.0f, 0.0f);
         Vec2<Float> one = Vec2.of(1.0f, 1.0f);
-        Vec2<Float> negOne = Vec2.of(-1.0f, -1.0f);
-        Vec2<Float> negUx = Vec2.of(-1.0f, 0.0f);
-        Vec2<Float> negUy = Vec2.of(0.0f, -1.0f);
 
         // Depending on your actual methods:
         assertEquals(ux.getX(), v1().unitX().getX());
@@ -121,8 +119,6 @@ class Vec2Test {
         // etc. Adjust as needed based on your actual methods.
     }
 
-    
-    
     // Placeholder helper to illustrate calls (replace with your actual usage)
     private Vec2<Float> v1() {
         return Vec2.of(0.0f, 0.0f); // Replace this with an actual instance or factory method

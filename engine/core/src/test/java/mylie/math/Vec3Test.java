@@ -3,6 +3,7 @@
 package mylie.math;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 class Vec3Test {
@@ -156,7 +157,8 @@ class Vec3Test {
 
     @Test
     void testCross() {
-        // Cross product of (1,2,3) and (4,5,6) = ( (2*6 - 3*5), (3*4 - 1*6), (1*5 - 2*4 ) )
+        // Cross product of (1,2,3) and (4,5,6) = ( (2*6 - 3*5), (3*4 - 1*6), (1*5 - 2*4
+        // ) )
         // = (12 - 15, 12 - 6, 5 - 8) = (-3, 6, -3)
         Vec3<Float> v1 = Vec3.of(1.0f, 2.0f, 3.0f);
         Vec3<Float> v2 = Vec3.of(4.0f, 5.0f, 6.0f);
@@ -212,8 +214,6 @@ class Vec3Test {
         assertEquals(nz.getZ(), v3().negativeUnitZ().getZ());
     }
 
-    
-    
     // Placeholder helper to illustrate calls (replace with your actual usage)
     private Vec3<Float> v3() {
         return Vec3.of(0.0f, 0.0f, 0.0f); // Replace this with an actual instance or factory method

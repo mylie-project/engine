@@ -1,111 +1,115 @@
 package mylie.math;
 
 /**
- * Represents a 2-dimensional vector with generic numeric components. Provides
- * operations to manipulate 2D vectors and utility methods for creating and
- * transforming vector instances.
+ * Represents a 2D vector with generic numerical components, extending the general
+ * {@link Vec} interface with additional behavior specific to two-dimensional vectors.
  *
- * @param <N>
- *            The type of the components of the vector, which must extend
- *            {@link Number}.
+ * @param <N> The type of number used for the vector components (e.g., Float, Double, Integer).
  */
 @SuppressWarnings("unused")
 public interface Vec2<N extends Number> extends Vec<N, Vec2<N>> {
 
-	N getX();
-	N getY();
+    /**
+     * Gets the X component of the vector.
+     *
+     * @return The X component as a value of type {@code N}.
+     */
+    N getX();
 
-	/**
-	 * Represents the X component of the vector, commonly used as the horizontal
-	 * axis.
-	 */
-	Component X = new Component("X");
+    /**
+     * Gets the Y component of the vector.
+     *
+     * @return The Y component as a value of type {@code N}.
+     */
+    N getY();
 
-	/**
-	 * Represents the Y component of the vector, commonly used as the vertical axis.
-	 */
-	Component Y = new Component("Y");
+    /**
+     * Represents the X axis as a swizzle component.
+     */
+    Component X = new Component("X");
 
-	/**
-	 * Creates a new 2D vector by remapping the components of this vector using the
-	 * provided components.
-	 *
-	 * @param x
-	 *            The component to use as the new X value.
-	 * @param y
-	 *            The component to use as the new Y value.
-	 * @return A new vector with components remapped to the specified
-	 *         {@link Component}s.
-	 */
-	Vec2<Float> swizzle(Component x, Component y);
+    /**
+     * Represents the Y axis as a swizzle component.
+     */
+    Component Y = new Component("Y");
 
-	/**
-	 * Returns a unit vector representing the X-axis direction. The vector has a
-	 * magnitude of 1.0 and is oriented along the positive X-axis.
-	 *
-	 * @return A new {@link Vec2} instance representing the unit vector along the
-	 *         X-axis.
-	 */
-	Vec2<Float> unitX();
+    /**
+     * Creates a new 2D vector by reordering components based on the provided axes.
+     *
+     * @param x The component to map to the new vector's X axis.
+     * @param y The component to map to the new vector's Y axis.
+     * @return A new {@link Vec2} instance with reordered components.
+     */
+    Vec2<N> swizzle(Component x, Component y);
 
-	/**
-	 * Returns a unit vector representing the Y-axis direction. The vector has a
-	 * magnitude of 1.0 and is oriented along the positive Y-axis.
-	 *
-	 * @return A new {@link Vec2} instance representing the unit vector along the
-	 *         Y-axis.
-	 */
-	Vec2<Float> unitY();
+    /**
+     * Returns a unit vector pointing along the X axis.
+     *
+     * @return A {@link Vec2} instance representing the unit vector (1, 0).
+     */
+    Vec2<N> unitX();
 
-	/**
-	 * Returns a vector with both components set to zero (0, 0).
-	 *
-	 * @return A new {@link Vec2} instance representing the zero vector.
-	 */
-	Vec2<Float> zero();
+    /**
+     * Returns a unit vector pointing along the Y axis.
+     *
+     * @return A {@link Vec2} instance representing the unit vector (0, 1).
+     */
+    Vec2<N> unitY();
 
-	/**
-	 * Returns a vector with both components set to one (1, 1).
-	 *
-	 * @return A new {@link Vec2} instance with both components set to one.
-	 */
-	Vec2<Float> one();
+    /**
+     * Returns the zero vector.
+     *
+     * @return A {@link Vec2} instance with both components equal to 0.
+     */
+    Vec2<N> zero();
 
-	/**
-	 * Returns a vector with both components set to negative one (-1, -1).
-	 *
-	 * @return A new {@link Vec2} instance with both components set to negative one.
-	 */
-	Vec2<Float> negativeOne();
+    /**
+     * Returns a vector with both components equal to 1.
+     *
+     * @return A {@link Vec2} instance with components (1, 1).
+     */
+    Vec2<N> one();
 
-	/**
-	 * Returns a unit vector along the negative X-axis (magnitude 1.0 in -X
-	 * direction).
-	 *
-	 * @return A new {@link Vec2} instance representing the unit vector along the
-	 *         negative X-axis.
-	 */
-	Vec2<Float> negativeUnitX();
+    /**
+     * Returns a vector with both components equal to -1.
+     *
+     * @return A {@link Vec2} instance with components (-1, -1).
+     */
+    Vec2<N> negativeOne();
 
-	/**
-	 * Returns a unit vector along the negative Y-axis (magnitude 1.0 in -Y
-	 * direction).
-	 *
-	 * @return A new {@link Vec2} instance representing the unit vector along the
-	 *         negative Y-axis.
-	 */
-	Vec2<Float> negativeUnitY();
+    /**
+     * Returns a unit vector pointing along the negative X axis.
+     *
+     * @return A {@link Vec2} instance representing the vector (-1, 0).
+     */
+    Vec2<N> negativeUnitX();
 
-	/**
-	 * Creates a new 2D vector with the specified x and y components.
-	 *
-	 * @param x
-	 *            The x-component of the vector.
-	 * @param y
-	 *            The y-component of the vector.
-	 * @return A new Vec2 instance with the given components.
-	 */
-	static Vec2<Float> of(float x, float y) {
-		return new Vec2f(x, y);
-	}
+    /**
+     * Returns a unit vector pointing along the negative Y axis.
+     *
+     * @return A {@link Vec2} instance representing the vector (0, -1).
+     */
+    Vec2<N> negativeUnitY();
+
+    /**
+     * Creates a new 2D vector with the specified X and Y components.
+     *
+     * @param x The X component of the new vector.
+     * @param y The Y component of the new vector.
+     * @return A new {@link Vec2} instance with the specified components.
+     */
+    static Vec2<Float> of(float x, float y) {
+        return new Vec2f(x, y);
+    }
+
+    /**
+     * Creates a new 2D vector with the specified X and Y components.
+     *
+     * @param x The X component of the new vector.
+     * @param y The Y component of the new vector.
+     * @return A new {@link Vec2} instance with the specified components.
+     */
+    static Vec2<Double> of(double x, double y) {
+        return new Vec2d(x, y);
+    }
 }

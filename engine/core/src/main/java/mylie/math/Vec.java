@@ -1,105 +1,77 @@
 package mylie.math;
 
-/**
- * Defines a generic vector interface for mathematical operations in N-dimensional space.
- * This interface supports basic arithmetic operations, along with element-wise operations,
- * normalization, and comparison of vector components.
- *
- * @param <N>
- *            The numeric type of the vector components (e.g., Integer, Float, Double, etc.).
- * @param <V>
- *            The specific vector type implementing this interface.
- */
-@SuppressWarnings("unused")
 public interface Vec<N extends Number, V extends Vec<N, V>> {
 
-	/**
-	 * Adds the specified vector to this vector.
-	 *
-	 * @param other
-	 *            The vector to add.
-	 * @return A new vector representing the element-wise sum of this vector and the
-	 *         provided vector.
-	 */
-	V add(V other);
+    /**
+     * Adds the given vector to the current vector and returns the resulting vector.
+     *
+     * @param other the vector to add
+     * @return the resultant vector after addition
+     */
+    V add(V other);
 
-	/**
-	 * Subtracts the specified vector from this vector.
-	 *
-	 * @param other
-	 *            The vector to subtract.
-	 * @return A new vector representing the element-wise difference between this
-	 *         vector and the provided vector.
-	 */
-	V sub(V other);
+    /**
+     * Subtracts the given vector from the current vector and returns the resulting vector.
+     *
+     * @param other the vector to subtract
+     * @return the resultant vector after subtraction
+     */
+    V sub(V other);
 
-	/**
-	 * Multiplies this vector by the specified vector element-wise.
-	 *
-	 * @param other
-	 *            The vector to multiply by.
-	 * @return A new vector representing the element-wise product of this vector and
-	 *         the provided vector.
-	 */
-	V mul(V other);
+    /**
+     * Multiplies the current vector with the given vector and returns the resulting vector.
+     *
+     * @param other the vector to multiply
+     * @return the resultant vector after multiplication
+     */
+    V mul(V other);
 
-	/**
-	 * Divides this vector by the specified vector element-wise.
-	 *
-	 * @param other
-	 *            The vector to divide by.
-	 * @return A new vector representing the element-wise quotient of this vector
-	 *         and the provided vector.
-	 */
-	V div(V other);
+    /**
+     * Divides the current vector by the given vector and returns the resulting vector.
+     *
+     * @param other the vector to divide by
+     * @return the resultant vector after division
+     */
+    V div(V other);
 
-	/**
-	 * Performs an element-wise multiply-add operation: multiplies the specified
-	 * factor vector with the given vector and adds the result to this vector.
-	 *
-	 * @param other
-	 *            The vector to add after multiplication.
-	 * @param factor
-	 *            The factor vector to multiply.
-	 * @return A new vector resulting from the element-wise multiply-add operation.
-	 */
-	V mulAdd(V other, V factor);
+    /**
+     * Performs a multiply-add operation where the current vector is multiplied by the given factor and then
+     * added to the other vector.
+     *
+     * @param other  the vector to add after multiplication
+     * @param factor the vector to multiply with the current vector
+     * @return the resultant vector after the multiply-add operation
+     */
+    V mulAdd(V other, V factor);
 
-	/**
-	 * Negates this vector, reversing the sign of each of its components.
-	 *
-	 * @return A new vector with each component negated.
-	 */
-	V negate();
+    /**
+     * Negates the current vector and returns the resulting vector.
+     *
+     * @return the negated vector
+     */
+    V negate();
 
-	/**
-	 * Normalizes this vector to have a length of 1, maintaining its direction. If
-	 * the vector has zero length, the behavior is undefined.
-	 *
-	 * @return A new normalized vector with the same direction as this vector but
-	 *         with a magnitude of 1.
-	 */
-	V normalize();
+    /**
+     * Normalizes the current vector to a unit vector and returns the resulting vector.
+     *
+     * @return the normalized vector
+     */
+    V normalize();
 
+    /**
+     * Computes the element-wise maximum of the current vector and the given vector.
+     *
+     * @param other the other vector to compare
+     * @return the resultant vector containing the maximum values for each element
+     */
+    V max(V other);
 
-	/**
-	 * Compares this vector with the specified vector element-wise and returns a new vector
-	 * containing the maximum component values.
-	 *
-	 * @param other The vector to compare against.
-	 * @return A new vector where each component is the maximum value between this vector
-	 * and the specified vector.
-	 */
-	V max(V other);
-
-	/**
-	 * Compares this vector with the specified vector element-wise and returns a new vector
-	 * containing the minimum component values.
-	 *
-	 * @param other The vector to compare against.
-	 * @return A new vector where each component is the minimum value between this vector
-	 * and the specified vector.
-	 */
-	V min(V other);
+    /**
+     * Computes the element-wise minimum of the current vector and the given vector.
+     *
+     * @param other the other vector to compare
+     * @return the resultant vector containing the minimum values for each element
+     */
+    V min(V other);
 
 }

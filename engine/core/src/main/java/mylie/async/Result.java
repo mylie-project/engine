@@ -10,70 +10,72 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
-public abstract sealed class Result<R> permits Result.Fixed, Result.Completable {
+public abstract sealed class Result<R>
+permits Result.Fixed,Result.Completable
+{
 	final Async.Hash hash;
 	final long version;
-	public abstract R result();
-	abstract boolean complete();
 
-	static <T> Fixed<T> fixed(Async.Hash hash, long version) {
-		return new Fixed<>(hash, version);
-	}
+    public abstract R result();
 
-	static <T> Completable<T> completable(Async.Hash hash, long version, CompletableFuture<T> future,
-			Supplier<T> function, Async.Target target) {
-		return new Completable<>(hash, version, future, function, target);
-	}
+    abstract boolean complete();
 
-	@Getter
-	static final class Fixed<R> extends Result<R> {
-		@Setter(AccessLevel.PACKAGE)
-		private R result;
+    static <T> Fixed<T> fixed(Async.Hash hash, long version) {
+        return new Fixed<>(hash, version);
+    }
 
-		public Fixed(Async.Hash hash, long version) {
-			super(hash, version);
-		}
+    static <T> Completable<T> completable(Async.Hash hash, long version, CompletableFuture<T> future, Supplier<T> function, Async.Target target) {
+        return new Completable<>(hash, version, future, function, target);
+    }
 
-		@Override
-		boolean complete() {
-			return result != null;
-		}
-	}
+    @Getter
+    static final class Fixed<R> extends Result<R> {
+        @Setter(AccessLevel.PACKAGE)
+        private R result;
 
-	@Getter
-	@Setter(AccessLevel.PACKAGE)
-	static final class Completable<R> extends Result<R> {
-		private final CompletableFuture<R> future;
-		private final Supplier<R> function;
-		private final Async.Target target;
-		private final AtomicBoolean running = new AtomicBoolean(false);
+        public Fixed(Async.Hash hash, long version) {
+            super(hash, version);
+        }
 
-		public Completable(Async.Hash hash, long version, CompletableFuture<R> future, Supplier<R> function,
-				Async.Target target) {
-			super(hash, version);
-			this.future = future;
-			this.function = function;
-			this.target = target;
-		}
+        @Override
+        boolean complete() {
+            return result != null;
+        }
+    }
 
-		@Override
-		public R result() {
-			try {
-				if (!complete() && (target == Async.Target.Any || Async.CURRENT_THREAD_TARGET.get() == target)) {
-					if (running.compareAndSet(false, true)) {
-						future.complete(function.get());
-					}
-				}
-				return future.join();
-			} catch (Exception e) {
-				future.completeExceptionally(e);
-			}
-			return null;
-		}
+    @Getter
+    @Setter(AccessLevel.PACKAGE)
+    static final class Completable<R> extends Result<R> {
+        private final CompletableFuture<R> future;
+        private final Supplier<R> function;
+        private final Async.Target target;
+        private final AtomicBoolean running = new AtomicBoolean(false);
 
-		@Override
-		boolean complete() {
-			return future.isDone();
-		}
-	}
+        public Completable(Async.Hash hash, long version, CompletableFuture<R> future, Supplier<R> function, Async.Target target) {
+            super(hash, version);
+            this.future = future;
+            this.function = function;
+            this.target = target;
+        }
+
+        @Override
+        public R result() {
+            try {
+                if (!complete() && (target == Async.Target.Any || Async.CURRENT_THREAD_TARGET.get() == target)) {
+                    if (running.compareAndSet(false, true)) {
+                        future.complete(function.get());
+                    }
+                }
+                return future.join();
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+                throw e;
+            }
+        }
+
+        @Override
+        boolean complete() {
+            return future.isDone();
+        }
+    }
 }
