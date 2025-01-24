@@ -2,10 +2,22 @@ package mylie.engine.info;
 
 import org.slf4j.Logger;
 
+/**
+ * The {@code AsciiLogo} class provides a method to log an ASCII art logo.
+ * <p>
+ * This class is designed to be used exclusively for logging purposes and cannot
+ * be instantiated.
+ */
+@SuppressWarnings("unused")
 public class AsciiLogo {
 	private AsciiLogo() {
 	}
 
+	/**
+	 * Logs an ASCII art logo using the provided logger instance.
+	 *
+	 * @param logger the SLF4J {@link Logger} instance used to log the ASCII logo
+	 */
 	public static void toLog(Logger logger) {
 		logger.error(".----------------.  .----------------.  .----------------.  .----------------. "
 				+ " .----------------.");

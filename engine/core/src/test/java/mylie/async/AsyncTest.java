@@ -135,10 +135,8 @@ public class AsyncTest {
 	void testThrowException(Scheduler scheduler) {
 		Async.initialize(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		assertThrows(RuntimeException.class, () -> {
-			Wait.wait(Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, throwException,
-					atomicInteger));
-		});
+		assertThrows(RuntimeException.class, () -> Wait.wait(
+				Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, throwException, atomicInteger)));
 		Async.shutdown();
 	}
 
