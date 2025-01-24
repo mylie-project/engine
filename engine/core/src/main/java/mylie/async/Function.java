@@ -30,6 +30,11 @@ public class Function {
 	 * @param <R> the return type of the function
 	 */
 	public abstract static class F0<R> extends F {
+		/**
+		 * Constructs a new function object with no arguments (arity 0) and associates it with the specified identifier.
+		 *
+		 * @param id the unique identifier for this function
+		 */
 		protected F0(String id) {
 			super(id);
 		}
@@ -49,6 +54,11 @@ public class Function {
 	 * @param <R> the return type of the function
 	 */
 	public abstract static class F1<A, R> extends F {
+		/**
+		 * Constructor for the F1 class that initializes it with a specific identifier.
+		 *
+		 * @param id the unique identifier for the function
+		 */
 		protected F1(String id) {
 			super(id);
 		}
@@ -70,6 +80,11 @@ public class Function {
 	 * @param <R> the return type of the function
 	 */
 	public abstract static class F2<A, B, R> extends F {
+		/**
+		 * Constructs an instance of the F2 class with the specified identifier.
+		 *
+		 * @param id the unique identifier for this function
+		 */
 		protected F2(String id) {
 			super(id);
 		}
@@ -93,6 +108,11 @@ public class Function {
 	 * @param <R> the return type of the function
 	 */
 	public abstract static class F3<A, B, C, R> extends F {
+		/**
+		 * Constructs an instance of F3 with the specified identifier.
+		 *
+		 * @param id the identifier for this instance
+		 */
 		protected F3(String id) {
 			super(id);
 		}

@@ -1,5 +1,12 @@
 package mylie.math;
 
+/**
+ * A generic interface representing a vector of numerical components. This interface provides
+ * basic arithmetic and transformation operations to manipulate vectors in a type-safe manner.
+ *
+ * @param <N> the type of number used for the vector components
+ * @param <V> the specific implementation type of the vector
+ */
 public interface Vec<N extends Number, V extends Vec<N, V>> {
 
 	/**
