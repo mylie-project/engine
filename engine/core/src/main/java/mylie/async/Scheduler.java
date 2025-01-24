@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Abstract base class for scheduling tasks, supporting both single-threaded
- * and multi-threaded implementations. Manages task execution, caching,
+ * and multithreaded implementations. Manages task execution, caching,
  * and lifecycle events such as initialization and shutdown.
  */
 @Slf4j

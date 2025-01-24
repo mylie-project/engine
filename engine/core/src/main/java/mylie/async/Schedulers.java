@@ -111,7 +111,7 @@ public class Schedulers {
 
 	abstract static non-sealed class MultiThreadedScheduler extends Scheduler {
 		/**
-		 * Constructs a MultiThreadedScheduler with default multi-threaded behavior and a MapCache for managing tasks.
+		 * Constructs a MultiThreadedScheduler with default multithreaded behavior and a MapCache for managing tasks.
 		 * This class requires subclasses to provide specific threading models.
 		 */
 		protected MultiThreadedScheduler() {

@@ -99,9 +99,9 @@ public class AsyncTest {
 	void testComplete(Scheduler scheduler) {
 		Async.initialize(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		Result<Boolean> async = Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, atomicIntegerIncrease,
-				atomicInteger);
-		if(!async.complete()) {
+		Result<Boolean> async = Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0,
+				atomicIntegerIncrease, atomicInteger);
+		if (!async.complete()) {
 			Wait.wait(async);
 		}
 		assertEquals(1, atomicInteger.get());
@@ -138,7 +138,10 @@ public class AsyncTest {
 	void testResult(Scheduler scheduler) {
 		Async.initialize(scheduler);
 		Result<Integer> async = Async.async(Async.ExecutionMode.DIRECT, Async.Target.Any, Caches.No, 0, add, 1, 2);
-		assertEquals(3, async.result());
+		assertEquals(3, Wait.wait(async));
+
+		async = Async.async(Async.ExecutionMode.DIRECT, Async.Target.Any, Caches.No, 0, subtract, 2, 2);
+		assertEquals(0, Wait.wait(async));
 		Async.shutdown();
 	}
 
@@ -221,10 +224,17 @@ public class AsyncTest {
 		}
 	};
 
-	private static final Function.F2<Integer,Integer,Integer> add = new Function.F2<>("Add") {
+	private static final Function.F2<Integer, Integer, Integer> add = new Function.F2<>("Add") {
 		@Override
 		public Integer apply(Integer a, Integer b) {
 			return a + b;
+		}
+	};
+
+	private static final Function.F2<Integer, Integer, Integer> subtract = new Function.F2<>("Subtract") {
+		@Override
+		public Integer apply(Integer a, Integer b) {
+			return a - b;
 		}
 	};
 }
