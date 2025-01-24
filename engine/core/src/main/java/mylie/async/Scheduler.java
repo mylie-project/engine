@@ -82,7 +82,7 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 	 *
 	 * @param cache the cache to register.
 	 */
-	void cache(Cache cache) {
+	final void cache(Cache cache) {
 		log.trace("Cache<{}> registered", cache.id());
 		caches.add(cache);
 		cache.parent(globalCache);
