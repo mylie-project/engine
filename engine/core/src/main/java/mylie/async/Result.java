@@ -4,7 +4,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +13,21 @@ import lombok.Setter;
  *
  * @param <R> The type of the computation result.
  */
-@AllArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 public abstract sealed class Result<R> permits Result.Fixed, Result.Completable {
 	final Async.Hash hash;
 	final long version;
+
+	/**
+	 * Constructs a Result instance with the specified hash and version.
+	 *
+	 * @param hash    the hash identifying the computation.
+	 * @param version the version associated with the computation.
+	 */
+	Result(Async.Hash hash, long version) {
+		this.hash = hash;
+		this.version = version;
+	}
 
 	/**
 	 * Retrieves the computation result. If the result is not yet available for a completable result,

@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  * <p>Make sure to initialize the {@link Scheduler} before using any async features
  * and ensure proper shutdown to release resources.</p>
- * <p>
  *
  * @see Scheduler
  * @see Result
@@ -28,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class Async {
+	private Async() {
+	}
 	static Scheduler asyncScheduler;
 
 	/**
@@ -287,8 +288,24 @@ public class Async {
 		return targetIsCurrentThread(target);
 	}
 
+	/**
+	 * A thread-local variable that stores the current {@link Target} associated with the executing thread.
+	 * This variable is used to define and maintain the execution context or environment specifically assigned
+	 * to the thread during asynchronous computations.
+	 *
+	 * The {@code CURRENT_THREAD_TARGET} is typically utilized in conjunction with asynchronous tasks, enabling
+	 * operations to verify or ensure that they are being executed within the intended target environment. If
+	 * using {@link Result.Completable}, it checks if the execution matches the {@link Async.Target}, ensuring
+	 * proper handling of the task or computation based on the thread's context.
+	 */
 	public static final ThreadLocal<Target> CURRENT_THREAD_TARGET = new ThreadLocal<>();
 
+	/**
+	 * Determines whether the specified target corresponds to the current thread's execution target.
+	 *
+	 * @param target the target environment to check against the current thread's target.
+	 * @return {@code true} if the specified target matches the current thread's target, {@code false} otherwise.
+	 */
 	private static boolean targetIsCurrentThread(Target target) {
 		return CURRENT_THREAD_TARGET.get() == target;
 	}
@@ -322,11 +339,10 @@ public class Async {
 	}
 
 	/**
-	 * Represents a target for asynchronous execution. This could signify a specific
-	 * execution thread, context, or identifier for task deployment.
+	 * Represents a target for task execution.
 	 *
-	 * <p>The predefined constant {@code Any} represents a generic target without
-	 * constraints on execution locality.</p>
+	 * @param id the unique identifier for the target, which defines
+	 *           where or how the task will be executed.
 	 */
 	public record Target(String id) {
 		public static final Target Any = new Target("Any");

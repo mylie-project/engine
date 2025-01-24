@@ -130,7 +130,7 @@ public abstract sealed class Scheduler permits Schedulers.SingleThreadedSchedule
 		 * Constructs a MapCache instance.
 		 */
 		public MapCache() {
-			super("MapCache", null);
+			super("MapCache");
 		}
 
 		@SuppressWarnings("unchecked")

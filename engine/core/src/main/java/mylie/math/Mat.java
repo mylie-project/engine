@@ -1,5 +1,13 @@
 package mylie.math;
 
+/**
+ * A generic interface representing a matrix of numerical components. This interface provides
+ * basic matrix operations such as addition, subtraction, multiplication, and transformations,
+ * ensuring type safety and adaptability for various numerical types and implementations.
+ *
+ * @param <N> the type of number used for the matrix components
+ * @param <M> the specific implementation type of the matrix
+ */
 @SuppressWarnings("unused")
 public interface Mat<N extends Number, M extends Mat<N, M>> {
 
