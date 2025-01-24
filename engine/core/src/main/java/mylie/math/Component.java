@@ -1,9 +1,9 @@
 package mylie.math;
 
 public class Component {
-    final String name;
+	final String name;
 
-    protected Component(String name) {
-        this.name = name;
-    }
+	protected Component(String name) {
+		this.name = name;
+	}
 }
