@@ -92,7 +92,7 @@ public class Function {
 	 * @param <C> the type of the third argument
 	 * @param <R> the return type of the function
 	 */
-	public static abstract class F3<A, B, C, R> extends F {
+	public abstract static class F3<A, B, C, R> extends F {
 		protected F3(String id) {
 			super(id);
 		}
