@@ -1,82 +1,157 @@
 package mylie.math;
 
+/**
+ * Represents a three-dimensional vector with generic numeric components.
+ * Provides utility constants and methods to manipulate 3D vectors, along with
+ * functionality for swizzling and component-based vector construction.
+ *
+ * @param <N>
+ *            The type of the components of the vector, which must extend
+ *            {@link Number}.
+ */
 @SuppressWarnings("unused")
-public interface Vec3<V extends Vec<V, N>, V2 extends Vec2<V2, N>, V3 extends Vec3<V, V2, V3, N>, N extends Number>
-		extends
-			Vec<V3, N> {
+public interface Vec3<N extends Number> extends Vec<N, Vec3<N>> {
 
 	/**
-	 * Calculates the cross product of this vector and the given vector.
+	 * The X-axis component of the 3D vector. This is a shared reference from the
+	 * {@link Vec2#X}.
+	 */
+	Component X = Vec2.X;
+
+	/**
+	 * The Y-axis component of the 3D vector. This is a shared reference from the
+	 * {@link Vec2#Y}.
+	 */
+	Component Y = Vec2.Y;
+
+	/**
+	 * The Z-axis component of the 3D vector. Unique to the {@link Vec3}.
+	 */
+	Component Z = new Component("Z");
+
+	/**
+	 * Computes the dot product of this vector and another 3D vector.
 	 *
 	 * @param other
-	 *            the other vector
-	 * @return the resulting vector after the cross product
+	 *            The other vector to compute the dot product with.
+	 * @return The scalar dot product of the two vectors.
 	 */
-	V cross(V other);
+	float dot(Vec3<Float> other);
 
 	/**
-	 * Retrieves a 2D vector containing the x and y components of this vector.
+	 * Computes the cross product of this vector and another 3D vector.
 	 *
-	 * @return a 2D vector (x, y)
+	 * @param other
+	 *            The other vector to compute the cross product with.
+	 * @return A new {@link Vec3} representing the cross product of the two vectors.
 	 */
-	V2 xy();
+	Vec3<Float> cross(Vec3<Float> other);
 
 	/**
-	 * Retrieves a 2D vector containing the x and z components of this vector.
+	 * Creates a 2D vector by swizzling components of this 3D vector.
 	 *
-	 * @return a 2D vector (x, z)
+	 * @param x
+	 *            The component to use for the x-coordinate of the new vector.
+	 * @param y
+	 *            The component to use for the y-coordinate of the new vector.
+	 * @return A new {@link Vec2} with the specified components.
 	 */
-	V2 xz();
+	Vec2<Float> swizzle(Component x, Component y);
 
 	/**
-	 * Retrieves a 2D vector containing the y and z components of this vector.
+	 * Creates a 3D vector by swizzling components of this 3D vector.
 	 *
-	 * @return a 2D vector (y, z)
+	 * @param x
+	 *            The component to use for the x-coordinate of the new vector.
+	 * @param y
+	 *            The component to use for the y-coordinate of the new vector.
+	 * @param z
+	 *            The component to use for the z-coordinate of the new vector.
+	 * @return A new {@link Vec3} with the specified components.
 	 */
-	V2 yz();
+	Vec3<Float> swizzle(Component x, Component y, Component z);
 
 	/**
-	 * Retrieves a 2D vector containing the y and x components of this vector.
+	 * Returns the zero vector (0, 0, 0).
 	 *
-	 * @return a 2D vector (y, x)
+	 * @return A {@link Vec3} instance representing the zero vector.
 	 */
-	V2 yx();
+	Vec3<Float> zero();
 
 	/**
-	 * Retrieves a 2D vector containing the z and x components of this vector.
+	 * Returns the vector with all components set to one (1, 1, 1).
 	 *
-	 * @return a 2D vector (z, x)
+	 * @return A {@link Vec3} instance representing the vector (1, 1, 1).
 	 */
-	V2 zx();
+	Vec3<Float> one();
 
 	/**
-	 * Retrieves a 2D vector containing the z and y components of this vector.
+	 * Returns the vector with all components set to negative one (-1, -1, -1).
 	 *
-	 * @return a 2D vector (z, y)
+	 * @return A {@link Vec3} instance representing the vector (-1, -1, -1).
 	 */
-	V2 zy();
+	Vec3<Float> negativeOne();
 
 	/**
-	 * Retrieves a new 2D vector where both components are the x component of this
-	 * vector.
+	 * Returns the unit vector along the X-axis (1, 0, 0).
 	 *
-	 * @return a 2D vector (x, x)
+	 * @return A {@link Vec3} instance representing the unit vector along the
+	 *         X-axis.
 	 */
-	V2 xx();
+	Vec3<Float> unitX();
 
 	/**
-	 * Retrieves a new 2D vector where both components are the y component of this
-	 * vector.
+	 * Returns the unit vector along the Y-axis (0, 1, 0).
 	 *
-	 * @return a 2D vector (y, y)
+	 * @return A {@link Vec3} instance representing the unit vector along the
+	 *         Y-axis.
 	 */
-	V2 yy();
+	Vec3<Float> unitY();
 
 	/**
-	 * Retrieves a new 2D vector where both components are the z component of this
-	 * vector.
+	 * Returns the unit vector along the Z-axis (0, 0, 1).
 	 *
-	 * @return a 2D vector (z, z)
+	 * @return A {@link Vec3} instance representing the unit vector along the
+	 *         Z-axis.
 	 */
-	V2 zz();
+	Vec3<Float> unitZ();
+
+	/**
+	 * Returns the unit vector in the negative X-axis direction (-1, 0, 0).
+	 *
+	 * @return A {@link Vec3} instance representing the unit vector in the negative
+	 *         X-axis direction.
+	 */
+	Vec3<Float> negativeUnitX();
+
+	/**
+	 * Returns the unit vector in the negative Y-axis direction (0, -1, 0).
+	 *
+	 * @return A {@link Vec3} instance representing the unit vector in the negative
+	 *         Y-axis direction.
+	 */
+	Vec3<Float> negativeUnitY();
+
+	/**
+	 * Returns the unit vector in the negative Z-axis direction (0, 0, -1).
+	 *
+	 * @return A {@link Vec3} instance representing the unit vector in the negative
+	 *         Z-axis direction.
+	 */
+	Vec3<Float> negativeUnitZ();
+
+	/**
+	 * Creates a new 3D vector with the specified x, y, and z components.
+	 *
+	 * @param x
+	 *            The x-component of the vector.
+	 * @param y
+	 *            The y-component of the vector.
+	 * @param z
+	 *            The z-component of the vector.
+	 * @return A new Vec3 instance with the given components.
+	 */
+	static Vec3<Float> of(float x, float y, float z) {
+		return new Vec3f(x, y, z);
+	}
 }

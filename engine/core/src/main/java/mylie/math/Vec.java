@@ -1,71 +1,74 @@
 package mylie.math;
 
 @SuppressWarnings("unused")
-public interface Vec<V extends Vec<V, N>, N extends Number> {
+public interface Vec<N extends Number, V extends Vec<N, V>> {
 
 	/**
-	 * Adds the given vector to the current vector.
+	 * Adds the specified vector to this vector.
 	 *
 	 * @param other
-	 *            the vector to add
-	 * @return a new vector representing the result of the addition
+	 *            The vector to add.
+	 * @return A new vector representing the element-wise sum of this vector and the
+	 *         provided vector.
 	 */
 	V add(V other);
 
 	/**
-	 * Subtracts the given vector from the current vector.
+	 * Subtracts the specified vector from this vector.
 	 *
 	 * @param other
-	 *            the vector to subtract
-	 * @return a new vector representing the result of the subtraction
+	 *            The vector to subtract.
+	 * @return A new vector representing the element-wise difference between this
+	 *         vector and the provided vector.
 	 */
 	V sub(V other);
 
 	/**
-	 * Multiplies the current vector by the given vector.
+	 * Multiplies this vector by the specified vector element-wise.
 	 *
 	 * @param other
-	 *            the vector to multiply by
-	 * @return a new vector representing the result of the multiplication
+	 *            The vector to multiply by.
+	 * @return A new vector representing the element-wise product of this vector and
+	 *         the provided vector.
 	 */
 	V mul(V other);
 
 	/**
-	 * Divides the current vector by the given vector.
+	 * Divides this vector by the specified vector element-wise.
 	 *
 	 * @param other
-	 *            the vector to divide by
-	 * @return a new vector representing the result of the division
+	 *            The vector to divide by.
+	 * @return A new vector representing the element-wise quotient of this vector
+	 *         and the provided vector.
 	 */
 	V div(V other);
 
 	/**
-	 * Computes the dot product of the current vector and the given vector.
+	 * Performs an element-wise multiply-add operation: multiplies the specified
+	 * factor vector with the given vector and adds the result to this vector.
 	 *
 	 * @param other
-	 *            the vector to compute the dot product with
-	 * @return the dot product as a float
+	 *            The vector to add after multiplication.
+	 * @param factor
+	 *            The factor vector to multiply.
+	 * @return A new vector resulting from the element-wise multiply-add operation.
 	 */
-	float dot(V other);
+	V mulAdd(V other, V factor);
 
 	/**
-	 * Computes the length (magnitude) of the current vector.
+	 * Negates this vector, reversing the sign of each of its components.
 	 *
-	 * @return the length of the vector as a float
+	 * @return A new vector with each component negated.
 	 */
-	float length();
+	V negate();
 
 	/**
-	 * Normalizes the current vector to have a length of 1.
+	 * Normalizes this vector to have a length of 1, maintaining its direction. If
+	 * the vector has zero length, the behavior is undefined.
 	 *
-	 * @return a new vector representing the normalized vector
+	 * @return A new normalized vector with the same direction as this vector but
+	 *         with a magnitude of 1.
 	 */
 	V normalize();
 
-	/**
-	 * Negates the current vector, reversing its direction.
-	 *
-	 * @return a new vector representing the negated vector
-	 */
-	V negate();
 }

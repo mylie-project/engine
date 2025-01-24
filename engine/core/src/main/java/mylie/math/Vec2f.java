@@ -1,132 +1,98 @@
 package mylie.math;
 
-@SuppressWarnings({"SuspiciousNameCombination", "unused"})
-public record Vec2f(float x, float y) implements Vec2<Vec2f, Float> {
+@SuppressWarnings("unused")
+record Vec2f(float x, float y) implements Vec2<Float> {
+	private static final Vec2f ZERO = new Vec2f(0, 0);
+	private static final Vec2f ONE = new Vec2f(1, 1);
+	private static final Vec2f UNIT_X = new Vec2f(1, 0);
+	private static final Vec2f UNIT_Y = new Vec2f(0, 1);
+	private static final Vec2f NEGATIVE_ONE = new Vec2f(-1, -1);
+	private static final Vec2f NEGATIVE_UNIT_X = new Vec2f(-1, 0);
+	private static final Vec2f NEGATIVE_UNIT_Y = new Vec2f(0, -1);
 
-	/**
-	 * Adds the corresponding components of this vector and the given vector.
-	 *
-	 * @param other
-	 *            the other vector to add
-	 * @return a new {@code Vec2f} instance representing the sum
-	 */
 	@Override
-	public Vec2f add(Vec2f other) {
-		return new Vec2f(this.x + other.x, this.y + other.y);
+	public Vec2<Float> add(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(x + b.x, y + b.y);
 	}
 
-	/**
-	 * Subtracts the corresponding components of the given vector from this vector.
-	 *
-	 * @param other
-	 *            the other vector to subtract
-	 * @return a new {@code Vec2f} instance representing the difference
-	 */
 	@Override
-	public Vec2f sub(Vec2f other) {
-		return new Vec2f(this.x - other.x, this.y - other.y);
+	public Vec2<Float> sub(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(x - b.x, y - b.y);
 	}
 
-	/**
-	 * Multiplies the corresponding components of this vector and the given vector.
-	 *
-	 * @param other
-	 *            the other vector to multiply
-	 * @return a new {@code Vec2f} instance representing the product
-	 */
 	@Override
-	public Vec2f mul(Vec2f other) {
-		return new Vec2f(this.x * other.x, this.y * other.y);
+	public Vec2<Float> mul(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(x * b.x, y * b.y);
 	}
 
-	/**
-	 * Divides the corresponding components of this vector by the given vector.
-	 *
-	 * @param other
-	 *            the other vector to divide
-	 * @return a new {@code Vec2f} instance representing the quotient
-	 */
 	@Override
-	public Vec2f div(Vec2f other) {
-		return new Vec2f(this.x / other.x, this.y / other.y);
+	public Vec2<Float> div(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(x / b.x, y / b.y);
 	}
 
-	/**
-	 * Calculates the dot product of this vector and the given vector.
-	 *
-	 * @param vec2f
-	 *            the other vector
-	 * @return the dot product as a floating-point value
-	 */
 	@Override
-	public float dot(Vec2f vec2f) {
-		return this.x * vec2f.x + this.y * vec2f.y;
+	public Vec2<Float> mulAdd(Vec2<Float> other, Vec2<Float> factor) {
+		Vec2f b = cast(other);
+		Vec2f c = cast(factor);
+		return Vec2.of(x + b.x * c.x, y + b.y * c.y);
 	}
 
-	/**
-	 * Computes the length (magnitude) of this vector.
-	 *
-	 * @return the magnitude of the vector as a floating-point value
-	 */
 	@Override
-	public float length() {
-		return (float) Math.sqrt(this.x * this.x + this.y * this.y);
+	public Vec2<Float> negate() {
+		return Vec2.of(-x, -y);
 	}
 
-	/**
-	 * Normalizes this vector to a unit vector.
-	 *
-	 * @return a new {@code Vec2f} instance representing the normalized vector, or a
-	 *         zero vector if the length is zero
-	 */
 	@Override
-	public Vec2f normalize() {
-		float len = length();
-		if (len == 0) {
-			return new Vec2f(0, 0);
-		}
-		return new Vec2f(this.x / len, this.y / len);
+	public Vec2<Float> normalize() {
+		float magnitude = (float) Math.sqrt(x * x + y * y);
+		return magnitude == 0 ? ZERO : Vec2.of(x / magnitude, y / magnitude);
 	}
 
-	/**
-	 * Negates this vector (reverses its direction).
-	 *
-	 * @return a new {@code Vec2f} instance representing the negated vector
-	 */
-	@Override
-	public Vec2f negate() {
-		return new Vec2f(-this.x, -this.y);
+	Vec2f cast(Vec2<Float> other) {
+		return (Vec2f) other;
 	}
 
-	/**
-	 * Creates a new vector with both components equal to the x-component of this
-	 * vector.
-	 *
-	 * @return a new {@code Vec2f} instance with components (x, x)
-	 */
 	@Override
-	public Vec2f xx() {
-		return new Vec2f(this.x, this.x);
+	public Vec2<Float> swizzle(Component x, Component y) {
+		return Vec2.of(x == Vec2.X ? x() : y(), y == Vec2.X ? x() : y());
 	}
 
-	/**
-	 * Creates a new vector with both components equal to the y-component of this
-	 * vector.
-	 *
-	 * @return a new {@code Vec2f} instance with components (y, y)
-	 */
 	@Override
-	public Vec2f yy() {
-		return new Vec2f(this.y, this.y);
+	public Vec2<Float> unitX() {
+		return UNIT_X;
 	}
 
-	/**
-	 * Creates a new vector by swapping the components of this vector.
-	 *
-	 * @return a new {@code Vec2f} instance with components (y, x)
-	 */
 	@Override
-	public Vec2f yx() {
-		return new Vec2f(this.y, this.x);
+	public Vec2<Float> unitY() {
+		return UNIT_Y;
+	}
+
+	@Override
+	public Vec2<Float> zero() {
+		return ZERO;
+	}
+
+	@Override
+	public Vec2<Float> one() {
+		return ONE;
+	}
+
+	@Override
+	public Vec2<Float> negativeOne() {
+		return NEGATIVE_ONE;
+	}
+
+	@Override
+	public Vec2<Float> negativeUnitX() {
+		return NEGATIVE_UNIT_X;
+	}
+
+	@Override
+	public Vec2<Float> negativeUnitY() {
+		return NEGATIVE_UNIT_Y;
 	}
 }

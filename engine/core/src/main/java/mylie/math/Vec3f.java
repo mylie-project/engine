@@ -1,202 +1,135 @@
 package mylie.math;
 
-@SuppressWarnings({"SuspiciousNameCombination", "unused"})
-public record Vec3f(float x, float y, float z) implements Vec3<Vec3f, Vec2f, Vec3f, Float> {
-
-	/**
-	 * Computes the cross product of this vector with another vector.
-	 *
-	 * @param other
-	 *            the vector to compute the cross product with
-	 * @return a new {@code Vec3f} representing the cross product
-	 */
+@SuppressWarnings({"unused"})
+record Vec3f(float x, float y, float z) implements Vec3<Float> {
+	private static final Vec3f ZERO = new Vec3f(0, 0, 0);
+	private static final Vec3f ONE = new Vec3f(1, 1, 1);
+	private static final Vec3f UNIT_X = new Vec3f(1, 0, 0);
+	private static final Vec3f UNIT_Y = new Vec3f(0, 1, 0);
+	private static final Vec3f UNIT_Z = new Vec3f(0, 0, 1);
+	private static final Vec3f NEGATIVE_ONE = new Vec3f(-1, -1, -1);
+	private static final Vec3f NEGATIVE_UNIT_X = new Vec3f(-1, 0, 0);
+	private static final Vec3f NEGATIVE_UNIT_Y = new Vec3f(0, -1, 0);
+	private static final Vec3f NEGATIVE_UNIT_Z = new Vec3f(0, 0, -1);
 	@Override
-	public Vec3f cross(Vec3f other) {
-		return new Vec3f(this.y * other.z - this.z * other.y, this.z * other.x - this.x * other.z,
-				this.x * other.y - this.y * other.x);
+	public Vec3<Float> add(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(x + b.x, y + b.y, z + b.z);
 	}
 
-	/**
-	 * Adds this vector to another vector component-wise.
-	 *
-	 * @param other
-	 *            the vector to add
-	 * @return a new {@code Vec3f} representing the sum
-	 */
 	@Override
-	public Vec3f add(Vec3f other) {
-		return new Vec3f(this.x + other.x, this.y + other.y, this.z + other.z);
+	public Vec3<Float> sub(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(x - b.x, y - b.y, z - b.z);
 	}
 
-	/**
-	 * Subtracts another vector from this vector component-wise.
-	 *
-	 * @param other
-	 *            the vector to subtract
-	 * @return a new {@code Vec3f} representing the difference
-	 */
 	@Override
-	public Vec3f sub(Vec3f other) {
-		return new Vec3f(this.x - other.x, this.y - other.y, this.z - other.z);
+	public Vec3<Float> mul(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(x * b.x, y * b.y, z * b.z);
 	}
 
-	/**
-	 * Multiplies this vector by another vector component-wise.
-	 *
-	 * @param other
-	 *            the vector to multiply
-	 * @return a new {@code Vec3f} representing the product
-	 */
 	@Override
-	public Vec3f mul(Vec3f other) {
-		return new Vec3f(this.x * other.x, this.y * other.y, this.z * other.z);
+	public Vec3<Float> div(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(x / b.x, y / b.y, z / b.z);
 	}
 
-	/**
-	 * Divides this vector by another vector component-wise.
-	 *
-	 * @param other
-	 *            the vector to divide by
-	 * @return a new {@code Vec3f} representing the quotient
-	 */
 	@Override
-	public Vec3f div(Vec3f other) {
-		return new Vec3f(this.x / other.x, this.y / other.y, this.z / other.z);
+	public Vec3<Float> mulAdd(Vec3<Float> other, Vec3<Float> factor) {
+		Vec3f b = cast(other);
+		Vec3f c = cast(factor);
+		return Vec3.of(x + b.x * c.x, y + b.y * c.y, z + b.z * c.z);
 	}
 
-	/**
-	 * Computes the dot product of this vector with another vector.
-	 *
-	 * @param other
-	 *            the vector to compute the dot product with
-	 * @return the scalar dot product
-	 */
 	@Override
-	public float dot(Vec3f other) {
-		return this.x * other.x + this.y * other.y + this.z * other.z;
+	public Vec3<Float> negate() {
+		return Vec3.of(-x, -y, -z);
 	}
 
-	/**
-	 * Computes the length (magnitude) of this vector.
-	 *
-	 * @return the length of the vector
-	 */
 	@Override
-	public float length() {
-		return (float) Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+	public Vec3<Float> normalize() {
+		return null;
 	}
 
-	/**
-	 * Normalizes this vector, scaling it to a unit vector.
-	 *
-	 * @return a new {@code Vec3f} normalized to unit length
-	 */
 	@Override
-	public Vec3f normalize() {
-		float length = length();
-		return new Vec3f(this.x / length, this.y / length, this.z / length);
+	public float dot(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return x * b.x + y * b.y + z * b.z;
 	}
 
-	/**
-	 * Negates this vector, reversing its direction.
-	 *
-	 * @return a new {@code Vec3f} representing the negation
-	 */
 	@Override
-	public Vec3f negate() {
-		return new Vec3f(-this.x, -this.y, -this.z);
+	public Vec3<Float> cross(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x);
 	}
 
-	/**
-	 * Creates a 2D vector from the x and y components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the x and y components
-	 */
 	@Override
-	public Vec2f xy() {
-		return new Vec2f(this.x, this.y);
+	public Vec2<Float> swizzle(Component x, Component y) {
+		return Vec2.of(componentValue(x), componentValue(y));
 	}
 
-	/**
-	 * Creates a 2D vector from the x and z components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the x and z components
-	 */
 	@Override
-	public Vec2f xz() {
-		return new Vec2f(this.x, this.z);
+	public Vec3<Float> swizzle(Component x, Component y, Component z) {
+		return Vec3.of(componentValue(x), componentValue(y), componentValue(z));
 	}
 
-	/**
-	 * Creates a 2D vector from the y and z components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the y and z components
-	 */
 	@Override
-	public Vec2f yz() {
-		return new Vec2f(this.y, this.z);
+	public Vec3<Float> zero() {
+		return ZERO;
 	}
 
-	/**
-	 * Creates a 2D vector from the y and x components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the y and x components
-	 */
 	@Override
-	public Vec2f yx() {
-		return new Vec2f(this.y, this.x);
+	public Vec3<Float> one() {
+		return ONE;
 	}
 
-	/**
-	 * Creates a 2D vector from the z and x components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the z and x components
-	 */
 	@Override
-	public Vec2f zx() {
-		return new Vec2f(this.z, this.x);
+	public Vec3<Float> negativeOne() {
+		return NEGATIVE_ONE;
 	}
 
-	/**
-	 * Creates a 2D vector from the z and y components of this vector.
-	 *
-	 * @return a new {@code Vec2f} containing the z and y components
-	 */
 	@Override
-	public Vec2f zy() {
-		return new Vec2f(this.z, this.y);
+	public Vec3<Float> unitX() {
+		return UNIT_X;
 	}
 
-	/**
-	 * Creates a 2D vector with both components set to the x-component of this
-	 * vector.
-	 *
-	 * @return a new {@code Vec2f} containing the x-component in both positions
-	 */
 	@Override
-	public Vec2f xx() {
-		return new Vec2f(this.x, this.x);
+	public Vec3<Float> unitY() {
+		return UNIT_Y;
 	}
 
-	/**
-	 * Creates a 2D vector with both components set to the y-component of this
-	 * vector.
-	 *
-	 * @return a new {@code Vec2f} containing the y-component in both positions
-	 */
 	@Override
-	public Vec2f yy() {
-		return new Vec2f(this.y, this.y);
+	public Vec3<Float> unitZ() {
+		return UNIT_Z;
 	}
 
-	/**
-	 * Creates a 2D vector with both components set to the z-component of this
-	 * vector.
-	 *
-	 * @return a new {@code Vec2f} containing the z-component in both positions
-	 */
 	@Override
-	public Vec2f zz() {
-		return new Vec2f(this.z, this.z);
+	public Vec3<Float> negativeUnitX() {
+		return NEGATIVE_UNIT_X;
+	}
+
+	@Override
+	public Vec3<Float> negativeUnitY() {
+		return NEGATIVE_UNIT_Y;
+	}
+
+	@Override
+	public Vec3<Float> negativeUnitZ() {
+		return NEGATIVE_UNIT_Z;
+	}
+
+	private float componentValue(Component c) {
+		if (c == X)
+			return x;
+		if (c == Y)
+			return y;
+		if (c == Z)
+			return z;
+		throw new IllegalArgumentException("Component must be X, Y or Z");
+	}
+
+	Vec3f cast(Vec3<Float> other) {
+		return (Vec3f) other;
 	}
 }
