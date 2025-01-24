@@ -31,6 +31,9 @@ record Vec2f(float x, float y) implements Vec2<Float> {
 	@Override
 	public Vec2<Float> div(Vec2<Float> other) {
 		Vec2f b = cast(other);
+		if (b.x == 0 || b.y == 0) {
+			throw new ArithmeticException("Division by Zero");
+		}
 		return Vec2.of(x / b.x, y / b.y);
 	}
 
@@ -49,11 +52,37 @@ record Vec2f(float x, float y) implements Vec2<Float> {
 	@Override
 	public Vec2<Float> normalize() {
 		float magnitude = (float) Math.sqrt(x * x + y * y);
-		return magnitude == 0 ? ZERO : Vec2.of(x / magnitude, y / magnitude);
+		if (magnitude == 0) {
+			throw new ArithmeticException("Cannot normalize a zero-length vector.");
+		}
+		return Vec2.of(x / magnitude, y / magnitude);
+	}
+
+
+	@Override
+	public Vec2<Float> max(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(Math.max(x, b.x), Math.max(y, b.y));
+	}
+
+	@Override
+	public Vec2<Float> min(Vec2<Float> other) {
+		Vec2f b = cast(other);
+		return Vec2.of(Math.min(x, b.x), Math.min(y, b.y));
 	}
 
 	Vec2f cast(Vec2<Float> other) {
 		return (Vec2f) other;
+	}
+
+	@Override
+	public Float getX() {
+		return x;
+	}
+
+	@Override
+	public Float getY() {
+		return y;
 	}
 
 	@Override

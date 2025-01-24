@@ -32,6 +32,9 @@ record Vec3f(float x, float y, float z) implements Vec3<Float> {
 	@Override
 	public Vec3<Float> div(Vec3<Float> other) {
 		Vec3f b = cast(other);
+		if (b.x == 0 || b.y == 0 || b.z == 0) {
+			throw new ArithmeticException("Division by Zero");
+		}
 		return Vec3.of(x / b.x, y / b.y, z / b.z);
 	}
 
@@ -47,9 +50,42 @@ record Vec3f(float x, float y, float z) implements Vec3<Float> {
 		return Vec3.of(-x, -y, -z);
 	}
 
+
 	@Override
 	public Vec3<Float> normalize() {
-		return null;
+		float length = (float) Math.sqrt(x * x + y * y + z * z);
+		if (length == 0) {
+			throw new ArithmeticException("Cannot normalize a zero-length vector.");
+		}
+		return Vec3.of(x / length, y / length, z / length);
+	}
+
+
+	@Override
+	public Vec3<Float> max(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(Math.max(x, b.x), Math.max(y, b.y), Math.max(z, b.z));
+	}
+
+	@Override
+	public Vec3<Float> min(Vec3<Float> other) {
+		Vec3f b = cast(other);
+		return Vec3.of(Math.min(x, b.x), Math.min(y, b.y), Math.min(z, b.z));
+	}
+
+	@Override
+	public Float getX() {
+		return x;
+	}
+
+	@Override
+	public Float getY() {
+		return y;
+	}
+
+	@Override
+	public Float getZ() {
+		return z;
 	}
 
 	@Override

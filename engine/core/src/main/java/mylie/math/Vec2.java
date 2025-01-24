@@ -12,6 +12,9 @@ package mylie.math;
 @SuppressWarnings("unused")
 public interface Vec2<N extends Number> extends Vec<N, Vec2<N>> {
 
+	N getX();
+	N getY();
+
 	/**
 	 * Represents the X component of the vector, commonly used as the horizontal
 	 * axis.

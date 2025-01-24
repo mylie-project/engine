@@ -12,6 +12,10 @@ package mylie.math;
 @SuppressWarnings("unused")
 public interface Vec3<N extends Number> extends Vec<N, Vec3<N>> {
 
+	N getX();
+	N getY();
+	N getZ();
+
 	/**
 	 * The X-axis component of the 3D vector. This is a shared reference from the
 	 * {@link Vec2#X}.

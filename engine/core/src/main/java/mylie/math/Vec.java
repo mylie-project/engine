@@ -1,5 +1,15 @@
 package mylie.math;
 
+/**
+ * Defines a generic vector interface for mathematical operations in N-dimensional space.
+ * This interface supports basic arithmetic operations, along with element-wise operations,
+ * normalization, and comparison of vector components.
+ *
+ * @param <N>
+ *            The numeric type of the vector components (e.g., Integer, Float, Double, etc.).
+ * @param <V>
+ *            The specific vector type implementing this interface.
+ */
 @SuppressWarnings("unused")
 public interface Vec<N extends Number, V extends Vec<N, V>> {
 
@@ -70,5 +80,26 @@ public interface Vec<N extends Number, V extends Vec<N, V>> {
 	 *         with a magnitude of 1.
 	 */
 	V normalize();
+
+
+	/**
+	 * Compares this vector with the specified vector element-wise and returns a new vector
+	 * containing the maximum component values.
+	 *
+	 * @param other The vector to compare against.
+	 * @return A new vector where each component is the maximum value between this vector
+	 * and the specified vector.
+	 */
+	V max(V other);
+
+	/**
+	 * Compares this vector with the specified vector element-wise and returns a new vector
+	 * containing the minimum component values.
+	 *
+	 * @param other The vector to compare against.
+	 * @return A new vector where each component is the minimum value between this vector
+	 * and the specified vector.
+	 */
+	V min(V other);
 
 }
