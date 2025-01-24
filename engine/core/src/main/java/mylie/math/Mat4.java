@@ -1,5 +1,6 @@
 package mylie.math;
 
+@SuppressWarnings("unused")
 public interface Mat4<N extends Number> extends Mat<N, Mat4<N>> {
 	/**
 	 * Applies the matrix transformation to a given vector.

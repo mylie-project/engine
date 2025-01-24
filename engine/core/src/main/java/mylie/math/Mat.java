@@ -1,5 +1,6 @@
 package mylie.math;
 
+@SuppressWarnings("unused")
 public interface Mat<N extends Number, M extends Mat<N, M>> {
 
 	/**

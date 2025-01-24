@@ -8,9 +8,9 @@ class Mat4fTest {
 
 	@Test
 	void testAdd() {
-		Mat4f matrix1 = new Mat4f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
+		Mat4<Float> matrix1 = Mat4.f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
 				14.0f, 15.0f, 16.0f);
-		Mat4f matrix2 = new Mat4f(16.0f, 15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f,
+		Mat4<Float> matrix2 = Mat4.f(16.0f, 15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f,
 				3.0f, 2.0f, 1.0f);
 		Mat4<Float> result = matrix1.add(matrix2);
 
@@ -21,9 +21,9 @@ class Mat4fTest {
 
 	@Test
 	void testSub() {
-		Mat4f matrix1 = new Mat4f(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f,
+		Mat4<Float> matrix1 = Mat4.f(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f,
 				-3.0f, -4.0f, -5.0f);
-		Mat4f matrix2 = new Mat4f(5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f,
+		Mat4<Float> matrix2 = Mat4.f(5.0f, 4.0f, 3.0f, 2.0f, 1.0f, 0.0f, -1.0f, -2.0f, -3.0f, -4.0f, -5.0f, -6.0f, -7.0f,
 				-8.0f, -9.0f, -10.0f);
 		Mat4<Float> result = matrix1.sub(matrix2);
 
@@ -34,9 +34,9 @@ class Mat4fTest {
 
 	@Test
 	void testMul() {
-		Mat4f matrix1 = new Mat4f(2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f,
+		Mat4<Float> matrix1 = Mat4.f(2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f,
 				0.0f, 1.0f);
-		Mat4f matrix2 = new Mat4f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
+		Mat4<Float> matrix2 = Mat4.f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
 				14.0f, 15.0f, 16.0f);
 		Mat4<Float> result = matrix1.mul(matrix2);
 
@@ -47,7 +47,7 @@ class Mat4fTest {
 
 	@Test
 	void testTranspose() {
-		Mat4f matrix = new Mat4f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
+		Mat4<Float> matrix = Mat4.f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f,
 				14.0f, 15.0f, 16.0f);
 		Mat4<Float> result = matrix.transpose();
 
@@ -58,7 +58,7 @@ class Mat4fTest {
 
 	@Test
 	void testDeterminant() {
-		Mat4f matrix = new Mat4f(6.0f, 1.0f, 1.0f, 0.0f, 4.0f, -2.0f, 5.0f, 0.0f, 2.0f, 8.0f, 7.0f, 0.0f, 0.0f, 0.0f,
+		Mat4<Float> matrix = Mat4.f(6.0f, 1.0f, 1.0f, 0.0f, 4.0f, -2.0f, 5.0f, 0.0f, 2.0f, 8.0f, 7.0f, 0.0f, 0.0f, 0.0f,
 				0.0f, 1.0f);
 		float determinant = matrix.determinant();
 
@@ -74,7 +74,7 @@ class Mat4fTest {
 
 	@Test
 	void testInverseSingularMatrix() {
-		Mat4f singularMatrix = new Mat4f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f,
+		Mat4<Float> singularMatrix = Mat4.f(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f, 11.0f, 12.0f,
 				13.0f, 14.0f, 15.0f, 16.0f);
 
 		assertThrows(ArithmeticException.class, singularMatrix::inverse);
