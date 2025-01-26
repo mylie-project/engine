@@ -35,7 +35,8 @@ public class Timer {
 	 */
 	public Timer() {
 		tLast = System.nanoTime();
-		new FrameTime(0, simTimeModifier, 0, 0, System.currentTimeMillis(), System.currentTimeMillis());
+		FrameTime frameTime = new FrameTime(0, simTimeModifier, 0, 0, System.currentTimeMillis(), System.currentTimeMillis());
+		Time.frameTime(frameTime);
 	}
 
 	/**
