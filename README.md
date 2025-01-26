@@ -16,6 +16,25 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 
+## Table of Contents
+
+1. [Build State](#build-state)
+2. [Code Quality](#code-quality)
+3. [How to build](#how-to-build)
+   - [Step 1: Prerequisites](#step-1-prerequisites)
+   - [Step 2: Clone the Repository](#step-2-clone-the-repository)
+   - [Step 3: Build the Project](#step-3-build-the-project)
+   - [Step 4: Run the Project](#step-4-run-the-project)
+   - [Step 5: Clean the Build (Optional)](#step-5-clean-the-build-optional)
+4. [How to contribute](#how-to-contribute)
+   - [Step 1: Fork the Repository](#step-1-fork-the-repository)
+   - [Step 2: Clone Your Fork](#step-2-clone-your-fork)
+   - [Step 3: Create a Branch](#step-3-create-a-branch)
+   - [Step 4: Make Changes and Format the Code](#step-4-make-changes-and-format-the-code)
+   - [Step 5: Commit and Push Changes](#step-5-commit-and-push-changes)
+   - [Step 6: Create a Pull Request](#step-6-create-a-pull-request)
+   - [Additional Notes](#additional-notes)
+
 ## How to build:
 
 Follow the steps below to download the repository, build, and run the project using Gradle:
