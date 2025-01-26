@@ -2,6 +2,7 @@ package mylie.time;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,8 @@ class TimerTest {
 		long initialFrameId = Time.frameTime().frameId();
 
 		// Wait briefly so that some nanosecond difference occurs.
-		Thread.sleep(10);
+		CompletableFuture.runAsync(() -> {
+		}, CompletableFuture.delayedExecutor(10, java.util.concurrent.TimeUnit.MILLISECONDS));
 
 		// Call onNewFrame once to update Timer state.
 		timer.onNewFrame();
@@ -53,7 +55,8 @@ class TimerTest {
 		timer.simTimeModifier(2.0f);
 
 		// Wait briefly again so we have a measurable difference.
-		Thread.sleep(10);
+		CompletableFuture.runAsync(() -> {
+		}, CompletableFuture.delayedExecutor(10, java.util.concurrent.TimeUnit.MILLISECONDS));
 
 		// Capture the time values before calling onNewFrame.
 		float oldDelta = Time.frameTime().delta();
@@ -79,7 +82,8 @@ class TimerTest {
 		float initialDelta = Time.frameTime().delta();
 
 		// Wait briefly to create a measurable time difference.
-		Thread.sleep(10);
+		CompletableFuture.runAsync(() -> {
+		}, CompletableFuture.delayedExecutor(10, java.util.concurrent.TimeUnit.MILLISECONDS));
 
 		// Call onNewFrame to update Timer state.
 		timer.onNewFrame();
