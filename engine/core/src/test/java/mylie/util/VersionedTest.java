@@ -2,6 +2,7 @@ package mylie.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import mylie.time.Timer;
 import org.junit.jupiter.api.Test;
 
 class VersionedTest {
@@ -107,6 +108,25 @@ class VersionedTest {
 
 		versioned.value("Fourth");
 		assertEquals(4L, versioned.version());
+	}
+
+	@Test
+	void testFrameId() {
+		Timer timer = new Timer();
+		Versioned<Integer> versioned = Versioned.frameId();
+		versioned.value(10);
+		assertEquals(10, versioned.value());
+		assertEquals(0L, versioned.version());
+		versioned.value(11);
+		assertEquals(11, versioned.value());
+		assertEquals(0L, versioned.version());
+		timer.onNewFrame();
+		versioned.value(12);
+		assertEquals(12, versioned.value());
+		assertEquals(1L, versioned.version());
+		versioned.value(13);
+		assertEquals(13, versioned.value());
+		assertEquals(1L, versioned.version());
 	}
 
 }
