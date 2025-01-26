@@ -15,8 +15,3 @@ package mylie.time;
 public record FrameTime(long frameId, float simMod, float delta, float deltaSim, long time, long timeSim) {
 }
 
-//Write a concise commit message from 'git diff --staged' output in the format `[EMOJI] [TYPE](file/topic): [description in {locale}]`. Use GitMoji emojis (e.g., ✨ → feat), present tense, active voice, max 120 characters, one line, no code blocks.
-//If required make a list of messages in the same format
-//---
-//{diff}
-
