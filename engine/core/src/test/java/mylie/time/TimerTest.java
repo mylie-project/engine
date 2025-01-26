@@ -18,7 +18,7 @@ class TimerTest {
 	@Test
 	void testInitialConditions() {
 		// Verify the default simulation time modifier.
-		assertEquals(1.0f, getSimTimeModifier(timer), "Default simTimeModifier should be 1.0f");
+		assertEquals(1.0f, Time.frameTime().simMod(), "Default simTimeModifier should be 1.0f");
 
 		// Here you could also check any initial FrameTime properties if accessible.
 		// For example, checking that frameId is 0, etc.
@@ -71,22 +71,6 @@ class TimerTest {
 		assertNotEquals(oldDeltaSim, newDeltaSim, "DeltaSim should update after onNewFrame");
 		assertEquals(newDelta * 2.0f, newDeltaSim, 1e-6,
 				"DeltaSim should be about twice delta when simTimeModifier=2.0");
-	}
-
-	// Helper method to get the current simTimeModifier.
-	// Depending on your code design, you may access this differently.
-	private float getSimTimeModifier(Timer timer) {
-		// Reflection or direct access if available
-		// For example, if there's a getSimTimeModifier() method, you could call it
-		// here:
-		// return timer.getSimTimeModifier();
-		// If it's only internally set with Lombok @Setter, create a suitable getter or
-		// test via reflection.
-		// For demonstration, assume we have a public or package-private getter:
-		// return timer.getSimTimeModifier();
-
-		// This is a placeholder returning 1.0f if no direct getter exists.
-		return 1.0f;
 	}
 
 	@Test

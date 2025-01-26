@@ -5,12 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * The Time class provides static methods to access frame-based timing information,
- * useful for simulations, animations, or real-time applications.
- * It delegates calls to an instance of FrameTime, encapsulating timing data such as
- * elapsed time, simulation time, and frame identifiers.
+ * The {@code Time} class provides static methods for accessing frame-specific timing data.
+ * It enables querying details regarding real-time and simulation-time deltas,
+ * total elapsed time, and frame identifiers during application runtime.
+ *
+ * All data retrieval is managed via the current {@link FrameTime} instance,
+ * which is updated externally for each frame.
  */
 public class Time {
+
+	/**
+	 * Private constructor for the {@code Time} class.
+	 *
+	 * The constructor is private to ensure that the {@code Time} class cannot be instantiated.
+	 * This class is designed to provide static methods for retrieving frame-specific timing data,
+	 * and should not be used as an instance.
+	 */
+	private Time() {}
 	/**
 	 * The {@link FrameTime} instance that holds frame-specific timing information.
 	 * Provides data such as elapsed time, simulation time, and frame identifiers.
