@@ -131,11 +131,9 @@ public abstract class Versioned<T> {
 		 * @return the locally cached or updated value
 		 */
 		T value(boolean update) {
-			if (update) {
-				if (!isCurrent()) {
-					this.version = versioned.version();
-					this.value = versioned.value();
-				}
+			if (update && !isCurrent()) {
+				this.version = versioned.version();
+				this.value = versioned.value();
 			}
 			return value;
 		}
