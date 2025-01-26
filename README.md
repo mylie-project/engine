@@ -1,3 +1,4 @@
+# Mylie - Engine
 Build State:
 
 ![GitHub License](https://img.shields.io/github/license/mylie-project/engine)
@@ -9,7 +10,6 @@ Build State:
 Code Quality:
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=bugs)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
