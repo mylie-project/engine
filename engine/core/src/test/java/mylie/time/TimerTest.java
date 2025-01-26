@@ -26,7 +26,7 @@ class TimerTest {
 	}
 
 	@Test
-	void testOnNewFrameUpdatesFrameTime() throws InterruptedException {
+	void testOnNewFrameUpdatesFrameTime() {
 		// Capture the initial frameId (assuming Time.frameTime() is accessible).
 		long initialFrameId = Time.frameTime().frameId();
 
@@ -50,7 +50,7 @@ class TimerTest {
 	}
 
 	@Test
-	void testOnNewFrameWithModifiedSimTime() throws InterruptedException {
+	void testOnNewFrameWithModifiedSimTime() {
 		// Change simulation speed to 2x
 		timer.simTimeModifier(2.0f);
 
@@ -77,7 +77,7 @@ class TimerTest {
 	}
 
 	@Test
-	void testDeltaTimeCorrectness() throws InterruptedException {
+	void testDeltaTimeCorrectness() {
 		// Capture initial delta value before calling onNewFrame.
 		float initialDelta = Time.frameTime().delta();
 
