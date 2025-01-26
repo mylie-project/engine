@@ -145,7 +145,7 @@ the project's formatting guidelines:
 - Regularly sync your fork with the main repository to reduce conflicts:
   ```bash
   git fetch upstream
-  git merge upstream/main
+  git merge upstream/master
   ```
 
 Thank you for contributing to the project!
