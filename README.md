@@ -1,7 +1,7 @@
 # Mylie - Engine
 Build State:
 
-[![GitHub License](https://img.shields.io/github/license/mylie-project/engine)](./LICENSE.md)
+[![GitHub License](https://img.shields.io/github/license/mylie-project/engine?lable=license)](./LICENSE.md)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mylie-project/engine/build_test.yml)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mylie-project/engine)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/mylie-project/engine)
