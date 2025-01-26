@@ -25,7 +25,7 @@ public class Timer {
 	 */
 	@Setter
 	private float simTimeModifier = 1f;
-	private long tLast = 0;
+	private long tLast;
 	private long elapsed = 0;
 	private long simElapsed = 0;
 

@@ -66,7 +66,7 @@ public abstract class Versioned<T> {
 	 * @return a {@link Versioned} object with auto-incrementing version numbers
 	 */
 	public static <T> Versioned<T> autoincrement() {
-		return new Versioned<T>() {
+		return new Versioned<>() {
 			@Override
 			public void value(T value) {
 				value(value, version() + 1);
