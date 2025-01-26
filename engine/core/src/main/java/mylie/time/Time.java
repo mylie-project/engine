@@ -12,6 +12,7 @@ import lombok.Setter;
  * All data retrieval is managed via the current {@link FrameTime} instance,
  * which is updated externally for each frame.
  */
+@SuppressWarnings("unused")
 public class Time {
 
 	/**
@@ -21,7 +22,8 @@ public class Time {
 	 * This class is designed to provide static methods for retrieving frame-specific timing data,
 	 * and should not be used as an instance.
 	 */
-	private Time() {}
+	private Time() {
+	}
 	/**
 	 * The {@link FrameTime} instance that holds frame-specific timing information.
 	 * Provides data such as elapsed time, simulation time, and frame identifiers.
