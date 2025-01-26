@@ -14,4 +14,3 @@ package mylie.time;
  */
 public record FrameTime(long frameId, float simMod, float delta, float deltaSim, long time, long timeSim) {
 }
-

@@ -26,7 +26,7 @@ public class Timer {
 	@Setter
 	private float simTimeModifier = 1f;
 	private long tLast = 0;
-    private long elapsed = 0;
+	private long elapsed = 0;
 	private long simElapsed = 0;
 
 	/**
@@ -35,7 +35,8 @@ public class Timer {
 	 */
 	public Timer() {
 		tLast = System.nanoTime();
-		FrameTime frameTime = new FrameTime(0, simTimeModifier, 0, 0, System.currentTimeMillis(), System.currentTimeMillis());
+		FrameTime frameTime = new FrameTime(0, simTimeModifier, 0, 0, System.currentTimeMillis(),
+				System.currentTimeMillis());
 		Time.frameTime(frameTime);
 	}
 
