@@ -46,6 +46,7 @@ public class AssetSystem {
 	 * and updates.
 	 */
 	public AssetSystem() {
+		log.trace("Initializing AssetSystem");
 	}
 
 	/**
