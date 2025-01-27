@@ -1,5 +1,5 @@
 plugins {
-    id("com.diffplug.spotless") version "7.0.0.BETA4"
+    id("com.diffplug.spotless") version "7.0.2"
 }
 
 val engineVersion="0.0.1"
