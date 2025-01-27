@@ -1,6 +1,6 @@
 [versions]
 lombok = "1.18.36"
-logback = "1.5.13"
+logback = "1.5.16"
 slf4j = "2.0.15"
 
 [libraries]
