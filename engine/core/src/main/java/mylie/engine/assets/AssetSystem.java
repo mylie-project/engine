@@ -1,6 +1,7 @@
 package mylie.engine.assets;
 
 import lombok.extern.slf4j.Slf4j;
+import mylie.engine.assets.loaders.TextFileLoader;
 import mylie.time.Time;
 
 import java.lang.reflect.InvocationTargetException;
@@ -97,5 +98,9 @@ public class AssetSystem {
 
     public void addAssetDependency(AssetKey<?,?> key,AssetKey<?,?> dependency){
         key.dependingAssets().add(dependency);
+    }
+
+    public void addDefaultAsserLoaders(){
+        addAssetLoader(TextFileLoader.class,"txt");
     }
 }

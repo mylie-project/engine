@@ -78,7 +78,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 
     @Getter
     public static class FileSystemOptions extends AssetLocator.Options{
-        boolean allowReload=false;
+        final boolean allowReload;
 
         public FileSystemOptions(boolean allowReload) {
             this.allowReload = allowReload;
