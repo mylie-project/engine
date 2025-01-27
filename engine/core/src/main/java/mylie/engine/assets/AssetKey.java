@@ -6,15 +6,33 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * Represents a key used to uniquely identify an {@link Asset}.
+ *
+ * @param <A> the type of the asset associated with this key.
+ * @param <K> the specific type of the key, extending this class.
+ */
 @ToString
-public class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> {
+public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> {
+	/**
+	 * A set of assets that the current asset depends on.
+	 * Dependencies are tracked to ensure proper management of related assets.
+	 */
 	@Getter(AccessLevel.PACKAGE)
 	private final Set<AssetKey<?, ?>> dependingAssets = new HashSet<>();
+
+	/**
+	 * The path used to uniquely identify this asset in the system.
+	 */
 	@Getter
 	private final String path;
 
-	public AssetKey(String path) {
+	/**
+	 * Constructs an {@code AssetKey} with the specified path.
+	 *
+	 * @param path the unique path to identify the asset.
+	 */
+	protected AssetKey(String path) {
 		this.path = path;
 	}
-
 }

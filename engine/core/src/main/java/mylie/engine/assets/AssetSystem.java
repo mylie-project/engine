@@ -13,6 +13,14 @@ public class AssetSystem {
 	private final List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
 	private final Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
 
+	/**
+	 * Loads an asset using the specified asset key by locating, importing, and caching the asset.
+	 *
+	 * @param assetKey the key uniquely identifying the asset to be loaded.
+	 * @param <A>      the specific type of the asset.
+	 * @param <K>      the type of the key identifying the asset.
+	 * @return the loaded asset of type {@code A}, or {@code null} if the asset could not be found or loaded.
+	 */
 	@SuppressWarnings("unchecked")
 	public <A extends Asset<A, K>, K extends AssetKey<A, K>> A loadAsset(AssetKey<A, K> assetKey) {
 		K key = (K) assetKey;
@@ -28,6 +36,14 @@ public class AssetSystem {
 		return null;
 	}
 
+	/**
+	 * Locates an asset using the specified key by querying all registered asset locators.
+	 *
+	 * @param assetKey the key uniquely identifying the asset.
+	 * @param <A>      the specific type of the asset.
+	 * @param <K>      the type of the key identifying the asset.
+	 * @return the location of the asset, or {@code null} if the asset could not be located.
+	 */
 	public <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
 		AssetLocation<A, K> assetLocation = null;
 		for (AssetLocator<?> assetLocator : assetLocators) {
@@ -42,12 +58,28 @@ public class AssetSystem {
 		return assetLocation;
 	}
 
+	/**
+	 * Called when an asset has successfully been loaded to update its key, cache it, and set its version.
+	 *
+	 * @param asset    the loaded asset.
+	 * @param assetKey the key uniquely identifying the asset.
+	 * @param <A>      the specific type of the asset.
+	 * @param <K>      the type of the key identifying the asset.
+	 */
 	private <A extends Asset<A, K>, K extends AssetKey<A, K>> void onAssetLoaded(A asset, K assetKey) {
 		asset.key(assetKey);
 		assetCache.put(assetKey, asset);
 		asset.version(Time.frameId());
 	}
 
+	/**
+	 * Imports an asset using the provided asset location, attempting to find a suitable loader.
+	 *
+	 * @param assetLocation the location of the asset to be imported.
+	 * @param <A>           the specific type of the asset.
+	 * @param <K>           the type of the key identifying the asset.
+	 * @return the imported asset of type {@code A}, or {@code null} if a suitable loader could not be found.
+	 */
 	@SuppressWarnings("unchecked")
 	public final <A extends Asset<A, K>, K extends AssetKey<A, K>> A importAsset(AssetLocation<A, K> assetLocation) {
 		K assetKey = assetLocation.assetKey();
@@ -60,12 +92,20 @@ public class AssetSystem {
 		return null;
 	}
 
+	/**
+	 * Performs periodic updates for all registered asset locators, checking for changes in assets.
+	 */
 	public void onUpdate() {
 		for (AssetLocator<?> assetLocator : assetLocators) {
 			assetLocator.onPollForChanges();
 		}
 	}
 
+	/**
+	 * Handles asset updates when an asset is changed by reloading the asset and notifying dependencies.
+	 *
+	 * @param assetKey the key of the asset that has changed.
+	 */
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void onAssetChanged(AssetKey<?, ?> assetKey) {
 		log.trace("Asset {} changed", assetKey);
@@ -75,6 +115,16 @@ public class AssetSystem {
 		}
 	}
 
+	/**
+	 * Registers a new asset locator for locating assets in the specified path with the provided options.
+	 *
+	 * @param locator the class of the asset locator to be registered.
+	 * @param options the configuration options for the asset locator.
+	 * @param path    the base path where the asset locator will operate.
+	 * @param <L>     the type of the asset locator.
+	 * @param <O>     the type of the locator options.
+	 * @throws AssetException if the locator initialization fails.
+	 */
 	public <L extends AssetLocator<O>, O extends AssetLocator.Options> void addAssetLocator(Class<L> locator, O options,
 			String path) {
 		try {
@@ -87,6 +137,16 @@ public class AssetSystem {
 		}
 	}
 
+	/**
+	 * Registers a new asset loader for handling assets with the specified file extensions.
+	 *
+	 * @param loader         the class of the asset loader to be registered.
+	 * @param fileExtensions the file extensions supported by the asset loader.
+	 * @param <L>            the specific loader class type.
+	 * @param <A>            the type of asset handled by the loader.
+	 * @param <K>            the type of the key identifying the asset.
+	 * @throws AssetException if the loader initialization fails.
+	 */
 	public <L extends AssetLoader<A, K>, A extends Asset<A, K>, K extends AssetKey<A, K>> void addAssetLoader(
 			Class<L> loader, String... fileExtensions) {
 		try {
@@ -98,10 +158,19 @@ public class AssetSystem {
 		}
 	}
 
+	/**
+	 * Adds a dependency between two assets, enabling tracking of changes in dependent assets.
+	 *
+	 * @param key        the key of the primary asset.
+	 * @param dependency the key of the asset it depends on.
+	 */
 	public void addAssetDependency(AssetKey<?, ?> key, AssetKey<?, ?> dependency) {
 		key.dependingAssets().add(dependency);
 	}
 
+	/**
+	 * Registers default asset loaders to handle standard asset types.
+	 */
 	public void addDefaultAsserLoaders() {
 		addAssetLoader(TextFileLoader.class, "txt");
 	}
