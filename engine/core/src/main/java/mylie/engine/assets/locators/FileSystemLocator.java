@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import mylie.engine.assets.*;
+import mylie.engine.assets.exceptions.AssetException;
 
 @Slf4j
 public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystemOptions> {
@@ -28,7 +29,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 				watchService = fileSystem.newWatchService();
 			} catch (IOException e) {
 				log.error("Failed to create watch service");
-				throw new RuntimeException(e);
+				throw new AssetException(e);
 			}
 		} else {
 			watchService = null;
@@ -40,10 +41,9 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 		WatchKey watchKey;
 		while ((watchKey = watchService.poll()) != null) {
 			for (WatchEvent<?> pollEvent : watchKey.pollEvents()) {
-				if (pollEvent.kind() == StandardWatchEventKinds.ENTRY_MODIFY) {
-					if (pollEvent.context() instanceof Path path) {
-						assetSystem().onAssetChanged(loadedAssets.get(path.toString()));
-					}
+				if (pollEvent.kind() == StandardWatchEventKinds.ENTRY_MODIFY
+						&& pollEvent.context() instanceof Path path) {
+					assetSystem().onAssetChanged(loadedAssets.get(path.toString()));
 				}
 
 			}
@@ -68,7 +68,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 					loadedAssets.put(assetKey.path(), assetKey);
 				} catch (IOException e) {
 					log.error("Failed to register file {} to watch service", filePath);
-					throw new RuntimeException(e);
+					throw new AssetException(e);
 				}
 			}
 			return new FileAssetLocation<>(assetKey, this, path());
@@ -77,7 +77,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 	}
 
 	@Getter
-	public static class FileSystemOptions extends AssetLocator.Options {
+	public static class FileSystemOptions implements AssetLocator.Options {
 		final boolean allowReload;
 
 		public FileSystemOptions(boolean allowReload) {
@@ -101,7 +101,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 				try {
 					return new FileInputStream(file);
 				} catch (FileNotFoundException e) {
-					throw new RuntimeException(e);
+					throw new AssetException(e);
 				}
 			}
 			throw new IllegalStateException("This should not be possible");

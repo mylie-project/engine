@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import mylie.engine.assets.AssetLoader;
 import mylie.engine.assets.AssetLocation;
 import mylie.engine.assets.assets.TextFile;
+import mylie.engine.assets.exceptions.AssetException;
 
 @Slf4j
 public class TextFileLoader extends AssetLoader<TextFile, TextFile.Key> {
@@ -24,7 +25,7 @@ public class TextFileLoader extends AssetLoader<TextFile, TextFile.Key> {
 			return new TextFile(lines.toArray(new String[0]));
 		} catch (Exception e) {
 			log.error("Error while reading from input stream");
+			throw new AssetException(e);
 		}
-		return null;
 	}
 }

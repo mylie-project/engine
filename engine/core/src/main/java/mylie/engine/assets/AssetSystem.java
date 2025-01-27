@@ -3,6 +3,7 @@ package mylie.engine.assets;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
+import mylie.engine.assets.exceptions.AssetException;
 import mylie.engine.assets.loaders.TextFileLoader;
 import mylie.time.Time;
 
@@ -86,7 +87,7 @@ public class AssetSystem {
 		} catch (InstantiationException | InvocationTargetException | IllegalAccessException
 				| NoSuchMethodException e) {
 			log.error("Failed to initialized the locator: {}", options.getClass(), e);
-			throw new RuntimeException(e);
+			throw new AssetException(e);
 		}
 	}
 
@@ -97,6 +98,7 @@ public class AssetSystem {
 		} catch (InstantiationException | InvocationTargetException | IllegalAccessException
 				| NoSuchMethodException e) {
 			log.error("Failed to initialized the loader: {}", loader, e);
+			throw new AssetException(e);
 		}
 	}
 

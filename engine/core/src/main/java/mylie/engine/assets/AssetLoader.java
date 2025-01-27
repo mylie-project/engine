@@ -6,7 +6,7 @@ import java.util.Set;
 public abstract class AssetLoader<A extends Asset<A, K>, K extends AssetKey<A, K>> {
 	final Set<String> fileExtensions = new HashSet<>();
 
-	public AssetLoader(String... fileExtensions) {
+	protected AssetLoader(String... fileExtensions) {
 		this.fileExtensions.addAll(Set.of(fileExtensions));
 	}
 

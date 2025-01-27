@@ -8,7 +8,7 @@ public abstract class AssetLocation<A extends Asset<A, K>, K extends AssetKey<A,
 	final K assetKey;
 	final AssetLocator<?> assetLocator;
 
-	public AssetLocation(K assetKey, AssetLocator<?> assetLocator) {
+	protected AssetLocation(K assetKey, AssetLocator<?> assetLocator) {
 		this.assetKey = assetKey;
 		this.assetLocator = assetLocator;
 	}
