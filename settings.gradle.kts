@@ -3,7 +3,7 @@ rootProject.name = "mylie.engine"
 dependencyResolutionManagement{
     versionCatalogs{
         create("libs"){
-            version("lombok","1.18.34")
+            version("lombok","1.18.36")
             version("logback","1.5.13")
             version("slf4j","2.0.16")
 
