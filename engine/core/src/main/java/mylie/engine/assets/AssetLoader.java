@@ -15,6 +15,14 @@ import java.util.Set;
 public abstract class AssetLoader<A extends Asset<A, K>, K extends AssetKey<A, K>> {
 	final Set<String> fileExtensions = new HashSet<>();
 
+	/**
+	 * Constructs an AssetLoader with the specified supported file extensions.
+	 * Each file extension provided in the parameter will be stored and used
+	 * to determine if an asset is supported for loading.
+	 *
+	 * @param fileExtensions the file extensions that this loader will support.
+	 *                        Each file extension should be provided as a string.
+	 */
 	protected AssetLoader(String... fileExtensions) {
 		this.fileExtensions.addAll(Set.of(fileExtensions));
 	}

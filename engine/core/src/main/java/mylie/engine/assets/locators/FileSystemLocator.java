@@ -116,6 +116,12 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 		 */
 		final boolean allowReload;
 
+		/**
+		 * Constructs a new instance of {@code FileSystemOptions} with the given configuration.
+		 *
+		 * @param allowReload A boolean value indicating whether assets should be automatically
+		 *                    reloaded when changes are detected in the file system.
+		 */
 		public FileSystemOptions(boolean allowReload) {
 			this.allowReload = allowReload;
 		}

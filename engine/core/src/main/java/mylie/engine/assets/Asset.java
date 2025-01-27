@@ -12,6 +12,14 @@ import lombok.Setter;
  */
 public abstract class Asset<A extends Asset<A, K>, K extends AssetKey<A, K>> {
 	/**
+	 * Constructs an instance of an {@code Asset}.
+	 * This constructor is typically invoked during the creation of an asset
+	 * that includes a unique identifying key and an optional version number.
+	 */
+	protected Asset() {
+	}
+
+	/**
 	 * The unique key associated with this asset.
 	 * This is set at the package level and not accessible publicly.
 	 */

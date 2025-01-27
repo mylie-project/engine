@@ -7,11 +7,46 @@ import mylie.engine.assets.exceptions.AssetException;
 import mylie.engine.assets.loaders.TextFileLoader;
 import mylie.time.Time;
 
+/**
+ * The {@code AssetSystem} class is responsible for managing the lifecycle of assets in a system.
+ * It provides functionality to handle asset loading, locating, importing, caching, tracking of
+ * dependencies, and updating assets during runtime. This class acts as a centralized component for
+ * coordinating interactions with asset locators, loaders, and keys.
+ *
+ * The class intends to streamline asset management tasks by ensuring efficient handling of asset
+ * discovery, versioning, and resolution of dependencies. It supports extensibility by allowing
+ * registration of custom asset locators and loaders.
+ *
+ * Key Features:
+ * - Locate assets through a list of registered asset locators.
+ * - Load and import assets using registered asset loaders.
+ * - Cache loaded assets for efficiency.
+ * - Respond to changes in assets and update dependencies.
+ * - Register custom asset locators and loaders to expand functionality.
+ * - Automatically update and monitor asset changes during runtime.
+ */
 @Slf4j
 public class AssetSystem {
 	private final List<AssetLocator<?>> assetLocators = new ArrayList<>();
 	private final List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
 	private final Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
+
+	/**
+	 * The {@code AssetSystem} class is responsible for managing the lifecycle
+	 * of assets within the system. It serves as a central component for coordinating
+	 * asset loading, locating, and tracking dependencies.
+	 *
+	 * This class establishes the infrastructure for interacting with other asset-related
+	 * components such as asset loaders, locators, and keys. It enables organization and
+	 * efficient management of assets in complex systems by abstracting operations like
+	 * asset discovery, tracking, and versioning.
+	 *
+	 * By leveraging this class, systems can implement a robust asset management pipeline
+	 * that caters to different asset types and ensures proper handling of dependencies
+	 * and updates.
+	 */
+	public AssetSystem() {
+	}
 
 	/**
 	 * Loads an asset using the specified asset key by locating, importing, and caching the asset.
