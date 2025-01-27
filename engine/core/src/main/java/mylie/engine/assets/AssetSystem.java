@@ -113,7 +113,7 @@ public final class AssetSystem {
 	 * @return the imported asset of type {@code A}, or {@code null} if a suitable loader could not be found.
 	 */
 	@SuppressWarnings("unchecked")
-	public final <A extends Asset<A, K>, K extends AssetKey<A, K>> A importAsset(AssetLocation<A, K> assetLocation) {
+	public <A extends Asset<A, K>, K extends AssetKey<A, K>> A importAsset(AssetLocation<A, K> assetLocation) {
 		K assetKey = assetLocation.assetKey();
 		for (AssetLoader<?, ?> assetLoader : assetLoaders) {
 			if (assetLoader.isSupported(assetKey)) {
