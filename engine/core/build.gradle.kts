@@ -30,12 +30,12 @@ val createVersionProperties by tasks.registering(WriteProperties::class) {
     property("version", project.version.toString())
     val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by project.extra
     val details = versionDetails()
-    property("lastTag",details.lastTag)
-    property("commitDistance",details.commitDistance)
-    property("gitHash",details.gitHash)
-    property("gitHashFull",details.gitHashFull) // full 40-character Git commit hash
-    property("branchName",details.branchName) // is null if the repository in detached HEAD mode
-    property("isCleanTag",details.isCleanTag)
+    property("lastTag",details.lastTag ?: "unknown")
+    property("commitDistance", details.commitDistance)
+    property("gitHash",details.gitHash?:"unknown")
+    property("gitHashFull",details.gitHashFull?:"unknown") // full 40-character Git commit hash
+    property("branchName",details.branchName ?: "local") // is null if the repository in detached HEAD mode
+    property("isCleanTag", details.isCleanTag)
     property("buildTime", SimpleDateFormat("dd-MM-yyyy hh:mm").format(Date()))
 }
 
