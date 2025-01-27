@@ -132,8 +132,10 @@ public abstract class Versioned<T> {
 		 */
 		T value(boolean update) {
 			if (update && !isCurrent()) {
-				this.version = versioned.version();
-				this.value = versioned.value();
+				synchronized (versioned) {
+					this.version = versioned.version();
+					this.value = versioned.value();
+				}
 			}
 			return value;
 		}
@@ -144,7 +146,9 @@ public abstract class Versioned<T> {
 		 * @return {@code true} if the cached version is not up-to-date with the tracked object; {@code false} otherwise
 		 */
 		boolean isCurrent() {
-			return version == versioned.version();
+			synchronized (versioned) {
+				return version == versioned.version();
+			}
 		}
 	}
 }
