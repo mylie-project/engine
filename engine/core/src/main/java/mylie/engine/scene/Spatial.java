@@ -48,7 +48,7 @@ public abstract class Spatial<S extends Spatial<S, K>, K extends AssetKey<S, K>>
 	 */
 	@Setter(AccessLevel.PROTECTED)
 	private Node parent;
-	private int flags = 0;
+	private int flags;
 
 	/**
 	 * Called when the local transformation is modified.
