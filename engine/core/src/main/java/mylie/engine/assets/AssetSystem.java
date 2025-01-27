@@ -13,10 +13,6 @@ public class AssetSystem {
 	private final List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
 	private final Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
 
-	public AssetSystem() {
-
-	}
-
 	@SuppressWarnings("unchecked")
 	public <A extends Asset<A, K>, K extends AssetKey<A, K>> A loadAsset(AssetKey<A, K> assetKey) {
 		K key = (K) assetKey;
