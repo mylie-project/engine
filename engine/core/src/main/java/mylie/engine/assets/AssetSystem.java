@@ -26,27 +26,23 @@ import mylie.time.Time;
  * - Automatically update and monitor asset changes during runtime.
  */
 @Slf4j
-public class AssetSystem {
+public final class AssetSystem {
 	private final List<AssetLocator<?>> assetLocators = new ArrayList<>();
 	private final List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
 	private final Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
 
 	/**
-	 * The {@code AssetSystem} class is responsible for managing the lifecycle
-	 * of assets within the system. It serves as a central component for coordinating
-	 * asset loading, locating, and tracking dependencies.
+	 * Constructs an instance of the AssetSystem.
+	 * Initializes the AssetSystem with optional default loaders.
 	 *
-	 * This class establishes the infrastructure for interacting with other asset-related
-	 * components such as asset loaders, locators, and keys. It enables organization and
-	 * efficient management of assets in complex systems by abstracting operations like
-	 * asset discovery, tracking, and versioning.
-	 *
-	 * By leveraging this class, systems can implement a robust asset management pipeline
-	 * that caters to different asset types and ensures proper handling of dependencies
-	 * and updates.
+	 * @param loadDefaults a boolean flag indicating whether to add default loaders.
+	 *                      If {@code true}, default loaders will be added during initialization.
 	 */
-	public AssetSystem() {
+	public AssetSystem(boolean loadDefaults) {
 		log.trace("Initializing AssetSystem");
+		if (loadDefaults) {
+			addDefaultLoaders();
+		}
 	}
 
 	/**
@@ -207,7 +203,7 @@ public class AssetSystem {
 	/**
 	 * Registers default asset loaders to handle standard asset types.
 	 */
-	public void addDefaultAsserLoaders() {
+	public void addDefaultLoaders() {
 		addAssetLoader(TextFileLoader.class, "txt");
 	}
 }
