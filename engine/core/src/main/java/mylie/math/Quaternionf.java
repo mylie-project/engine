@@ -76,9 +76,17 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 	public Vec3<Float> transform(Vec3<Float> vector) {
 		Vec3f vec = Vec3f.cast(vector);
 		float x = vec.x(), y = vec.y(), z = vec.z();
-		float xx = this.x * this.x, yy = this.y * this.y, zz = this.z * this.z, ww = this.w * this.w;
-		float xy = this.x * this.y, xz = this.x * this.z, yz = this.y * this.z, xw = this.x * this.w;
-		float zw = this.z * this.w, yw = this.y * this.w, k = 1 / (xx + yy + zz + ww);
+		float xx = this.x * this.x;
+		float yy = this.y * this.y;
+		float zz = this.z * this.z;
+		float ww = this.w * this.w;
+		float xy = this.x * this.y;
+		float xz = this.x * this.z;
+		float yz = this.y * this.z;
+		float xw = this.x * this.w;
+		float zw = this.z * this.w;
+		float yw = this.y * this.w;
+		float k = 1 / (xx + yy + zz + ww);
 		return new Vec3f(Math.fma((xx - yy - zz + ww) * k, x, Math.fma(2 * (xy - zw) * k, y, (2 * (xz + yw) * k) * z)),
 				Math.fma(2 * (xy + zw) * k, x, Math.fma((yy - xx - zz + ww) * k, y, (2 * (yz - xw) * k) * z)),
 				Math.fma(2 * (xz - yw) * k, x, Math.fma(2 * (yz + xw) * k, y, ((zz - xx - yy + ww) * k) * z)));
@@ -94,7 +102,7 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 		float rx = axisX * invVLength * sinAngle;
 		float ry = axisY * invVLength * sinAngle;
 		float rz = axisZ * invVLength * sinAngle;
-		float rw = FastMath.cosFromSin(sinAngle, hangle);
+		float rw = FastMath.cosFromSin(hangle);
 		return Quaternion.f(Math.fma(this.w, rx, Math.fma(this.x, rw, Math.fma(this.y, rz, -this.z * ry))),
 				Math.fma(this.w, ry, Math.fma(-this.x, rz, Math.fma(this.y, rw, this.z * rx))),
 				Math.fma(this.w, rz, Math.fma(this.x, ry, Math.fma(-this.y, rx, this.z * rw))),
@@ -104,11 +112,13 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 	@Override
 	public Quaternion<Float> rotationAxis(float angle, Vec3<Float> axis) {
 		Vec3f axisV = Vec3f.cast(axis);
-		float axisX = axisV.x(), axisY = axisV.y(), axisZ = axisV.z();
+		float axisX = axisV.x();
+		float axisY = axisV.y();
+		float axisZ = axisV.z();
 		float hangle = angle / 2.0f;
 		float sinAngle = FastMath.sin(hangle);
 		float invVLength = FastMath.invsqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 		return Quaternion.f(axisX * invVLength * sinAngle, axisY * invVLength * sinAngle, axisZ * invVLength * sinAngle,
-				FastMath.cosFromSin(sinAngle, hangle));
+				FastMath.cosFromSin(hangle));
 	}
 }

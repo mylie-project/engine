@@ -24,6 +24,7 @@ public class Transform {
 	 * This constructor is typically used to initialize a transform with no transformations applied.
 	 */
 	public Transform() {
+		// Empty constructor intentionally
 	}
 
 	/**

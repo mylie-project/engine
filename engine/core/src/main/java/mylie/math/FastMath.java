@@ -31,7 +31,7 @@ public class FastMath {
 	 * This value is precomputed and cast to float to provide performance benefits
 	 * and to align with operations requiring single-precision arithmetic.
 	 */
-	private static final float PI_OVER_2_f = (float) (PI * 0.5);
+	private static final float PI_OVER_2_F = (float) (PI * 0.5);
 
 	/**
 	 * Computes the sine of an angle provided in radians.
@@ -60,11 +60,10 @@ public class FastMath {
 	 * This method utilizes the phase shift property of sine and cosine, where
 	 * cos(x) = sin(x + π/2).
 	 *
-	 * @param sinAngle the sine of the angle, used as input to compute the cosine
 	 * @param angle the angle in radians corresponding to the sine value
 	 * @return the cosine of the specified angle as a single-precision floating-point value
 	 */
-	public static float cosFromSin(float sinAngle, float angle) {
-		return sin(angle + PI_OVER_2_f);
+	public static float cosFromSin(float angle) {
+		return sin(angle + PI_OVER_2_F);
 	}
 }
