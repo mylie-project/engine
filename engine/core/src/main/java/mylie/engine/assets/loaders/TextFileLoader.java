@@ -15,7 +15,6 @@ public class TextFileLoader extends AssetLoader<TextFile, TextFile.Key> {
 
 	@Override
 	protected TextFile loadAsset(AssetLocation<TextFile, TextFile.Key> location) {
-		TextFile.Key key = location.assetKey();
 		try (InputStream inputStream = location.open()) {
 			List<String> lines = new ArrayList<>();
 			Scanner scanner = new Scanner(inputStream);

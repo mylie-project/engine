@@ -16,6 +16,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 	private final Set<Path> watchedPaths = new HashSet<>();
 	private final Map<String, AssetKey<?, ?>> loadedAssets = new HashMap<>();
 
+	@SuppressWarnings("unused")
 	public FileSystemLocator(AssetSystem assetSystem, FileSystemOptions options, String path) {
 		super(assetSystem, options, path);
 		if (!Paths.get(path()).toFile().exists()) {

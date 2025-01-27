@@ -11,7 +11,6 @@ public abstract class AssetLoader<A extends Asset<A, K>, K extends AssetKey<A, K
 	}
 
 	protected boolean isSupported(AssetKey<?, ?> key) {
-		String path = key.path();
 		for (String fileExtension : fileExtensions) {
 			if (key.path().endsWith(fileExtension)) {
 				return true;

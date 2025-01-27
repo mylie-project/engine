@@ -8,9 +8,10 @@ import mylie.time.Time;
 
 @Slf4j
 public class AssetSystem {
-	private List<AssetLocator<?>> assetLocators = new ArrayList<>();
-	private List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
-	private Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
+	private final List<AssetLocator<?>> assetLocators = new ArrayList<>();
+	private final List<AssetLoader<?, ?>> assetLoaders = new ArrayList<>();
+	private final Map<AssetKey<?, ?>, Object> assetCache = new WeakHashMap<>();
+
 	public AssetSystem() {
 
 	}
