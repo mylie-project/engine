@@ -12,6 +12,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly(libs.logging.runtime)
+    runtimeOnly(libs.logging.runtime)
 }
 
 tasks.named<Test>("test") {

@@ -66,12 +66,16 @@ public class Time {
 		return frameTime.timeSim();
 	}
 
+
 	/**
 	 * Retrieves the unique identifier for the current frame.
 	 *
 	 * @return the frame ID as a {@code long}.
 	 */
 	public static long frameId() {
+		if( frameTime == null){
+			return 0;
+		}
 		return frameTime.frameId();
 	}
 }
