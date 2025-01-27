@@ -125,4 +125,5 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 		return Quaternion.f(axisX * invVLength * sinAngle, axisY * invVLength * sinAngle, axisZ * invVLength * sinAngle,
 				FastMath.cosFromSin(hangle));
 	}
+
 }

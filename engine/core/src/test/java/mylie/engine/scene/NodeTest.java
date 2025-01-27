@@ -2,6 +2,8 @@ package mylie.engine.scene;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import mylie.math.Quaternion;
 import mylie.math.Vec3;
 import org.junit.jupiter.api.Test;
@@ -103,4 +105,68 @@ class NodeTest {
 		assertEquals(Vec3.of(2, 2, 2), child.worldTransform().scale());
 	}
 
+	@Test
+	void testUpdateNodeTranslation() {
+		Node node = new Node();
+		node.translation(Vec3.of(1, 2, 3));
+		assertEquals(Vec3.of(1, 2, 3), node.worldTransform().position());
+
+		node.translation(Vec3.of(4, 5, 6));
+		assertEquals(Vec3.of(4, 5, 6), node.worldTransform().position());
+	}
+
+	@Test
+	void testUpdateNodeRotation() {
+		Node node = new Node();
+		Quaternion<Float> initialRotation = Quaternion.f().rotationAxis(45, Vec3.of(0, 1, 0));
+		node.rotation(initialRotation);
+		assertEquals(initialRotation, node.worldTransform().rotation());
+
+		Quaternion<Float> updatedRotation = Quaternion.f().rotationAxis(90, Vec3.of(0, 1, 0));
+		node.rotation(updatedRotation);
+		assertEquals(updatedRotation, node.worldTransform().rotation());
+	}
+
+	@Test
+	void testUpdateNodeScale() {
+		Node node = new Node();
+		Node child = new Node();
+
+		node.scale(2);
+		node.child(child);
+
+		node.scale(3);
+		assertEquals(Vec3.of(6, 6, 6), child.worldTransform().scale());
+	}
+
+	@Test
+	void testTraversalThroughChildNodes() {
+		Node root = new Node();
+		Node child1 = new Node();
+		Node child2 = new Node();
+
+		root.child(child1, child2);
+		child1.translation(Vec3.of(1, 0, 0));
+		child2.translation(Vec3.of(0, 1, 0));
+
+		List<Spatial<?, ?>> visited = new ArrayList<>();
+		Traverser.traverse(Traverser.ToLeaf, root, visited::add);
+
+		assertTrue(visited.contains(child1));
+		assertTrue(visited.contains(child2));
+	}
+
+	@Test
+	void testParentTransformPropagation() {
+		Node parent = new Node();
+		Node child = new Node();
+
+		parent.child(child);
+		parent.translation(Vec3.of(3, 3, 3));
+
+		assertEquals(Vec3.of(3, 3, 3), child.worldTransform().position());
+
+		parent.translation(Vec3.of(5, 5, 5));
+		assertEquals(Vec3.of(5, 5, 5), child.worldTransform().position());
+	}
 }

@@ -53,4 +53,5 @@ public class Transform {
 		this.rotation = localTransform.rotation;
 		this.scale = localTransform.scale;
 	}
+
 }
