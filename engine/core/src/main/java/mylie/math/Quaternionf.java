@@ -75,7 +75,9 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 	@Override
 	public Vec3<Float> transform(Vec3<Float> vector) {
 		Vec3f vec = Vec3f.cast(vector);
-		float x = vec.x(), y = vec.y(), z = vec.z();
+		float x = vec.x();
+		float y = vec.y();
+		float z = vec.z();
 		float xx = this.x * this.x;
 		float yy = this.y * this.y;
 		float zz = this.z * this.z;
@@ -95,7 +97,9 @@ record Quaternionf(float x, float y, float z, float w) implements Quaternion<Flo
 	@Override
 	public Quaternion<Float> rotateAxis(float angle, Vec3<Float> axis) {
 		Vec3f axisV = Vec3f.cast(axis);
-		float axisX = axisV.x(), axisY = axisV.y(), axisZ = axisV.z();
+		float axisX = axisV.x();
+		float axisY = axisV.y();
+		float axisZ = axisV.z();
 		float hangle = angle / 2.0f;
 		float sinAngle = FastMath.sin(hangle);
 		float invVLength = FastMath.invsqrt(Math.fma(axisX, axisX, Math.fma(axisY, axisY, axisZ * axisZ)));
