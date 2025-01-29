@@ -16,10 +16,16 @@ sonar {
 }
 
 tasks.withType(JacocoReport::class.java).all {
+    dependsOn(task("test"))
     reports {
         xml.required.set(true)
     }
 }
+
+tasks.withType<Test>().configureEach {
+    finalizedBy(task("jacocoTestReport"))
+}
+
 
 subprojects{
 
