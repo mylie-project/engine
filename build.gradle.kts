@@ -16,14 +16,14 @@ sonar {
 }
 
 tasks.withType(JacocoReport::class.java).all {
-    dependsOn(task("test"))
+    dependsOn(tasks.findByName("test"))
     reports {
         xml.required.set(true)
     }
 }
 
 tasks.withType<Test>().configureEach {
-    finalizedBy(task("jacocoTestReport"))
+    finalizedBy(tasks.withType<JacocoReport>())
 }
 
 
@@ -47,7 +47,16 @@ subprojects{
             apply(plugin = libs.plugins.spotless.get().pluginId)
             apply(plugin = "jacoco")
 
+            tasks.withType(JacocoReport::class.java).all {
+                dependsOn(tasks.findByName("test"))
+                reports {
+                    xml.required.set(true)
+                }
+            }
 
+            tasks.withType<Test>().configureEach {
+                finalizedBy(tasks.withType<JacocoReport>())
+            }
 
             dependencies {
                 val implementation by configurations
