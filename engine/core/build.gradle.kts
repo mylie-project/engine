@@ -3,7 +3,7 @@ import java.util.Date
 
 plugins {
     id("java-library")
-    id("com.palantir.git-version") version ("3.1.0")
+    alias(libs.plugins.palantirGitVersion)
 }
 
 dependencies {

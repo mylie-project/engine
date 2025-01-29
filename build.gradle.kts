@@ -1,5 +1,5 @@
 plugins {
-    id("com.diffplug.spotless") version "7.0.2"
+    alias(libs.plugins.spotless)
 }
 
 val engineVersion="0.0.1"
@@ -15,7 +15,8 @@ subprojects{
 
     afterEvaluate {
         if (project.hasProperty("java-library")||project.hasProperty("java")) {
-            apply(plugin = "com.diffplug.spotless")
+
+            apply(plugin = libs.plugins.spotless.get().pluginId)
             dependencies {
                 val implementation by configurations
                 val compileOnly by configurations
