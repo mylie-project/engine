@@ -7,7 +7,13 @@ plugins {
 val engineVersion="0.0.1"
 val engineGroup = "mylie-project"
 
-
+sonar {
+    properties {
+        property("sonar.projectKey", "mylie-project_engine")
+        property("sonar.organization", "mylie-project")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
 
 
 subprojects{
