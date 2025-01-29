@@ -1,9 +1,14 @@
 plugins {
     alias(libs.plugins.spotless)
+    jacoco
+    id ("org.sonarqube").version("6.0.0.5145")
 }
 
 val engineVersion="0.0.1"
 val engineGroup = "mylie-project"
+
+
+
 
 subprojects{
 
@@ -17,6 +22,14 @@ subprojects{
         if (project.hasProperty("java-library")||project.hasProperty("java")) {
 
             apply(plugin = libs.plugins.spotless.get().pluginId)
+            apply(plugin = "jacoco")
+
+            tasks.withType(JacocoReport::class.java).all {
+                reports {
+                    xml.required.set(true)
+                }
+            }
+
             dependencies {
                 val implementation by configurations
                 val compileOnly by configurations
