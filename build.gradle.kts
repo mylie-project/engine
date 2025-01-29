@@ -15,6 +15,11 @@ sonar {
     }
 }
 
+tasks.withType(JacocoReport::class.java).all {
+    reports {
+        xml.required.set(true)
+    }
+}
 
 subprojects{
 
@@ -24,17 +29,19 @@ subprojects{
         mavenCentral()
     }
 
+    tasks.withType(JacocoReport::class.java).all {
+        reports {
+            xml.required.set(true)
+        }
+    }
+
     afterEvaluate {
         if (project.hasProperty("java-library")||project.hasProperty("java")) {
 
             apply(plugin = libs.plugins.spotless.get().pluginId)
             apply(plugin = "jacoco")
 
-            tasks.withType(JacocoReport::class.java).all {
-                reports {
-                    xml.required.set(true)
-                }
-            }
+
 
             dependencies {
                 val implementation by configurations
