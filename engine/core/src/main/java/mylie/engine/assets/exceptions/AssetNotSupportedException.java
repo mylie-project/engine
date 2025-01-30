@@ -12,7 +12,7 @@ import mylie.engine.assets.AssetKey;
  */
 @Getter
 public class AssetNotSupportedException extends AssetException {
-	private final AssetKey<?, ?> assetKey;
+	private final transient AssetKey<?, ?> assetKey;
 
 	/**
 	 * Constructs a new AssetNotSupportedException with the specified cause and asset key.

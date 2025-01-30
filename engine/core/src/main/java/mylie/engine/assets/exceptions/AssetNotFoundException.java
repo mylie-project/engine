@@ -12,7 +12,7 @@ import mylie.engine.assets.AssetKey;
  */
 @Getter
 public class AssetNotFoundException extends AssetException {
-	private final AssetKey<?, ?> assetKey;
+	private final transient AssetKey<?, ?> assetKey;
 
 	/**
 	 * Constructs a new AssetNotFoundException with the specified cause and key.
