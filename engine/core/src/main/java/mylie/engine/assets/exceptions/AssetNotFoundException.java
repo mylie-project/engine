@@ -12,16 +12,16 @@ import mylie.engine.assets.AssetKey;
  */
 @Getter
 public class AssetNotFoundException extends AssetException {
-	private final AssetKey<?, ?> key;
+	private final AssetKey<?, ?> assetKey;
 
 	/**
 	 * Constructs a new AssetNotFoundException with the specified cause and key.
 	 *
 	 * @param cause the underlying cause of this exception (can be null)
-	 * @param key the key that uniquely identifies the asset that could not be found
+	 * @param assetKey the key that uniquely identifies the asset that could not be found
 	 */
-	public AssetNotFoundException(Throwable cause, AssetKey<?, ?> key) {
+	public AssetNotFoundException(Throwable cause, AssetKey<?, ?> assetKey) {
 		super(cause);
-		this.key = key;
+		this.assetKey = assetKey;
 	}
 }
