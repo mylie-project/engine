@@ -30,15 +30,16 @@
 
 ## Table of Contents
 
-1. [Build State](#info)
-2. [Code Quality](#code-quality)
-3. [How to build](#how-to-build)
+1. [Info](#info)
+2. [Activity](#activity)
+3. [Code Quality](#code-quality)
+4. [How to build](#how-to-build)
    - [Step 1: Prerequisites](#step-1-prerequisites)
    - [Step 2: Clone the Repository](#step-2-clone-the-repository)
    - [Step 3: Build the Project](#step-3-build-the-project)
    - [Step 4: Run the Project](#step-4-run-the-project)
    - [Step 5: Clean the Build (Optional)](#step-5-clean-the-build-optional)
-4. [How to contribute](#how-to-contribute)
+5. [How to contribute](#how-to-contribute)
    - [Step 1: Fork the Repository](#step-1-fork-the-repository)
    - [Step 2: Clone Your Fork](#step-2-clone-your-fork)
    - [Step 3: Create a Branch](#step-3-create-a-branch)
