@@ -211,4 +211,27 @@ class NodeTest {
 		assertEquals(Vec3.of(0, -1, child.worldTransform().position().getZ()), child.worldTransform().position());
 	}
 
+	@Test
+	void testTraverseParallel() {
+		Node root = new Node();
+		Node child1 = new Node();
+		Node child2 = new Node();
+		Node child3 = new Node();
+		Node child4 = new Node();
+
+		root.child(child1, child2);
+		child1.child(child3);
+		child2.child(child4);
+		List<Spatial<?, ?>> visited = new ArrayList<>();
+		Traverser.parallelTraverse(Traverser.ToLeaf, root, visited::add);
+		assertTrue(visited.contains(root));
+		assertTrue(visited.contains(child1));
+		assertTrue(visited.contains(child2));
+		assertTrue(visited.contains(child3));
+		assertTrue(visited.contains(child4));
+		assertEquals(5, visited.size());
+		assertTrue(visited.indexOf(child1) < visited.indexOf(child3));
+		assertTrue(visited.indexOf(child2) < visited.indexOf(child4));
+	}
+
 }
