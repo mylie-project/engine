@@ -95,4 +95,54 @@ class TimerTest {
 		assertTrue(updatedDelta > initialDelta, "Delta time should increase after onNewFrame");
 		assertTrue(updatedDelta > 0, "Delta time should be greater than 0");
 	}
+
+
+	@Test
+	void testFrameId() {
+		// Obtain the initial frame ID.
+		long initialFrameId = Time.frameTime().frameId();
+
+		// Call onNewFrame to increment the frame ID.
+		timer.onNewFrame();
+
+		// Verify that the frame ID incremented by 1.
+		assertEquals(initialFrameId + 1, Time.frameTime().frameId(),
+				"Frame ID should increment by 1 on each new frame.");
+	}
+
+	@Test
+	void testDeltaTime() {
+		// Capture the initial delta time.
+		float initialDelta = Time.frameTime().delta();
+
+		// Wait and call onNewFrame to simulate the passage of time.
+		CompletableFuture.runAsync(() -> {
+		}, CompletableFuture.delayedExecutor(10, java.util.concurrent.TimeUnit.MILLISECONDS));
+		timer.onNewFrame();
+
+		// Capture the updated delta time, which should be greater than the initial.
+		float updatedDelta = Time.frameTime().delta();
+
+		assertTrue(updatedDelta > initialDelta,
+				"Delta time should increase after onNewFrame.");
+	}
+
+	@Test
+	void testSimulationDeltaTime() {
+		// Set simulation time modifier.
+		timer.simTimeModifier(1.5f);
+		// Save initial simulation delta time.
+		float initialDeltaSim = Time.frameTime().deltaSim();
+
+		CompletableFuture.runAsync(() -> {
+		}, CompletableFuture.delayedExecutor(10, java.util.concurrent.TimeUnit.MILLISECONDS));
+		// Update.
+		timer.onNewFrame();
+
+		float updatedDeltaSim = Time.frameTime().deltaSim();
+
+		// Verify deltaSim updates properly (not equal to the initial without time changes).
+		assertNotEquals(initialDeltaSim, updatedDeltaSim,
+				"Simulation delta time should differ after time progresses in the simulation.");
+	}
 }
