@@ -16,7 +16,7 @@ import mylie.engine.assets.exceptions.AssetException;
  * monitoring, and reloading assets based on file system changes.
  */
 @Slf4j
-public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystemOptions> {
+public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 	private final WatchService watchService;
 	private final Set<Path> watchedPaths = new HashSet<>();
 	private final Map<String, AssetKey<?, ?>> loadedAssets = new HashMap<>();
@@ -30,7 +30,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 	 * @throws AssetException If the WatchService cannot be created when auto-reloading is enabled.
 	 */
 	@SuppressWarnings("unused")
-	public FileSystemLocator(AssetSystem assetSystem, FileSystemOptions options, String path) {
+	public FileSystemLocator(AssetSystem assetSystem, Options options, String path) {
 		super(assetSystem, options, path);
 		if (!Paths.get(path()).toFile().exists()) {
 			log.error("Path does not exist: {}", path());
@@ -109,7 +109,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 	 * This class holds parameters such as whether auto-reloading of assets is enabled.
 	 */
 	@Getter
-	public static class FileSystemOptions implements AssetLocator.Options {
+	public static class Options implements AssetLocator.Options {
 		/**
 		 * Indicates whether assets should be automatically reloaded
 		 * when changes are detected in the file system.
@@ -117,12 +117,12 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.FileSystem
 		final boolean allowReload;
 
 		/**
-		 * Constructs a new instance of {@code FileSystemOptions} with the given configuration.
+		 * Constructs a new instance of {@code Options} with the given configuration.
 		 *
 		 * @param allowReload A boolean value indicating whether assets should be automatically
 		 *                    reloaded when changes are detected in the file system.
 		 */
-		public FileSystemOptions(boolean allowReload) {
+		public Options(boolean allowReload) {
 			this.allowReload = allowReload;
 		}
 	}
