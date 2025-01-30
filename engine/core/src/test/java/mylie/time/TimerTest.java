@@ -47,6 +47,14 @@ class TimerTest {
 		// of 1.0.
 		assertEquals(Time.frameTime().delta(), Time.frameTime().deltaSim(), 1e-6,
 				"With simTimeModifier=1.0, deltaSim should match delta");
+
+		FrameTime frameTime = Time.frameTime();
+		assertEquals(frameTime.frameId(), Time.frameId());
+		assertEquals(frameTime.delta(), Time.delta());
+		assertEquals(frameTime.deltaSim(), Time.deltaSim());
+		assertEquals(frameTime.time(), Time.time());
+		assertEquals(frameTime.timeSim(), Time.timeSim());
+
 	}
 
 	@Test
