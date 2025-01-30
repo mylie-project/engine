@@ -48,7 +48,7 @@ class AssetSystemTest {
 
 	@Test
 	void testHotReload() {
-		assetSystem.onUpdate();
+		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
 	}
 
 	private static class MockAssetLocator extends AssetLocator<MockAssetLocator.Options> {
