@@ -99,11 +99,28 @@ public class ClasspathLocator extends AssetLocator<ClasspathLocator.Options> {
 		}
 	}
 
+	/**
+	 * Represents configuration options for the {@link ClasspathLocator}.
+	 *
+	 * This class serves as a specific implementation of the {@link AssetLocator.Options} marker
+	 * interface, used to define behaviors or settings for the {@link ClasspathLocator}. It does
+	 * not add any additional properties or functionality but provides a concrete implementation
+	 * to satisfy the configuration needs for classpath-based asset locators.
+	 */
 	@Getter
 	public static class Options implements AssetLocator.Options {
 
+		/**
+		 * Constructs an instance of the {@code Options} class.
+		 *
+		 * This class is a specific implementation of the {@link AssetLocator.Options} interface,
+		 * intended to represent configuration options for the {@link ClasspathLocator}. It serves
+		 * as a placeholder and does not introduce any additional functionality or properties.
+		 * The purpose of this constructor is to provide a default instantiation of the options
+		 * required for classpath-based asset locators.
+		 */
 		public Options() {
-
+			// Nothing to be done
 		}
 	}
 }
