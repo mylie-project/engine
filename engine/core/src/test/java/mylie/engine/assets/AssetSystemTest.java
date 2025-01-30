@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
+import mylie.engine.assets.assets.TextFile;
 import mylie.engine.assets.exceptions.AssetNotFoundException;
 import mylie.engine.assets.exceptions.AssetNotSupportedException;
+import mylie.engine.assets.locators.ClasspathLocator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +38,12 @@ class AssetSystemTest {
 	void testLoadAsset_NotFound() {
 		MockAsset.Key notfound = new MockAsset.Key("notfound");
 		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(notfound));
+	}
+
+	@Test
+	void testClassPathLoader() {
+		assetSystem.addAssetLocator(ClasspathLocator.class, new ClasspathLocator.Options(), "/");
+		assetSystem.loadAsset(new TextFile.Key("testfiles/info.txt"));
 	}
 
 	private static class MockAssetLocator extends AssetLocator<MockAssetLocator.Options> {
