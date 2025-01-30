@@ -61,7 +61,7 @@ class AssetSystemTest {
 		@Override
 		protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
 			if (validAssets.contains(assetKey.path())) {
-				return new AssetLocation<A, K>(assetKey, this) {
+				return new AssetLocation<>(assetKey, this) {
 					@Override
 					public InputStream open() {
 						return new ByteArrayInputStream(assetKey().path().getBytes(StandardCharsets.UTF_8));
