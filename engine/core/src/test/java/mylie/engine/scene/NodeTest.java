@@ -169,4 +169,46 @@ class NodeTest {
 		parent.translation(Vec3.of(5, 5, 5));
 		assertEquals(Vec3.of(5, 5, 5), child.worldTransform().position());
 	}
+
+	@Test
+	void testTranslation() {
+		Node parent = new Node();
+		Node child = new Node();
+		parent.child(child);
+		assertEquals(Vec3.of(0, 0, 0), child.worldTransform().position());
+		parent.translation(Vec3.of(1, 1, 1));
+		assertEquals(Vec3.of(1, 1, 1), child.worldTransform().position());
+		child.translation(Vec3.of(2, 2, 2));
+		assertEquals(Vec3.of(3, 3, 3), child.worldTransform().position());
+		assertEquals(Vec3.of(1, 1, 1), parent.worldTransform().position());
+	}
+
+	@Test
+	void testScale() {
+		Node parent = new Node();
+		Node child = new Node();
+		parent.child(child);
+		parent.scale(2);
+		child.translation(Vec3.of(1, 1, 1));
+		assertEquals(Vec3.of(2, 2, 2), child.worldTransform().position());
+		parent.scaling(1.0f);
+		assertEquals(Vec3.of(1, 1, 1), child.worldTransform().position());
+		child.scaling(0.5f);
+		assertEquals(Vec3.of(1, 1, 1), child.worldTransform().position());
+	}
+
+	@Test
+	void testRotation() {
+		Node parent = new Node();
+		Node child = new Node();
+		parent.child(child);
+		parent.rotation(Quaternion.f().rotationAxis((float) Math.toRadians(90), Vec3.of(1, 0, 0)));
+		child.translation(Vec3.of(0, 1, 0));
+		assertEquals(Vec3.of(0, 0, 1), child.worldTransform().position());
+		parent.rotate(Quaternion.f().rotationAxis((float) Math.toRadians(90), Vec3.of(1, 0, 0)));
+		assertEquals(Vec3.of(0, -1, child.worldTransform().position().getZ()), child.worldTransform().position());
+		child.rotate(Quaternion.f().rotationAxis((float) Math.toRadians(90), Vec3.of(1, 0, 0)));
+		assertEquals(Vec3.of(0, -1, child.worldTransform().position().getZ()), child.worldTransform().position());
+	}
+
 }
