@@ -30,7 +30,7 @@
 
 ## Table of Contents
 
-1. [Build State](#build-state)
+1. [Build State](#info)
 2. [Code Quality](#code-quality)
 3. [How to build](#how-to-build)
    - [Step 1: Prerequisites](#step-1-prerequisites)
