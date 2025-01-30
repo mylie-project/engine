@@ -53,7 +53,6 @@ public class ClasspathLocator extends AssetLocator<ClasspathLocator.Options> {
 	protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
 		String assetPath = path() + assetKey.path();
 		URL resource = ClasspathLocator.class.getResource(assetPath);
-		System.out.println(assetPath);
 		if (resource != null) {
 			return new ClassPathLocation<>(assetKey, this, resource);
 		}
