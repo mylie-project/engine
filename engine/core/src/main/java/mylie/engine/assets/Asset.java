@@ -33,4 +33,5 @@ public abstract class Asset<A extends Asset<A, K>, K extends AssetKey<A, K>> {
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
 	private long version;
+
 }

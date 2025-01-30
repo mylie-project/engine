@@ -18,6 +18,7 @@ import mylie.engine.assets.exceptions.AssetException;
 @Slf4j
 public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 	private final WatchService watchService;
+	private final Map<WatchKey, String> watchKeys = new HashMap<>();
 	private final Set<Path> watchedPaths = new HashSet<>();
 	private final Map<String, AssetKey<?, ?>> loadedAssets = new HashMap<>();
 
@@ -31,7 +32,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 	 */
 	@SuppressWarnings("unused")
 	public FileSystemLocator(AssetSystem assetSystem, Options options, String path) {
-		super(assetSystem, options, path);
+		super(assetSystem, options, path.endsWith("/") ? path : path + "/");
 		if (!Paths.get(path()).toFile().exists()) {
 			log.error("Path does not exist: {}", path());
 		}
@@ -59,7 +60,8 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 			for (WatchEvent<?> pollEvent : watchKey.pollEvents()) {
 				if (pollEvent.kind() == StandardWatchEventKinds.ENTRY_MODIFY
 						&& pollEvent.context() instanceof Path path) {
-					assetSystem().onAssetChanged(loadedAssets.get(path.toString()));
+					String directory = watchKeys.get(watchKey);
+					assetSystem().onAssetChanged(loadedAssets.get(directory + "/" + path));
 				}
 
 			}
@@ -89,7 +91,8 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 				try {
 					Path path = new File(file.getParent()).toPath();
 					if (!watchedPaths.contains(path)) {
-						path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+						WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+						watchKeys.put(watchKey, path.toString().substring(path().length()));
 						watchedPaths.add(path);
 					}
 					loadedAssets.put(assetKey.path(), assetKey);
@@ -98,7 +101,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 					throw new AssetException(e);
 				}
 			}
-			return new FileAssetLocation<>(assetKey, this, path());
+			return new FileAssetLocation<>(assetKey, this, file);
 		}
 		return null;
 	}
@@ -140,11 +143,11 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 		/**
 		 * The base path where the assets are located in the file system.
 		 */
-		final String basePath;
+		final File file;
 
-		public FileAssetLocation(K assetKey, AssetLocator<?> assetLocator, String basePath) {
+		public FileAssetLocation(K assetKey, AssetLocator<?> assetLocator, File file) {
 			super(assetKey, assetLocator);
-			this.basePath = basePath;
+			this.file = file;
 		}
 
 		/**
@@ -156,7 +159,6 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 		 */
 		@Override
 		public InputStream open() {
-			File file = new File(basePath + assetKey().path());
 			if (file.exists()) {
 				try {
 					return new FileInputStream(file);

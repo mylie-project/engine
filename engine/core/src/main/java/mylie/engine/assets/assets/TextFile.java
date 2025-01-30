@@ -1,5 +1,6 @@
 package mylie.engine.assets.assets;
 
+import lombok.Getter;
 import mylie.engine.assets.Asset;
 import mylie.engine.assets.AssetKey;
 
@@ -12,6 +13,7 @@ public class TextFile extends Asset<TextFile, TextFile.Key> {
 	/**
 	 * The content of the text file, stored as an array of strings.
 	 */
+	@Getter
 	final String[] content;
 
 	/**

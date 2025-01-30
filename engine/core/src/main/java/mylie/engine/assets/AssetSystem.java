@@ -152,7 +152,9 @@ public final class AssetSystem {
 	public void onAssetChanged(AssetKey<?, ?> assetKey) {
 		log.trace("Asset {} changed", assetKey);
 		if (assetCache.containsKey(assetKey)) {
+			Asset<?, ?> asset = (Asset<?, ?>) assetCache.get(assetKey);
 			loadAsset((AssetKey) assetKey);
+			asset.version(asset.version() + 1);
 			assetKey.dependingAssets().forEach(this::onAssetChanged);
 		}
 	}

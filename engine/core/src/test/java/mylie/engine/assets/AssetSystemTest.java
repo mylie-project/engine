@@ -1,8 +1,7 @@
 package mylie.engine.assets;// java
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 import mylie.engine.assets.assets.TextFile;
@@ -10,13 +9,45 @@ import mylie.engine.assets.exceptions.AssetNotFoundException;
 import mylie.engine.assets.exceptions.AssetNotSupportedException;
 import mylie.engine.assets.locators.ClasspathLocator;
 import mylie.engine.assets.locators.FileSystemLocator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 
 class AssetSystemTest {
 
+	@TempDir
+	static Path sharedTempDir;
+
 	private AssetSystem assetSystem;
+
+	@BeforeAll
+	static void beforeAll() {
+		writeFile("filesystem/info.txt", new String[]{"Hello", "World"});
+	}
+
+	@AfterAll
+	static void afterAll() {
+		sharedTempDir.toFile().deleteOnExit();
+	}
+
+	private static void writeFile(String fileName, String[] text) {
+		Path path = sharedTempDir.resolve(fileName);
+		path.getParent().toFile().mkdirs();
+		try {
+			File file = path.toFile();
+			if (!file.exists()) {
+				boolean newFile = file.createNewFile();
+			}
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			for (String s : text) {
+				fileOutputStream.write(s.getBytes());
+				fileOutputStream.write('\n');
+			}
+			fileOutputStream.flush();
+			fileOutputStream.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@BeforeEach
 	void setUp() {
@@ -56,6 +87,19 @@ class AssetSystemTest {
 		TextFile.Key key = new TextFile.Key("filesystem/info.txt");
 		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(key));
 		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
+
+		assetSystem.addAssetLocator(FileSystemLocator.class, new FileSystemLocator.Options(true),
+				sharedTempDir.toString());
+		TextFile textFile = assetSystem.loadAsset(key);
+		String[] content = textFile.content();
+		Assertions.assertEquals("Hello", content[0]);
+		Assertions.assertEquals("World", content[1]);
+		Assertions.assertEquals(0, textFile.version());
+		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
+		Assertions.assertEquals(0, textFile.version());
+		writeFile("filesystem/info.txt", new String[]{"Edited"});
+		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
+		Assertions.assertEquals(1, textFile.version());
 	}
 
 	@Test
