@@ -10,7 +10,7 @@ import mylie.async.Function.F1;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class AsyncTest {
+class AsyncTest {
 	static Stream<Scheduler> schedulerProvider() {
 		return Stream.of(Schedulers.singleThreaded(), Schedulers.virtualThreads(), Schedulers.forkJoin(),
 				Schedulers.threadPool(1), Schedulers.workStealing(1));
@@ -161,8 +161,10 @@ public class AsyncTest {
 	void testThrowException(Scheduler scheduler) {
 		Async.initialize(scheduler);
 		AtomicInteger atomicInteger = new AtomicInteger(0);
-		assertThrows(RuntimeException.class, () -> Wait.wait(
-				Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, throwException, atomicInteger)));
+		Result<Boolean> async = Async.async(Async.ExecutionMode.ASYNC, Async.Target.Any, Caches.No, 0, throwException,
+				atomicInteger);
+		assertThrows(RuntimeException.class, () -> Wait.wait(async));
+
 		Async.shutdown();
 	}
 
