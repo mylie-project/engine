@@ -257,7 +257,7 @@ class QuaternionfTest {
 	void testStaticConstructors() {
 		// f() -> new quaternion with 0,0,0,1
 		Quaternion<Float> defaultQ = Quaternion.f();
-		assertTrue(defaultQ instanceof Quaternionf);
+        assertInstanceOf(Quaternionf.class, defaultQ);
 		Quaternionf dq = (Quaternionf) defaultQ;
 		assertEquals(0.0f, dq.x());
 		assertEquals(0.0f, dq.y());
@@ -266,7 +266,7 @@ class QuaternionfTest {
 
 		// f(x, y, z, w)
 		Quaternion<Float> paramQ = Quaternion.f(1f, 2f, 3f, 4f);
-		assertTrue(paramQ instanceof Quaternionf);
+        assertInstanceOf(Quaternionf.class, paramQ);
 		Quaternionf pq = (Quaternionf) paramQ;
 		assertEquals(1f, pq.x());
 		assertEquals(2f, pq.y());
