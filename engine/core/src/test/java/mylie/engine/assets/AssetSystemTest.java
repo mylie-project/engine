@@ -44,6 +44,8 @@ class AssetSystemTest {
 	void testClassPathLoader() {
 		assetSystem.addAssetLocator(ClasspathLocator.class, new ClasspathLocator.Options(), "/");
 		assetSystem.loadAsset(new TextFile.Key("testfiles/info.txt"));
+		TextFile.Key key = new TextFile.Key("testfiles/Info.txt");
+		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(key));
 	}
 
 	@Test
