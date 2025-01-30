@@ -9,6 +9,7 @@ import mylie.engine.assets.assets.TextFile;
 import mylie.engine.assets.exceptions.AssetNotFoundException;
 import mylie.engine.assets.exceptions.AssetNotSupportedException;
 import mylie.engine.assets.locators.ClasspathLocator;
+import mylie.engine.assets.locators.FileSystemLocator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,8 +45,17 @@ class AssetSystemTest {
 	void testClassPathLoader() {
 		assetSystem.addAssetLocator(ClasspathLocator.class, new ClasspathLocator.Options(), "/");
 		assetSystem.loadAsset(new TextFile.Key("testfiles/info.txt"));
-		TextFile.Key key = new TextFile.Key("testfiles/Info.txt");
+		TextFile.Key key = new TextFile.Key("testfiles/infoo.txt");
 		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(key));
+		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
+	}
+
+	@Test
+	void testFileSystemLoader() {
+		assetSystem.addAssetLocator(FileSystemLocator.class, new FileSystemLocator.Options(true), "/");
+		TextFile.Key key = new TextFile.Key("filesystem/info.txt");
+		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(key));
+		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
 	}
 
 	@Test
