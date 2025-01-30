@@ -24,11 +24,9 @@ class AssetSystemTest {
 	@Test
 	void testLoadAsset_Success() {
 		MockAsset.Key mockKey = new MockAsset.Key("notfound.mock");
-		Assertions.assertThrows(AssetNotFoundException.class,
-				() -> assetSystem.loadAsset(mockKey));
+		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(mockKey));
 		assetSystem.addAssetLocator(MockAssetLocator.class, new MockAssetLocator.Options("notfound.mock"), "");
-		Assertions.assertThrows(AssetNotSupportedException.class,
-				() -> assetSystem.loadAsset(mockKey));
+		Assertions.assertThrows(AssetNotSupportedException.class, () -> assetSystem.loadAsset(mockKey));
 		assetSystem.addAssetLoader(MockAssetLoader.class, "mock");
 		MockAsset asset = assetSystem.loadAsset(mockKey);
 		Assertions.assertEquals("notfound.mock", asset.data);
