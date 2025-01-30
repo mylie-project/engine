@@ -215,6 +215,36 @@ class Vec3Test {
 		assertEquals(nz.getZ(), v3().negativeUnitZ().getZ());
 	}
 
+	@Test
+	void testSwizzleInvalidComponent2D() {
+		// Create an invalid component
+		Component invalid = new Component("W");
+		Vec3<Float> v1 = Vec3.of(1.0f, 2.0f, 3.0f);
+
+		assertThrows(IllegalArgumentException.class, () -> v1.swizzle(invalid, Vec3.X));
+	}
+
+	@Test
+	void testSwizzleInvalidComponent3D() {
+		// Create an invalid component
+		Component invalid = new Component("W");
+		Vec3<Float> v1 = Vec3.of(1.0f, 2.0f, 3.0f);
+
+		assertThrows(IllegalArgumentException.class, () -> v1.swizzle(Vec3.X, Vec3.Y, invalid));
+	}
+
+	@Test
+	void testSelfCastCompatibility() {
+		// This ensures calling methods that internally cast to Vec3f doesn't fail
+		// unexpectedly
+		// In normal usage, you pass Vec3f itself, so casting won't fail—still, we
+		// verify it runs.
+		Vec3<Float> v1 = Vec3.of(2.0f, 4.0f, 6.0f);
+		// Just using basic operations that rely on casting internally
+		Vec3<Float> result = v1.add(v1); // should not throw
+		assertNotNull(result);
+	}
+
 	// Placeholder helper to illustrate calls (replace with your actual usage)
 	private Vec3<Float> v3() {
 		return Vec3.of(0.0f, 0.0f, 0.0f); // Replace this with an actual instance or factory method

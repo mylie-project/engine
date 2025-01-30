@@ -156,4 +156,38 @@ class Vec2Test {
 		assertEquals(1.0f, resultEqual.getX());
 		assertEquals(1.0f, resultEqual.getY());
 	}
+
+	@Test
+	void testNegativeOne() {
+		Vec2<Float> neg1 = Vec2.of(0.0f, 0.0f).negativeOne();
+		assertEquals(-1.0f, neg1.getX());
+		assertEquals(-1.0f, neg1.getY());
+	}
+
+	@Test
+	void testNegativeUnitVectors() {
+		Vec2<Float> negUnitX = Vec2.of(0.0f, 0.0f).negativeUnitX();
+		assertEquals(-1.0f, negUnitX.getX());
+		assertEquals(0.0f, negUnitX.getY());
+
+		Vec2<Float> negUnitY = Vec2.of(0.0f, 0.0f).negativeUnitY();
+		assertEquals(0.0f, negUnitY.getX());
+		assertEquals(-1.0f, negUnitY.getY());
+	}
+
+	@Test
+	void testOfDouble() {
+		// Ensure the Vec2.of(double, double) returns a valid Vec2<Double>
+		Vec2<Double> v = Vec2.of(3.5, 4.5);
+		assertNotNull(v);
+		assertEquals(3.5, v.getX());
+		assertEquals(4.5, v.getY());
+
+		// Check basic operation
+		Vec2<Double> other = Vec2.of(1.0, 2.0);
+		Vec2<Double> sum = v.add(other);
+		assertEquals(4.5, sum.getX());
+		assertEquals(6.5, sum.getY());
+	}
+
 }
