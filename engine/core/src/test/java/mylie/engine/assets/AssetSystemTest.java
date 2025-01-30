@@ -35,8 +35,7 @@ class AssetSystemTest {
 	@Test
 	void testLoadAsset_NotFound() {
 		MockAsset.Key notfound = new MockAsset.Key("notfound");
-		Assertions.assertThrows(AssetNotFoundException.class,
-				() -> assetSystem.loadAsset(notfound));
+		Assertions.assertThrows(AssetNotFoundException.class, () -> assetSystem.loadAsset(notfound));
 	}
 
 	private static class MockAssetLocator extends AssetLocator<MockAssetLocator.Options> {
@@ -55,7 +54,7 @@ class AssetSystemTest {
 
 		@Override
 		protected void onPollForChanges() {
-			//Not yet tested
+			// Not yet tested
 		}
 
 		@Override
