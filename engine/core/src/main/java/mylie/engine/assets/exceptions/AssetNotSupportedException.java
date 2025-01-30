@@ -14,12 +14,12 @@ import mylie.engine.assets.AssetKey;
 public class AssetNotSupportedException extends AssetException {
 	private final AssetKey<?, ?> key;
 
-    /**
-     * Constructs a new AssetNotSupportedException with the specified cause and asset key.
-     *
-     * @param cause the underlying cause of this exception (can be null)
-     * @param key the key that uniquely identifies the asset which is not supported
-     */
+	/**
+	 * Constructs a new AssetNotSupportedException with the specified cause and asset key.
+	 *
+	 * @param cause the underlying cause of this exception (can be null)
+	 * @param key the key that uniquely identifies the asset which is not supported
+	 */
 	public AssetNotSupportedException(Throwable cause, AssetKey<?, ?> key) {
 		super(cause);
 		this.key = key;
