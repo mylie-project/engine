@@ -46,6 +46,11 @@ class AssetSystemTest {
 		assetSystem.loadAsset(new TextFile.Key("testfiles/info.txt"));
 	}
 
+	@Test
+	void testHotReload() {
+		assetSystem.onUpdate();
+	}
+
 	private static class MockAssetLocator extends AssetLocator<MockAssetLocator.Options> {
 		Set<String> validAssets = new HashSet<>();
 		/**
