@@ -96,7 +96,6 @@ class TimerTest {
 		assertTrue(updatedDelta > 0, "Delta time should be greater than 0");
 	}
 
-
 	@Test
 	void testFrameId() {
 		// Obtain the initial frame ID.
@@ -123,8 +122,7 @@ class TimerTest {
 		// Capture the updated delta time, which should be greater than the initial.
 		float updatedDelta = Time.frameTime().delta();
 
-		assertTrue(updatedDelta > initialDelta,
-				"Delta time should increase after onNewFrame.");
+		assertTrue(updatedDelta > initialDelta, "Delta time should increase after onNewFrame.");
 	}
 
 	@Test
@@ -141,7 +139,8 @@ class TimerTest {
 
 		float updatedDeltaSim = Time.frameTime().deltaSim();
 
-		// Verify deltaSim updates properly (not equal to the initial without time changes).
+		// Verify deltaSim updates properly (not equal to the initial without time
+		// changes).
 		assertNotEquals(initialDeltaSim, updatedDeltaSim,
 				"Simulation delta time should differ after time progresses in the simulation.");
 	}

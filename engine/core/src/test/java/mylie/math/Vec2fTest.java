@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("SuspiciousNameCombination")
-class Vec2Test {
+class Vec2fTest {
 
 	@Test
 	void testAdd() {
@@ -188,6 +188,28 @@ class Vec2Test {
 		Vec2<Double> sum = v.add(other);
 		assertEquals(4.5, sum.getX());
 		assertEquals(6.5, sum.getY());
+	}
+
+	@Test
+	void testDoubleDivZero() {
+		Vec2<Double> doubleVec2 = Vec2.of(1.0, 0.0);
+		Vec2<Double> zeroVec2 = Vec2.of(0.0, 0.0);
+		assertThrows(ArithmeticException.class, () -> doubleVec2.div(zeroVec2));
+	}
+
+	@Test
+	void testFloatDivZero() {
+		Vec2<Float> floatVec = Vec2.of(1.0f, 0.0f);
+		Vec2<Float> zeroVec2 = Vec2.of(0.0f, 0.0f);
+		assertThrows(ArithmeticException.class, () -> floatVec.div(zeroVec2));
+	}
+
+	@Test
+	void testFloatSwizzle() {
+		Vec2<Float> floatVec = Vec2.of(1.0f, 0.0f);
+		Vec2<Float> swapped = floatVec.swizzle(Vec2.Y, Vec2.X);
+		assertEquals(0.0f, swapped.getX());
+		assertEquals(1.0f, swapped.getY());
 	}
 
 }

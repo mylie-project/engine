@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("SuspiciousNameCombination")
-class Vec3Test {
+class Vec3fTest {
 
 	@Test
 	void testAdd() {
