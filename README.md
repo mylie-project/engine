@@ -1,20 +1,32 @@
 # Mylie - Engine
-#### Build State:
+
+#### Info:
 
 [![GitHub License](https://img.shields.io/github/license/mylie-project/engine?lable=license)](./LICENSE.md)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mylie-project/engine/build_test.yml)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/mylie-project/engine)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/mylie-project/engine)
+
+
+#### Activity:
+
+![GitHub contributors](https://img.shields.io/github/contributors/mylie-project/engine)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mylie-project/engine)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/mylie-project/engine)
 ![GitHub repo size](https://img.shields.io/github/repo-size/mylie-project/engine)
 
 #### Code Quality:
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
+
+#### Tests:
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mylie-project/engine/build_test.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mylie-project_engine&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mylie-project_engine)
 
 ## Table of Contents
 
