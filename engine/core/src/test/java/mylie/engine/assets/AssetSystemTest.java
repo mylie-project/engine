@@ -29,13 +29,14 @@ class AssetSystemTest {
 		sharedTempDir.toFile().deleteOnExit();
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private static void writeFile(String fileName, String[] text) {
 		Path path = sharedTempDir.resolve(fileName);
 		path.getParent().toFile().mkdirs();
 		try {
 			File file = path.toFile();
 			if (!file.exists()) {
-				boolean newFile = file.createNewFile();
+				file.createNewFile();
 			}
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
 			for (String s : text) {
