@@ -13,55 +13,39 @@ class TaskTest {
 
 	private static class MockTask extends Task<String> {
 		private final String returnValue;
-
-		public MockTask(String returnValue) {
+		private Runnable onExecute;
+		public MockTask(String returnValue,Runnable onExecute) {
 			this.returnValue = returnValue;
+			this.onExecute = onExecute;
 		}
 
 		@Override
 		protected Result<String> executeTask() {
 			Result.Fixed<String> fixed = Result.fixed(null, 0);
+			if(onExecute != null){
+				onExecute.run();
+			}
 			fixed.future().complete(returnValue);
 			return fixed;
 		}
 	}
 
-	private static class MockExecution extends Task<String> {
-		private final String id;
-		private final List<String> executionOrder;
-
-		private MockExecution(String id, List<String> executionOrder) {
-			this.id = id;
-			this.executionOrder = executionOrder;
-		}
-
-		@Override
-		protected Result<String> executeTask() {
-			executionOrder.add(id);
-			Result.Fixed<String> fixed = Result.fixed(null, 0);
-			fixed.future().complete("Success");
-			return fixed;
-		}
-	}
 
 	@Test
 	void testExecuteWithoutDependencies() {
-		MockTask task = new MockTask("Success");
+		MockTask task = new MockTask("Success", () -> {});
 		Result<String> result = task.execute();
 		assertEquals("Success", result.result());
 	}
 
 	@Test
 	void testExecuteWithSingleDependency() {
-		MockTask dependency = new MockTask("Dependency Success");
-		MockTask task = new MockTask("Task Success");
+
+		MockTask task = new MockTask("Task Success",null);
 
 		AtomicBoolean dependencyExecuted = new AtomicBoolean(false);
-
-		task.addDependency(() -> {
-			dependencyExecuted.set(true);
-			return dependency.execute();
-		});
+		MockTask dependency = new MockTask("Dependency Success",() -> dependencyExecuted.set(true));
+		task.addDependency(dependency);
 
 		Result<String> result = task.execute();
 
@@ -71,22 +55,16 @@ class TaskTest {
 
 	@Test
 	void testExecuteWithMultipleDependencies() {
-		MockTask firstDependency = new MockTask("First Dependency");
-		MockTask secondDependency = new MockTask("Second Dependency");
-		MockTask task = new MockTask("Main Task");
+
+		MockTask task = new MockTask("Main Task",null);
 
 		AtomicBoolean firstDependencyExecuted = new AtomicBoolean(false);
 		AtomicBoolean secondDependencyExecuted = new AtomicBoolean(false);
+		MockTask firstDependency = new MockTask("First Dependency",() -> firstDependencyExecuted.set(true));
+		MockTask secondDependency = new MockTask("Second Dependency",() -> secondDependencyExecuted.set(true));
+		task.addDependency(firstDependency);
 
-		task.addDependency(() -> {
-			firstDependencyExecuted.set(true);
-			return firstDependency.execute();
-		});
-
-		task.addDependency(() -> {
-			secondDependencyExecuted.set(true);
-			return secondDependency.execute();
-		});
+		task.addDependency(secondDependency);
 
 		Result<String> result = task.execute();
 
@@ -98,10 +76,10 @@ class TaskTest {
 	@Test
 	void testComplexDependencyExecutionOrder() {
 		List<String> executionOrder = new ArrayList<>();
-		MockExecution taskA = new MockExecution("A", executionOrder);
-		MockExecution taskB = new MockExecution("B", executionOrder);
-		MockExecution taskC = new MockExecution("C", executionOrder);
-		MockExecution taskD = new MockExecution("D", executionOrder);
+		MockTask taskA = new MockTask("A", ()->executionOrder.add("A"));
+		MockTask taskB = new MockTask("B", ()->executionOrder.add("B"));
+		MockTask taskC = new MockTask("C", ()->executionOrder.add("C"));
+		MockTask taskD = new MockTask("D", ()->executionOrder.add("D"));
 
 		// Create a complex dependency graph
 		taskD.addDependency(taskB);
@@ -115,31 +93,11 @@ class TaskTest {
 	}
 
 	@Test
-	void testAddAndRemoveDependency() {
-		MockTask dependency = new MockTask("Dependency Success");
-		MockTask task = new MockTask("Task Success");
-
-		AtomicBoolean dependencyExecuted = new AtomicBoolean(false);
-		Supplier<Result<?>> dependencySupplier = () -> {
-			dependencyExecuted.set(true);
-			return dependency.execute();
-		};
-
-		task.addDependency(dependencySupplier);
-		task.removeDependency(dependencySupplier);
-
-		Result<String> result = task.execute();
-
-		assertFalse(dependencyExecuted.get());
-		assertEquals("Task Success", result.result());
-	}
-
-	@Test
 	void testExecutionOrder() {
 		List<String> executionOrder = new ArrayList<>();
-		MockExecution taskA = new MockExecution("A", executionOrder);
-		MockExecution taskB = new MockExecution("B", executionOrder);
-		MockExecution taskC = new MockExecution("C", executionOrder);
+		MockTask taskA = new MockTask("A", ()->executionOrder.add("A"));
+		MockTask taskB = new MockTask("B", ()->executionOrder.add("B"));
+		MockTask taskC = new MockTask("C", ()->executionOrder.add("C"));
 
 		taskC.addDependency(taskB);
 		taskB.addDependency(taskA);
@@ -147,6 +105,10 @@ class TaskTest {
 		taskC.execute();
 
 		assertEquals(List.of("A", "B", "C"), executionOrder);
+		taskB.removeDependency(taskA);
+		executionOrder.clear();
+		taskC.execute();
+		assertEquals(List.of("B","C"), executionOrder);
 	}
 
 }

@@ -12,7 +12,7 @@ import mylie.async.Result;
  * @param <R> The type of result produced by this task after execution.
  */
 public abstract class Task<R> {
-	private final List<Supplier<Result<?>>> dependencies;
+	private final List<Task<?>> dependencies;
 
 	/**
 	 * Constructs a new instance of the Task class, initializing the list of dependencies.
@@ -30,8 +30,8 @@ public abstract class Task<R> {
 	 */
 	public Result<R> execute() {
 		List<Result<?>> results = new ArrayList<>(dependencies.size());
-		for (Supplier<Result<?>> dependency : dependencies) {
-			results.add(dependency.get());
+		for (Task<?> dependency : dependencies) {
+			results.add(dependency.execute());
 		}
 		for (Result<?> result : results) {
 			result.result();
@@ -40,30 +40,12 @@ public abstract class Task<R> {
 	}
 
 	/**
-	 * Adds a dependency to the task, which will be resolved and executed before this task.
-	 *
-	 * @param dependency A supplier of a {@link Result} representing a task dependency.
-	 */
-	public void addDependency(Supplier<Result<?>> dependency) {
-		dependencies.add(dependency);
-	}
-
-	/**
 	 * Adds another task as a dependency to this task, ensuring it is executed prior to this task.
 	 *
 	 * @param dependency A {@link Task} to be added as a dependency.
 	 */
 	public void addDependency(Task<?> dependency) {
-		addDependency(dependency::execute);
-	}
-
-	/**
-	 * Removes a previously added dependency from the task.
-	 *
-	 * @param dependency A supplier of a {@link Result} representing the dependency to be removed.
-	 */
-	public void removeDependency(Supplier<Result<?>> dependency) {
-		dependencies.remove(dependency);
+		dependencies.add(dependency);
 	}
 
 	/**
@@ -72,7 +54,7 @@ public abstract class Task<R> {
 	 * @param dependency A {@link Task} to be removed from the dependencies list.
 	 */
 	public void removeDependency(Task<?> dependency) {
-		removeDependency(dependency::execute);
+		dependencies.remove(dependency);
 	}
 
 	/**
