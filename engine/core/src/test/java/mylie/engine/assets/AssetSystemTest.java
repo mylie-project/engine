@@ -130,13 +130,13 @@ class AssetSystemTest {
 
 	private static class WrongConstructorAssetLocator extends AssetLocator<AssetLocator.Options> {
 
-		private WrongConstructorAssetLocator(AssetSystem assetSystem, Options options, String path) {
+		protected WrongConstructorAssetLocator(AssetSystem assetSystem, Options options, String path) {
 			super(assetSystem, options, path);
 		}
 
 		@Override
 		protected void onPollForChanges() {
-
+			// nothing to be done
 		}
 
 		@Override
@@ -202,8 +202,6 @@ class AssetSystemTest {
 	}
 
 	private static class WrongConstructorAssetLoader extends AssetLoader<MockAsset, MockAsset.Key> {
-		private WrongConstructorAssetLoader(String... validExtensions) {
-		}
 
 		@Override
 		protected MockAsset loadAsset(AssetLocation<MockAsset, MockAsset.Key> location) {
