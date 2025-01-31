@@ -3,7 +3,6 @@ package mylie.async.task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Supplier;
 import mylie.async.Result;
 
 /**
