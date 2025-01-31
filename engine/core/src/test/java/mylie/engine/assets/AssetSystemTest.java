@@ -104,6 +104,16 @@ class AssetSystemTest {
 	}
 
 	@Test
+	void testRelativeAbsolutePaths() {
+		assetSystem.addAssetLocator(FileSystemLocator.class, new FileSystemLocator.Options(true),
+				sharedTempDir.toString());
+		TextFile.Key relativeKey = new TextFile.Key("filesystem/info.txt");
+		TextFile.Key absoluteKey = new TextFile.Key("/filesystem/info.txt");
+		Assertions.assertNotNull(assetSystem.loadAsset(relativeKey));
+		Assertions.assertNotNull(assetSystem.loadAsset(absoluteKey));
+	}
+
+	@Test
 	void testHotReload() {
 		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
 	}
