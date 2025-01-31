@@ -63,12 +63,15 @@ public final class AssetSystem {
 	@SuppressWarnings("unchecked")
 	public <A extends Asset<A, K>, K extends AssetKey<A, K>> A loadAsset(AssetKey<A, K> assetKey) {
 		K key = (K) assetKey;
-		AssetLocation<A, K> assetLocation = locateAsset(key);
-		A asset = importAsset(assetLocation);
-		if (asset != null) {
-			onAssetLoaded(asset, key);
+		A asset = (A) assetCache.get(key);
+		if (asset == null) {
+			AssetLocation<A, K> assetLocation = locateAsset(key);
+			asset = importAsset(assetLocation);
+			if (asset != null) {
+				onAssetLoaded(asset, key);
+			}
+			log.trace("Asset {} loaded", asset);
 		}
-		log.trace("Asset {} loaded", asset);
 		return asset;
 	}
 
