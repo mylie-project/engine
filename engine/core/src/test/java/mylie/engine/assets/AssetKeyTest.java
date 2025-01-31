@@ -2,6 +2,7 @@ package mylie.engine.assets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -35,5 +36,13 @@ class AssetKeyTest {
 	void testFileName(String assedId, String expectedFileName) {
 		AssetKey<?, ?> assetKey = new TestAssetKey(assedId);
 		assertEquals(expectedFileName, assetKey.fileName());
+	}
+
+	@Test
+	void testEqualsHashCode() {
+		TestAssetKey testAssetKey = new TestAssetKey("file.txt");
+		TestAssetKey testAssetKey2 = new TestAssetKey("file.txt");
+		assertEquals(testAssetKey, testAssetKey2);
+		assertEquals(testAssetKey.hashCode(), testAssetKey2.hashCode());
 	}
 }

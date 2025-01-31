@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 import mylie.engine.assets.assets.TextFile;
+import mylie.engine.assets.exceptions.AssetException;
 import mylie.engine.assets.exceptions.AssetNotFoundException;
 import mylie.engine.assets.exceptions.AssetNotSupportedException;
 import mylie.engine.assets.locators.ClasspathLocator;
@@ -118,15 +119,36 @@ class AssetSystemTest {
 		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
 	}
 
+	@Test
+	void testExceptionHandling() {
+		AssetLocator.Options options = new MockAssetLocator.Options("notfound.mock");
+		Assertions.assertThrows(AssetException.class,
+				() -> assetSystem.addAssetLoader(WrongConstructorAssetLoader.class, "mock"));
+		Assertions.assertThrows(AssetException.class,
+				() -> assetSystem.addAssetLocator(WrongConstructorAssetLocator.class, options, null));
+	}
+
+	private static class WrongConstructorAssetLocator extends AssetLocator<AssetLocator.Options> {
+
+		private WrongConstructorAssetLocator(AssetSystem assetSystem, Options options, String path) {
+			super(assetSystem, options, path);
+		}
+
+		@Override
+		protected void onPollForChanges() {
+
+		}
+
+		@Override
+		protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(
+				AssetKey<A, K> assetKey) {
+			return null;
+		}
+	}
+
 	private static class MockAssetLocator extends AssetLocator<MockAssetLocator.Options> {
 		Set<String> validAssets = new HashSet<>();
-		/**
-		 * Constructs a new instance of the asset locator with the specified parameters.
-		 *
-		 * @param assetSystem The asset system to use for managing asset-related operations.
-		 * @param options     The options used to configure the locator's behavior.
-		 * @param path        The base path where this locator starts searching for assets.
-		 */
+
 		public MockAssetLocator(AssetSystem assetSystem, Options options, String path) {
 			super(assetSystem, options, path);
 			validAssets.addAll(Set.of(options.validAssets));
@@ -176,6 +198,16 @@ class AssetSystemTest {
 			protected Key(String path) {
 				super(path);
 			}
+		}
+	}
+
+	private static class WrongConstructorAssetLoader extends AssetLoader<MockAsset, MockAsset.Key> {
+		private WrongConstructorAssetLoader(String... validExtensions) {
+		}
+
+		@Override
+		protected MockAsset loadAsset(AssetLocation<MockAsset, MockAsset.Key> location) {
+			return null;
 		}
 	}
 
