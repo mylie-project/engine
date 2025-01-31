@@ -25,7 +25,7 @@ public abstract class AssetReloadable<A extends Asset<A, K>, K extends AssetKey<
 	 * to reflect changes in its source data. Subclasses are expected to implement the
 	 * necessary logic for reloading through the abstract {@code onReload} method.
 	 */
-	public AssetReloadable() {
+	protected AssetReloadable() {
 	}
 
 	/**
