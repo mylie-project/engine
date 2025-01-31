@@ -33,6 +33,16 @@ public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> 
 	 * @param path the unique path to identify the asset.
 	 */
 	protected AssetKey(String path) {
-		this.path = path;
+		this.path = path.startsWith("/") ? path.substring(1) : path;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof AssetKey && ((AssetKey<?, ?>) obj).path.equals(path);
+	}
+
+	@Override
+	public int hashCode() {
+		return path.hashCode();
 	}
 }
