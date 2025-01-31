@@ -85,7 +85,7 @@ public final class AssetSystem {
 	 * @return the {@code AssetLocation} for the specified asset, providing access to its content.
 	 * @throws AssetNotFoundException if the asset could not be located by any of the registered locators.
 	 */
-	public <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
+	public <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(AssetKey<A, K> assetKey) {
 		AssetLocation<A, K> assetLocation = null;
 		for (AssetLocator<?> assetLocator : assetLocators) {
 			assetLocation = assetLocator.locateAsset(assetKey);
@@ -128,7 +128,7 @@ public final class AssetSystem {
 	 */
 	@SuppressWarnings("unchecked")
 	public <A extends Asset<A, K>, K extends AssetKey<A, K>> A importAsset(AssetLocation<A, K> assetLocation) {
-		K assetKey = assetLocation.assetKey();
+		AssetKey<A, K> assetKey = assetLocation.assetKey();
 		for (AssetLoader<?, ?> assetLoader : assetLoaders) {
 			if (assetLoader.isSupported(assetKey)) {
 				return ((AssetLoader<A, K>) assetLoader).loadAsset(assetLocation);
@@ -156,8 +156,13 @@ public final class AssetSystem {
 		log.trace("Asset {} changed", assetKey);
 		if (assetCache.containsKey(assetKey)) {
 			Asset<?, ?> asset = (Asset<?, ?>) assetCache.get(assetKey);
-			loadAsset((AssetKey) assetKey);
-			asset.version(asset.version() + 1);
+
+			AssetLocation<?, ?> assetLocation = locateAsset(assetKey);
+			Asset<?, ?> newVersion = importAsset(assetLocation);
+
+			if (asset instanceof AssetReloadable reloadable) {
+				reloadable.onReload(newVersion);
+			}
 			assetKey.dependingAssets().forEach(this::onAssetChanged);
 		}
 	}

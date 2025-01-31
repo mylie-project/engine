@@ -15,7 +15,7 @@ public abstract class AssetLocation<A extends Asset<A, K>, K extends AssetKey<A,
 	/**
 	 * The unique key identifying the associated asset.
 	 */
-	final AssetKey<A,K> assetKey;
+	final AssetKey<A, K> assetKey;
 
 	/**
 	 * The locator used to find and retrieve the asset's contents.
@@ -28,7 +28,7 @@ public abstract class AssetLocation<A extends Asset<A, K>, K extends AssetKey<A,
 	 * @param assetKey     the key uniquely identifying the associated asset.
 	 * @param assetLocator the locator for accessing the asset's content.
 	 */
-	protected AssetLocation(AssetKey<A,K> assetKey, AssetLocator<?> assetLocator) {
+	protected AssetLocation(AssetKey<A, K> assetKey, AssetLocator<?> assetLocator) {
 		this.assetKey = assetKey;
 		this.assetLocator = assetLocator;
 	}

@@ -15,25 +15,25 @@ package mylie.engine.assets;
  * particularly useful for scenarios where assets are expected to evolve over time, such as
  * reloading from modified files or updated resources.
  */
-public abstract class AssetReloadable<A extends Asset<A,K>,K extends AssetKey<A,K>> extends Asset<A,K>{
+public abstract class AssetReloadable<A extends Asset<A, K>, K extends AssetKey<A, K>> extends Asset<A, K> {
 
-    /**
-     * Default constructor for the {@code AssetReloadable} class.
-     *
-     * This constructor initializes an instance of the {@code AssetReloadable} class,
-     * which represents an abstract asset capable of being reloaded with a new version
-     * to reflect changes in its source data. Subclasses are expected to implement the
-     * necessary logic for reloading through the abstract {@code onReload} method.
-     */
-    public AssetReloadable() {
-    }
+	/**
+	 * Default constructor for the {@code AssetReloadable} class.
+	 *
+	 * This constructor initializes an instance of the {@code AssetReloadable} class,
+	 * which represents an abstract asset capable of being reloaded with a new version
+	 * to reflect changes in its source data. Subclasses are expected to implement the
+	 * necessary logic for reloading through the abstract {@code onReload} method.
+	 */
+	public AssetReloadable() {
+	}
 
-    /**
-     * Handles the reloading of the current asset instance with a newly loaded version.
-     * This method is expected to update the state of the current instance based on
-     * the provided new asset.
-     *
-     * @param newAsset the new version of the asset to reload, containing updated state
-     */
-    protected abstract void onReload(A newAsset);
+	/**
+	 * Handles the reloading of the current asset instance with a newly loaded version.
+	 * This method is expected to update the state of the current instance based on
+	 * the provided new asset.
+	 *
+	 * @param newAsset the new version of the asset to reload, containing updated state
+	 */
+	protected abstract void onReload(A newAsset);
 }

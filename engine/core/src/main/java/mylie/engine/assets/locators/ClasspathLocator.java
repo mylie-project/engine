@@ -50,7 +50,8 @@ public class ClasspathLocator extends AssetLocator<ClasspathLocator.Options> {
 	 *         could not be located.
 	 */
 	@Override
-	protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
+	protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(
+			AssetKey<A, K> assetKey) {
 		String assetPath = path() + assetKey.path();
 		URL resource = ClasspathLocator.class.getResource(assetPath);
 		if (resource != null) {
@@ -71,19 +72,21 @@ public class ClasspathLocator extends AssetLocator<ClasspathLocator.Options> {
 			extends
 				AssetLocation<A, K> {
 		private final URL resource;
+
 		/**
-		 * Constructs an AssetLocation with the specified asset key and locator.
+		 * Constructs an AssetLocation with the specified asset key, locator, and resource.
 		 *
-		 * @param assetKey     the key uniquely identifying the associated asset.
-		 * @param assetLocator the locator for accessing the asset's content.
+		 * @param assetKey     The key uniquely identifying the associated asset.
+		 * @param assetLocator The locator for accessing the asset's content.
+		 * @param resource     The {@link URL} resource representing the asset's location.
 		 */
-		protected ClassPathLocation(K assetKey, AssetLocator<?> assetLocator, URL resource) {
+		protected ClassPathLocation(AssetKey<A, K> assetKey, AssetLocator<?> assetLocator, URL resource) {
 			super(assetKey, assetLocator);
 			this.resource = resource;
 		}
 
 		/**
-		 * Opens an input stream to the resource associated with this location.
+		 * Opens an input stream to the {@link URL} resource associated with this location.
 		 *
 		 * @return An {@code InputStream} to read the resource content.
 		 * @throws AssetException If an I/O error occurs while attempting to open the resource.
@@ -110,13 +113,11 @@ public class ClasspathLocator extends AssetLocator<ClasspathLocator.Options> {
 	public static class Options implements AssetLocator.Options {
 
 		/**
-		 * Constructs an instance of the {@code Options} class.
-		 *
+		 * Constructs an instance of the {@code Options} class with default values.
+		 * <p>
 		 * This class is a specific implementation of the {@link AssetLocator.Options} interface,
 		 * intended to represent configuration options for the {@link ClasspathLocator}. It serves
 		 * as a placeholder and does not introduce any additional functionality or properties.
-		 * The purpose of this constructor is to provide a default instantiation of the options
-		 * required for classpath-based asset locators.
 		 */
 		public Options() {
 			// Nothing to be done

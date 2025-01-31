@@ -81,7 +81,8 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 	 *                        for monitoring changes.
 	 */
 	@Override
-	protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
+	protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(
+			AssetKey<A, K> assetKey) {
 		String filePath = path() + assetKey.path();
 		File file = new File(filePath);
 		log.trace("Path: {}", filePath);
@@ -145,7 +146,7 @@ public class FileSystemLocator extends AssetLocator<FileSystemLocator.Options> {
 		 */
 		final File file;
 
-		public FileAssetLocation(K assetKey, AssetLocator<?> assetLocator, File file) {
+		public FileAssetLocation(AssetKey<A, K> assetKey, AssetLocator<?> assetLocator, File file) {
 			super(assetKey, assetLocator);
 			this.file = file;
 		}

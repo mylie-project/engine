@@ -100,7 +100,7 @@ class AssetSystemTest {
 		Assertions.assertEquals(0, textFile.version());
 		writeFile("filesystem/info.txt", new String[]{"Edited"});
 		Assertions.assertDoesNotThrow(() -> assetSystem.onUpdate());
-		Assertions.assertEquals(1, textFile.version());
+		Assertions.assertEquals("Edited", textFile.content()[0]);
 	}
 
 	@Test
@@ -138,7 +138,8 @@ class AssetSystemTest {
 		}
 
 		@Override
-		protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey) {
+		protected <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(
+				AssetKey<A, K> assetKey) {
 			if (validAssets.contains(assetKey.path())) {
 				return new AssetLocation<>(assetKey, this) {
 					@Override

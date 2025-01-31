@@ -45,9 +45,9 @@ public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> 
 	 * @return the directory path as a string derived from the asset's path
 	 */
 	public String directoryPath() {
-		if(path.contains("/")) {
+		if (path.contains("/")) {
 			return path.substring(0, path.lastIndexOf("/"));
-		}else{
+		} else {
 			return "";
 		}
 	}
@@ -60,11 +60,11 @@ public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> 
 	 *
 	 * @return the file name as a string derived from the asset's path
 	 */
-	public String fileName(){
+	public String fileName() {
 		String tmp = fileNameWithExtension();
-		if(tmp.contains(".")) {
+		if (tmp.contains(".")) {
 			return tmp.substring(0, tmp.indexOf("."));
-		}else{
+		} else {
 			return tmp;
 		}
 	}
@@ -78,11 +78,11 @@ public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> 
 	 *
 	 * @return the file extension derived from the asset's file name
 	 */
-	public String fileExtension(){
-		String tmp= fileNameWithExtension();
-		if(tmp.contains(".")) {
+	public String fileExtension() {
+		String tmp = fileNameWithExtension();
+		if (tmp.contains(".")) {
 			return tmp.substring(tmp.indexOf(".") + 1);
-		}else{
+		} else {
 			return "";
 		}
 	}
@@ -96,10 +96,10 @@ public abstract class AssetKey<A extends Asset<A, K>, K extends AssetKey<A, K>> 
 	 *
 	 * @return the file name with its extension as a string derived from the asset's path
 	 */
-	private String fileNameWithExtension(){
-		if(path.contains("/")) {
-			return path.substring(path.lastIndexOf("/")+1);
-		}else{
+	private String fileNameWithExtension() {
+		if (path.contains("/")) {
+			return path.substring(path.lastIndexOf("/") + 1);
+		} else {
 			return path;
 		}
 	}
