@@ -60,7 +60,7 @@ public abstract class AssetLocator<T extends AssetLocator.Options> {
 	 * @return A {@link AssetLocation} instance pointing to the asset, or {@code null}
 	 * if the asset could not be found.
 	 */
-	protected abstract <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(K assetKey);
+	protected abstract <A extends Asset<A, K>, K extends AssetKey<A, K>> AssetLocation<A, K> locateAsset(AssetKey<A,K> assetKey);
 
 	/**
 	 * Marker interface for the configuration options used by {@link AssetLocator} instances.
