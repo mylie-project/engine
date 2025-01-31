@@ -12,7 +12,7 @@ class TaskTest {
 
 	private static class MockTask extends Task<String> {
 		private final String returnValue;
-		private Runnable onExecute;
+		private final Runnable onExecute;
 		public MockTask(String returnValue, Runnable onExecute) {
 			this.returnValue = returnValue;
 			this.onExecute = onExecute;
